@@ -17,6 +17,7 @@ export_presets.cfg
 **/*.sln
 **/*.user
 **/*.csproj.user
+**/.uid/
 
 # OS files
 .DS_Store
