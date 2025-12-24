@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="WeaponResource" load_steps=6 format=3 uid="uid://c4cgj7ragjmab"]
+
+[ext_resource type="Script" uid="uid://bcp38umewjpfl" path="res://player/scripts/etc/AnimationProfile.cs" id="1_retap"]
+[ext_resource type="PackedScene" uid="uid://dusmpxjxruu01" path="res://player/assets/weapons/sniper/Sniper.tscn" id="2_rctce"]
+[ext_resource type="Script" uid="uid://dach8xpwpjqnj" path="res://player/scripts/weapon/WeaponResource.cs" id="3_gekrd"]
+
+[sub_resource type="Resource" id="Resource_5lujb"]
+script = ExtResource("1_retap")
+AnimationName = "Rig|SRifle_Shot_nosight"
+BlendAmount = 0.03
+metadata/_custom_type_script = "uid://bcp38umewjpfl"
+
+[sub_resource type="Resource" id="Resource_r3p8g"]
+script = ExtResource("1_retap")
+AnimationName = "Rig|SRifle_Reload_Full"
+BlendAmount = 0.03
+AnimationSpeed = 1.2
+metadata/_custom_type_script = "uid://bcp38umewjpfl"
+
+[resource]
+script = ExtResource("3_gekrd")
+Name = "SNIPER"
+FireMode = 1
+Position = Vector3(-0.01, -0.26, -0.08)
+Scale = Vector3(1, 1, 1)
+SwayMin = Vector2(-16, -16)
+SwayMax = Vector2(16, 16)
+WeaponScene = ExtResource("2_rctce")
+CameraRecoilAmount = Vector3(0.15, 0.05, 0)
+CameraSnapAmount = 8.0
+CameraRecoverySpeed = 4.0
+WeaponRecoilAmount = Vector3(0.01, 0.01, 0.2)
+WeaponSnapAmount = 10.0
+WeaponRecoverySpeed = 20.0
+FireRate = 60.0
+AmmoCount = 300
+AmmoCapacity = 250
+Fire = SubResource("Resource_5lujb")
+Reload = SubResource("Resource_r3p8g")
+metadata/_custom_type_script = "uid://dach8xpwpjqnj"

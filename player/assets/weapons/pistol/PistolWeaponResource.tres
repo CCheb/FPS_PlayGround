@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="WeaponResource" load_steps=6 format=3 uid="uid://d1v22inodm0de"]
+
+[ext_resource type="PackedScene" uid="uid://dyfemdavibhvo" path="res://player/assets/weapons/pistol/rigged_pistol.tscn" id="1_an6xq"]
+[ext_resource type="Script" uid="uid://bcp38umewjpfl" path="res://player/scripts/etc/AnimationProfile.cs" id="1_mx3sh"]
+[ext_resource type="Script" uid="uid://dach8xpwpjqnj" path="res://player/scripts/weapon/WeaponResource.cs" id="2_2o6jh"]
+
+[sub_resource type="Resource" id="Resource_044t3"]
+script = ExtResource("1_mx3sh")
+AnimationName = "Armature|FPS_Pistol_Fire"
+BlendAmount = 0.03
+AnimationSpeed = 1.5
+metadata/_custom_type_script = "uid://bcp38umewjpfl"
+
+[sub_resource type="Resource" id="Resource_r3p8g"]
+script = ExtResource("1_mx3sh")
+AnimationName = "Armature|FPS_Pistol_Reload_easy"
+BlendAmount = 0.03
+AnimationSpeed = 0.7
+metadata/_custom_type_script = "uid://bcp38umewjpfl"
+
+[resource]
+script = ExtResource("2_2o6jh")
+Name = "PISTOL"
+FireMode = 1
+Position = Vector3(-0.02, -0.2, 0.08)
+Scale = Vector3(1, 1, 1)
+SwayMin = Vector2(-16, -16)
+SwayMax = Vector2(16, 16)
+WeaponScene = ExtResource("1_an6xq")
+CameraRecoilAmount = Vector3(0.15, 0.05, 0)
+CameraSnapAmount = 8.0
+CameraRecoverySpeed = 4.0
+WeaponRecoilAmount = Vector3(0.01, 0.01, 0.2)
+WeaponSnapAmount = 10.0
+WeaponRecoverySpeed = 20.0
+FireRate = 360.0
+AmmoCount = 300
+AmmoCapacity = 250
+Fire = SubResource("Resource_044t3")
+Reload = SubResource("Resource_r3p8g")
+metadata/_custom_type_script = "uid://dach8xpwpjqnj"
