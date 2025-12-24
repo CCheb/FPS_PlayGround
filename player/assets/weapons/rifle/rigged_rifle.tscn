@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://ccqu3m8uw8ave" path="res://player/assets/weapons/rifle/fps_ak-74m_animations_3.png" id="4_l2tfn"]
 [ext_resource type="Texture2D" uid="uid://c4oadwqxscijq" path="res://player/assets/weapons/rifle/fps_ak-74m_animations_4.png" id="5_44us2"]
 [ext_resource type="Texture2D" uid="uid://dx70injlodyws" path="res://player/assets/weapons/rifle/fps_ak-74m_animations_5.png" id="6_q1awy"]
-[ext_resource type="Script" uid="uid://d1imsyi1dkjq5" path="res://player/scripts/weapon/MuzzleFlash.cs" id="7_fjmvn"]
+[ext_resource type="Script" uid="uid://bg6y0vnkr447a" path="res://player/scripts/weapon/MuzzleFlash.cs" id="7_fjmvn"]
 [ext_resource type="AudioStream" uid="uid://coyltnlbgph11" path="res://player/assets/audio/ak-47-89833.mp3" id="10_l2tfn"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7hfp2"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bhg1mx2rqeg2m"]
 
-[ext_resource type="Script" uid="uid://djbqaxddvg8bp" path="res://player/scripts/weapon/ShellEjection.cs" id="1_rn018"]
+[ext_resource type="Script" uid="uid://dyx6j6hnr2dc3" path="res://player/scripts/weapon/ShellEjection.cs" id="1_rn018"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ge72s"]
 

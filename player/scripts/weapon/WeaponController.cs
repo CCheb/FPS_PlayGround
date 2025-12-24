@@ -28,7 +28,7 @@ public partial class WeaponController : Node3D
         GD.Load<WeaponResource>("res://player/assets/weapons/shotgun/ShotgunWeaponResource.tres")
     };
     // Indexing the Arsenal array
-    private int CurrentWeaponIndex = 3;
+    private int CurrentWeaponIndex = 0;
     // CurrentWeapon holds the Weapon Scene of any of the arsenal weapon resources
     private WeaponBase CurrentWeapon;
     // CurrentFireMode will hold the current fire mode (full, semi, burst, shotgun) specified by the WeaponResource

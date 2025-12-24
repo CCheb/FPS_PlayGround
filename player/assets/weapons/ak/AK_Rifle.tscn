@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bgd35mmig5al6" path="res://player/scripts/weapon/weapon_types/Hitscan.cs" id="1_0wesy"]
 [ext_resource type="Texture2D" uid="uid://pic4qgcrxjsi" path="res://player/assets/weapons/ak/assault_rifle_0.png" id="1_vy54y"]
-[ext_resource type="Script" uid="uid://d1imsyi1dkjq5" path="res://player/scripts/weapon/MuzzleFlash.cs" id="2_2pes7"]
+[ext_resource type="Script" uid="uid://bg6y0vnkr447a" path="res://player/scripts/weapon/MuzzleFlash.cs" id="2_2pes7"]
 [ext_resource type="PackedScene" uid="uid://6ugaon0u6a2q" path="res://player/assets/weapons/ak/RifleShellCasing.tscn" id="2_804e4"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eoo0f"]
