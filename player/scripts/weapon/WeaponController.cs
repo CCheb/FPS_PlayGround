@@ -27,8 +27,9 @@ public partial class WeaponController : Node3D
         GD.Load<WeaponResource>("res://player/assets/weapons/sniper/SniperWeaponResource.tres"),
         GD.Load<WeaponResource>("res://player/assets/weapons/shotgun/ShotgunWeaponResource.tres")
     };
-    // Indexing the Arsenal array
+    // Indexing the Arsenal array. Already initiallized to load the first weapon at index 0
     private int CurrentWeaponIndex = 0;
+    private const int MAX_WEAPON_AMMOUNT = 4;
     // CurrentWeapon holds the Weapon Scene of any of the arsenal weapon resources
     private WeaponBase CurrentWeapon;
     // CurrentFireMode will hold the current fire mode (full, semi, burst, shotgun) specified by the WeaponResource
@@ -100,6 +101,35 @@ public partial class WeaponController : Node3D
         // FireMode only cares on when the current weapon should shoot. Thus Reload should be kept within the Weapon
         if(@event.IsActionPressed("reload"))
             CurrentWeapon?.Reload();
+
+        // When in input is pressed, no matter where it is, godot will broadcast that input to
+        // all implemented _Input() functions throughout the project
+        for(int i = 1; i <= MAX_WEAPON_AMMOUNT; i++)
+        {   
+            // Query to see if what we pressed matches weapon_X
+            if(@event.IsActionPressed($"weapon_{i}"))
+                TryWeaponSwap(i - 1);
+        }
+    }
+
+    private void TryWeaponSwap(int ProposedWeapon)
+    {
+        // If the proposed weapon is already the same as the CurrentWeaponIndex then dont do anything
+        if(ProposedWeapon == CurrentWeaponIndex)
+            return;
+        
+        // Perform the swap
+        CurrentWeaponIndex = ProposedWeapon;
+        SwapWeapon();
+    }
+
+    private void SwapWeapon()
+    {
+        CurrentWeapon?.QueueFree();
+        // By this time the CurrentWeaponIndex has already moved to the next weapon
+        // thus we only need to call LoadWeapon() without needing to pass it anything else
+        LoadWeapon();
+        
     }
 
     private void LoadWeapon()
