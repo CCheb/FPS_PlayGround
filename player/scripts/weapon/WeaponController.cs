@@ -7,7 +7,7 @@ public partial class WeaponController : Node3D
     // Custom signal emmited by the MovementStateMachine that will let the Controller know if the
     // the current player movement state has changed
     [Signal] public delegate void MovementChangedEventHandler(State NewMovementState);
-    // Default to the Idle movement state
+    // Default to the Idle movement state. Only receives the movement state enum
     private Globals.MovementStates CurrentMovementState = Globals.MovementStates.Idle;
     // We initiallize CurrentWeaponMovementProfile to the Idle profile by default since the signal wont be called automatically
     private Globals.WeaponMovementProfle CurrentWeaponMovementProfie = new Globals.WeaponMovementProfle

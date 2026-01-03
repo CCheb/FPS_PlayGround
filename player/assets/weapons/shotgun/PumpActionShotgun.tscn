@@ -1,9 +1,10 @@
-[gd_scene load_steps=33 format=4 uid="uid://bt2spmylfy2a1"]
+[gd_scene load_steps=34 format=4 uid="uid://bt2spmylfy2a1"]
 
 [ext_resource type="Script" uid="uid://ew6iea0fiv1" path="res://player/scripts/weapon/weapon_types/Shotgun.cs" id="1_c4fno"]
 [ext_resource type="Texture2D" uid="uid://bhch5i47lfy20" path="res://player/assets/weapons/shotgun/fps_arms_remington_shotgun_0.png" id="1_d6dfi"]
 [ext_resource type="Texture2D" uid="uid://5ymo1cwa5j6g" path="res://player/assets/weapons/shotgun/fps_arms_remington_shotgun_1.png" id="2_rl3qb"]
 [ext_resource type="Texture2D" uid="uid://c6ps7an3n72kp" path="res://player/assets/weapons/shotgun/fps_arms_remington_shotgun_2.png" id="3_c4fno"]
+[ext_resource type="PackedScene" uid="uid://brccsvaksllp" path="res://player/test_decal.tscn" id="3_e7aiu"]
 [ext_resource type="Texture2D" uid="uid://k4xs6e33fr8c" path="res://player/assets/weapons/shotgun/fps_arms_remington_shotgun_3.jpg" id="4_hyqww"]
 [ext_resource type="Texture2D" uid="uid://44csowouox76" path="res://player/assets/weapons/shotgun/fps_arms_remington_shotgun_4.png" id="5_n84v3"]
 [ext_resource type="Texture2D" uid="uid://q3d3xlw6v4ev" path="res://player/assets/weapons/shotgun/fps_arms_remington_shotgun_5.png" id="6_e7aiu"]
@@ -1555,6 +1556,7 @@ size = Vector2(0.3, 0.3)
 [node name="Node3D" type="Node3D" node_paths=PackedStringArray("ShellEjectionMarker")]
 script = ExtResource("1_c4fno")
 ShellCasingScene = ExtResource("13_n84v3")
+TestDecal = ExtResource("3_e7aiu")
 ShellEjectionMarker = NodePath("ShellEjection")
 
 [node name="Meshes" type="Node3D" parent="."]

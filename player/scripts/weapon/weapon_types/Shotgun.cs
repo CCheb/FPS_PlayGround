@@ -6,6 +6,7 @@ public partial class Shotgun : WeaponBase
     [Export] private PackedScene ImpactEffect;
     [Export] private PackedScene WeaponDecal;
     [Export] private PackedScene ShellCasingScene;
+    [Export] private PackedScene TestDecal;
     [Export] private Marker3D ShellEjectionMarker;
     private float FireAnimationSpeed = 1.0f;
     
@@ -63,7 +64,9 @@ public partial class Shotgun : WeaponBase
         // Shoot a ray cast from the center of the screen
 		// straight outwards until it either collides with a body or reaches limit
 
-		// Grab a reference to the players world camera. (Camera Controller is the world camera)
+        for(int i = 0; i < 12; i++)
+        {
+            // Grab a reference to the players world camera. (Camera Controller is the world camera)
 		Camera3D camera = Globals.player.WORLDCAMERA;
 		// Grab the worlds 3D physics state/sandbox. This state is where all of the physics occurs and its handled by the physics server
 		var spaceState = camera.GetWorld3D().DirectSpaceState;
@@ -75,6 +78,10 @@ public partial class Shotgun : WeaponBase
 		Vector3 origin = camera.ProjectRayOrigin(screenCenter);
 		// The end of ray is 1000m out from the cameras normal
 		Vector3 end = origin + camera.ProjectRayNormal(screenCenter) * 1000;
+        // This is probably in pixels
+        end.Y += (float)GD.RandRange(-100f, 100f);
+        end.X += (float)GD.RandRange(-100f, 100f);
+        
 		// Create the ray which will return back a dictionary with metadata on any
 		// physics collisions. Make sure to enable collision with bodies or areas
 		var query = PhysicsRayQueryParameters3D.Create(origin, end);
@@ -84,11 +91,14 @@ public partial class Shotgun : WeaponBase
 		query.CollisionMask = (1 << 0) | (1 << 1) | (1 << 2);
 		// Find out if the ray intersected with a body. It will return nothing if not
 		// We are essentially creating a dictionary holding a number of keys that pertain to the collision information
-		var result = spaceState.IntersectRay(query);
-		// If the ray collided with something then we are safe to "fire" the weapon 
-		// We send the position of contact and the normal vector of the surface
-        if(result.Count != 0)
-        {
+		    var result = spaceState.IntersectRay(query);
+		    // If the ray collided with something then we are safe to "fire" the weapon 
+		    // We send the position of contact and the normal vector of the surface
+
+            // Bullet decal 
+            SpawnDecal((Vector3)result["position"]);
+            
+        }
             Controller.CameraRecoilRef.EmitSignal("AddCameraRecoilSignal");
             Controller.WeaponRecoilRef.EmitSignal("WeaponFiredSignal");
             MuzzleFlashRef.EmitSignal("MuzzleFlashSignal", WeaponData.FireRate);
@@ -97,7 +107,7 @@ public partial class Shotgun : WeaponBase
 
             // Gun Sound here
             GunSound.Play();
-            
+        
             // Weapon animations should be reactive not authorative in nature
             // Also animation name should be abstracted out to keep it dynamic
     
@@ -111,10 +121,17 @@ public partial class Shotgun : WeaponBase
                 WeaponAnimPlayer.Play("Pump Animation");
                 await ToSignal(WeaponAnimPlayer, "animation_finished");
             }
-           
-        }
 
         IsFiring = false;
+    }
+
+    private async void SpawnDecal(Vector3 position)
+    {
+        MeshInstance3D decal = TestDecal.Instantiate<MeshInstance3D>();
+        GetTree().Root.AddChild(decal);
+        decal.Position = position;
+        await ToSignal(GetTree().CreateTimer(3.0f), "timeout");
+        decal.QueueFree();
     }
 
     // Could make this abstract so that all guns must implement reload
