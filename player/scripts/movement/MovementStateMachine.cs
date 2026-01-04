@@ -23,7 +23,7 @@ public partial class MovementStateMachine : PlayerMovementState
             {
                 states[child.Name] = child;
                 // Make sure to subscribe the call back to each of the states transition signal
-                // For each identified state
+                // For each identified state and call their Init functions
                 State transitionSignal = (State)child;
                 transitionSignal.Transition += OnChildTransition;
                 transitionSignal.Init();

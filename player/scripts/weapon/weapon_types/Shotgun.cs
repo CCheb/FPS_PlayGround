@@ -67,30 +67,30 @@ public partial class Shotgun : WeaponBase
         for(int i = 0; i < 12; i++)
         {
             // Grab a reference to the players world camera. (Camera Controller is the world camera)
-		Camera3D camera = Globals.player.WORLDCAMERA;
-		// Grab the worlds 3D physics state/sandbox. This state is where all of the physics occurs and its handled by the physics server
-		var spaceState = camera.GetWorld3D().DirectSpaceState;
-		// Need to find the center of the screen to create origin point. GetViewport here is the weapon camera viewport but since its always
-		// following the player then we can assume that its the same as getting the world camera viewport
-		Vector2 screenCenter = (Vector2)GetViewport().Get("size") / 2;
-		// Start point of the ray in this case in the center of the screen. We are picking a point on the screen. 
-		// Its important that we project the ray from the world camera
-		Vector3 origin = camera.ProjectRayOrigin(screenCenter);
-		// The end of ray is 1000m out from the cameras normal
-		Vector3 end = origin + camera.ProjectRayNormal(screenCenter) * 1000;
-        // This is probably in pixels
-        end.Y += (float)GD.RandRange(-100f, 100f);
-        end.X += (float)GD.RandRange(-100f, 100f);
-        
-		// Create the ray which will return back a dictionary with metadata on any
-		// physics collisions. Make sure to enable collision with bodies or areas
-		var query = PhysicsRayQueryParameters3D.Create(origin, end);
-		query.CollideWithBodies = true;
-		query.CollideWithAreas = true;
-		// Detect layers 1, 2, and 3
-		query.CollisionMask = (1 << 0) | (1 << 1) | (1 << 2);
-		// Find out if the ray intersected with a body. It will return nothing if not
-		// We are essentially creating a dictionary holding a number of keys that pertain to the collision information
+		    Camera3D camera = Globals.player.WORLDCAMERA;
+		    // Grab the worlds 3D physics state/sandbox. This state is where all of the physics occurs and its handled by the physics server
+		    var spaceState = camera.GetWorld3D().DirectSpaceState;
+		    // Need to find the center of the screen to create origin point. GetViewport here is the weapon camera viewport but since its always
+		    // following the player then we can assume that its the same as getting the world camera viewport
+		    Vector2 screenCenter = (Vector2)GetViewport().Get("size") / 2;
+		    // Start point of the ray in this case in the center of the screen. We are picking a point on the screen. 
+		    // Its important that we project the ray from the world camera
+		    Vector3 origin = camera.ProjectRayOrigin(screenCenter);
+		    // The end of ray is 1000m out from the cameras normal
+		    Vector3 end = origin + camera.ProjectRayNormal(screenCenter) * 1000;
+            // This is probably in pixels
+            end.Y += (float)GD.RandRange(-100f, 100f);
+            end.X += (float)GD.RandRange(-100f, 100f);
+
+		    // Create the ray which will return back a dictionary with metadata on any
+		    // physics collisions. Make sure to enable collision with bodies or areas
+		    var query = PhysicsRayQueryParameters3D.Create(origin, end);
+		    query.CollideWithBodies = true;
+		    query.CollideWithAreas = true;
+		    // Detect layers 1, 2, and 3
+		    query.CollisionMask = (1 << 0) | (1 << 1) | (1 << 2);
+		    // Find out if the ray intersected with a body. It will return nothing if not
+		    // We are essentially creating a dictionary holding a number of keys that pertain to the collision information
 		    var result = spaceState.IntersectRay(query);
 		    // If the ray collided with something then we are safe to "fire" the weapon 
 		    // We send the position of contact and the normal vector of the surface
@@ -99,34 +99,34 @@ public partial class Shotgun : WeaponBase
             SpawnDecal((Vector3)result["position"]);
             
         }
-            Controller.CameraRecoilRef.EmitSignal("AddCameraRecoilSignal");
-            Controller.WeaponRecoilRef.EmitSignal("WeaponFiredSignal");
-            MuzzleFlashRef.EmitSignal("MuzzleFlashSignal", WeaponData.FireRate);
 
-            // Update Ammo here
-
-            // Gun Sound here
-            GunSound.Play();
-        
-            // Weapon animations should be reactive not authorative in nature
-            // Also animation name should be abstracted out to keep it dynamic
+        Controller.CameraRecoilRef.EmitSignal("AddCameraRecoilSignal");
+        Controller.WeaponRecoilRef.EmitSignal("WeaponFiredSignal");
+        MuzzleFlashRef.EmitSignal("MuzzleFlashSignal", WeaponData.FireRate);
+        // Update Ammo here
+        // Gun Sound here
+        GunSound.Play();
     
-            // Fire animation
-            WeaponAnimPlayer.Play(WeaponData.Fire.AnimationName, WeaponData.Fire.BlendAmount,FireAnimationSpeed);
+        // Weapon animations should be reactive not authorative in nature
+        // Also animation name should be abstracted out to keep it dynamic
+
+        // Fire animation
+        WeaponAnimPlayer.Play(WeaponData.Fire.AnimationName, WeaponData.Fire.BlendAmount,FireAnimationSpeed);
+        await ToSignal(WeaponAnimPlayer, "animation_finished");
+        
+        // Pump/rack animation 
+        if (WeaponData.Pump != null)
+        {
+            WeaponAnimPlayer.Play("Pump Animation");
             await ToSignal(WeaponAnimPlayer, "animation_finished");
-            
-            // Pump/rack animation 
-            if (WeaponData.Pump != null)
-            {
-                WeaponAnimPlayer.Play("Pump Animation");
-                await ToSignal(WeaponAnimPlayer, "animation_finished");
-            }
+        }
 
         IsFiring = false;
     }
 
     private async void SpawnDecal(Vector3 position)
     {
+        // This can be offloaded to a seperate decal script
         MeshInstance3D decal = TestDecal.Instantiate<MeshInstance3D>();
         GetTree().Root.AddChild(decal);
         decal.Position = position;

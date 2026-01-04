@@ -11,26 +11,38 @@ public partial class CrouchingPlayerState : PlayerMovementState
     [Export] public float crouchSlowDown = 3.0f;
     private float speed = 0.0f;
     private bool RELEASED = false;
+    private bool IsFirstTimeIdle = true;
     
     [ExportGroup("Weapon Movement Profile")]
-    [Export] public bool IsIdle = false;
     [Export] public float BobSpeed = 5.0f;
     [Export] public float BobH = 2.0f;
     [Export] public float BobV = 8.0f;
+    private Globals.WeaponMovementProfle CrouchIdleMovementProfile;
+    private Globals.WeaponMovementProfle CrouchMovementProfile;
 
     public override void Init()
     {
         StateName = Globals.MovementStates.Crouch;
-        MovementProfle = new Globals.WeaponMovementProfle
+        CrouchMovementProfile = new Globals.WeaponMovementProfle
         {
-            IsIdle = this.IsIdle,
+            IsIdle = false,
             BobSpeed = this.BobSpeed,
             BobH = this.BobH,
             BobV = this.BobV
         };
-    }
 
-    private CameraRecoil cameraRecoil;
+        CrouchIdleMovementProfile = new Globals.WeaponMovementProfle
+        {
+            IsIdle = true,
+            BobSpeed = 0.0f,
+            BobH = 0.0f,
+            BobV = 0.0f
+
+        };
+
+        // Default MovementProfile variable to Idle Movement Profile
+        MovementProfle = CrouchIdleMovementProfile;
+    }
 
     // Play the crouching animation when entering the state
     public override void Enter(State prevState)
@@ -47,7 +59,7 @@ public partial class CrouchingPlayerState : PlayerMovementState
             ANIMATION.Seek(1.0, true);
         }
 
-        speed = PLAYER.speed- crouchSlowDown;
+        speed = PLAYER.speed - crouchSlowDown;
     }
 
     public override void Exit()
@@ -65,15 +77,19 @@ public partial class CrouchingPlayerState : PlayerMovementState
         PLAYER.UpdateInput(speed, acceleration, decelaration);
         PLAYER.UpdateVelocity();
 
-        // If player velocity is zero then keep playing the idle sway
-        if (PLAYER.Velocity != Vector3.Zero)
+        if (PLAYER.Velocity != Vector3.Zero && !IsFirstTimeIdle)
         {
            // WEAPON.SwayWeapon(delta, false);
            // WEAPON.WeaponBob(delta, bobSpeedWeapon, bobWeaponH, bobWeaponV);
+           MovementProfle = CrouchMovementProfile;
+           WEAPON.EmitSignal(WeaponController.SignalName.MovementChanged, this);
+           IsFirstTimeIdle = true;
         }
-        else
+        else if (PLAYER.Velocity == Vector3.Zero && IsFirstTimeIdle)
         {
-           // WEAPON.SwayWeapon(delta, true);
+            MovementProfle = CrouchIdleMovementProfile;
+            WEAPON.EmitSignal(WeaponController.SignalName.MovementChanged, this);
+            IsFirstTimeIdle = false;
         }
 
         // Type of crouch: holding
