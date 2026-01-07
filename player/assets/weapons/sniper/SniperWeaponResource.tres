@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="WeaponResource" load_steps=6 format=3 uid="uid://c4cgj7ragjmab"]
 
-[ext_resource type="Script" uid="uid://bcp38umewjpfl" path="res://player/scripts/etc/AnimationProfile.cs" id="1_retap"]
+[ext_resource type="Script" uid="uid://c8of8infi526n" path="res://player/scripts/etc/AnimationProfile.cs" id="1_retap"]
 [ext_resource type="PackedScene" uid="uid://dusmpxjxruu01" path="res://player/assets/weapons/sniper/Sniper.tscn" id="2_rctce"]
-[ext_resource type="Script" uid="uid://dach8xpwpjqnj" path="res://player/scripts/weapon/WeaponResource.cs" id="3_gekrd"]
+[ext_resource type="Script" uid="uid://cmymrn4gpv3y3" path="res://player/scripts/weapon/WeaponResource.cs" id="3_gekrd"]
 
 [sub_resource type="Resource" id="Resource_5lujb"]
 script = ExtResource("1_retap")
@@ -37,4 +37,3 @@ AmmoCount = 300
 AmmoCapacity = 250
 Fire = SubResource("Resource_5lujb")
 Reload = SubResource("Resource_r3p8g")
-metadata/_custom_type_script = "uid://dach8xpwpjqnj"

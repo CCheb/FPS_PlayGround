@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=4 uid="uid://sidfanrnkdli"]
 
-[ext_resource type="Script" uid="uid://djbqaxddvg8bp" path="res://player/scripts/weapon/ShellEjection.cs" id="1_to7go"]
+[ext_resource type="Script" uid="uid://dyx6j6hnr2dc3" path="res://player/scripts/weapon/ShellEjection.cs" id="1_to7go"]
 [ext_resource type="Texture2D" uid="uid://ceend6bl4n3ah" path="res://player/assets/weapons/shotgun/fps_arms_remington_shotgun_6.png" id="2_icd5c"]
 [ext_resource type="Texture2D" uid="uid://dx53fgne7dimd" path="res://player/assets/weapons/shotgun/fps_arms_remington_shotgun_7.png" id="3_to7go"]
 [ext_resource type="Texture2D" uid="uid://bbe8060f2cd1g" path="res://player/assets/weapons/shotgun/fps_arms_remington_shotgun_8.png" id="4_v4e37"]
