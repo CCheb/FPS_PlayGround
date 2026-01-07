@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=4 uid="uid://dusmpxjxruu01"]
+[gd_scene load_steps=36 format=4 uid="uid://dusmpxjxruu01"]
 
 [ext_resource type="Texture2D" uid="uid://b8dpv2uyp7quq" path="res://player/assets/weapons/sniper/fps_animations_sniper_rifle_0.png" id="1_6kljl"]
 [ext_resource type="Script" uid="uid://bgd35mmig5al6" path="res://player/scripts/weapon/weapon_types/Hitscan.cs" id="1_pingv"]
@@ -1489,6 +1489,39 @@ tracks/53/keys = {
 "method": &"EjectShell"
 }]
 }
+tracks/54/type = "bezier"
+tracks/54/imported = false
+tracks/54/enabled = true
+tracks/54/path = NodePath("../CameraReloadProxy:rotation:x")
+tracks/54/interp = 1
+tracks/54/loop_wrap = true
+tracks/54/keys = {
+"handle_modes": PackedInt32Array(2, 2, 0, 0, 2, 2, 2),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, 0, 0, 0, 0, -0.06585394, -0.025620341, 0.0060358234, 0.04104638, 0.0058769844, 0, 0, 0, 0, 0, 5.839215e-05, 0, 0, 0, 0, -0.066, -0.038888894, 0.008514958, 0, 0, 0, -0.022222202, -0.010158239, 0, 0),
+"times": PackedFloat32Array(0, 1.6333333, 1.8, 2, 3, 3.2, 3.3666666)
+}
+tracks/55/type = "bezier"
+tracks/55/imported = false
+tracks/55/enabled = true
+tracks/55/path = NodePath("../CameraReloadProxy:rotation:y")
+tracks/55/interp = 1
+tracks/55/loop_wrap = true
+tracks/55/keys = {
+"handle_modes": PackedInt32Array(2),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/56/type = "bezier"
+tracks/56/imported = false
+tracks/56/enabled = true
+tracks/56/path = NodePath("../CameraReloadProxy:rotation:z")
+tracks/56/interp = 1
+tracks/56/loop_wrap = true
+tracks/56/keys = {
+"handle_modes": PackedInt32Array(2, 2, 0, 0, 0),
+"points": PackedFloat32Array(0, -0.6737031, -0.0010984017, 0.46666667, 0.0007608507, 0, 0, 0, 0, 0, -0.10284465, -0.19999999, 0.42197448, 0, 0, -0.10285083, 0, 0, 0.16226912, 0.07955407, -0.0014012007, -0.46698904, 0.16932605, 0, 0),
+"times": PackedFloat32Array(0, 0.13333334, 0.8, 3.7666667, 4.5666666)
+}
 
 [sub_resource type="Animation" id="Animation_011yi"]
 resource_name = "Rig|SRifle_Shot_nosight"
@@ -2629,8 +2662,45 @@ tracks/52/interp = 1
 tracks/52/loop_wrap = true
 tracks/52/keys = PackedFloat32Array(0, 1, 0.7792267, -0.25708774, -0.2896294, -0.49277422)
 
+[sub_resource type="Animation" id="Animation_uaepk"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../CameraReloadProxy:rotation:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../CameraReloadProxy:rotation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../CameraReloadProxy:rotation:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8ydnr"]
 _data = {
+&"RESET": SubResource("Animation_uaepk"),
 &"Rig|SRifle_Idle": SubResource("Animation_ficxb"),
 &"Rig|SRifle_Reload": SubResource("Animation_bpuuq"),
 &"Rig|SRifle_Reload_Full": SubResource("Animation_3xr6o"),
@@ -2757,7 +2827,7 @@ bones/6/parent = 5
 bones/6/rest = Transform3D(0.99435365, -3.9416668e-07, -0.10611929, 3.993202e-07, 1.0000008, 2.7318125e-08, 0.10611924, -6.953944e-08, 0.9943541, -1.7957063e-08, 0.09872754, -3.469447e-18)
 bones/6/enabled = true
 bones/6/position = Vector3(-1.7957063e-08, 0.09872754, -3.469447e-18)
-bones/6/rotation = Quaternion(-3.730562e-09, -0.05312759, 1.6997357e-07, 0.99858785)
+bones/6/rotation = Quaternion(-3.730562e-09, -0.053127583, 1.6997356e-07, 0.9985877)
 bones/6/scale = Vector3(1.0000002, 1.0000008, 1.0000007)
 bones/7/name = "BoneTwist_01.L_07"
 bones/7/parent = 6
@@ -2813,7 +2883,7 @@ bones/14/parent = 13
 bones/14/rest = Transform3D(0.99994695, -3.8820957e-07, 0.010069348, 3.866756e-07, 0.99998724, 1.5468737e-07, -0.010069442, -1.5078581e-07, 0.9999375, -7.450581e-09, 0.0987275, 1.8626451e-09)
 bones/14/enabled = true
 bones/14/position = Vector3(-7.450581e-09, 0.0987275, 1.8626451e-09)
-bones/14/rotation = Quaternion(-5.401792e-08, 0.005035136, 1.5274641e-07, 0.99998736)
+bones/14/rotation = Quaternion(-5.401792e-08, 0.005035136, 1.5274641e-07, 0.9999873)
 bones/14/scale = Vector3(0.9999976, 0.99998724, 0.99998814)
 bones/15/name = "BoneTwist_01.R_end_062"
 bones/15/parent = 14
@@ -2848,7 +2918,7 @@ bones/19/parent = 18
 bones/19/rest = Transform3D(0.43023676, -0.90232676, 0.026510362, 0.8950775, 0.4225997, -0.14228831, 0.11718731, 0.08494649, 0.98947006, -9.313226e-10, 0.15562525, -8.614734e-09)
 bones/19/enabled = true
 bones/19/position = Vector3(-9.313226e-10, 0.15562525, -8.614734e-09)
-bones/19/rotation = Quaternion(0.067392185, -0.026892513, 0.5330652, 0.8429571)
+bones/19/rotation = Quaternion(0.067392185, -0.02689251, 0.5330652, 0.842957)
 bones/19/scale = Vector3(1.0000001, 1, 0.9999999)
 bones/20/name = "Bone_L.006_018"
 bones/20/parent = 19
@@ -2862,7 +2932,7 @@ bones/21/parent = 20
 bones/21/rest = Transform3D(0.44342256, -0.89630586, -0.0035268571, 0.89627105, 0.4434365, -0.007898268, 0.008643199, 0.00034125036, 0.99996275, -7.450581e-09, 0.030144062, -1.0419171e-08)
 bones/21/enabled = true
 bones/21/position = Vector3(-7.450581e-09, 0.030144062, -1.0419171e-08)
-bones/21/rotation = Quaternion(0.0024247156, -0.0035814196, 0.52751863, 0.8495325)
+bones/21/rotation = Quaternion(0.002424715, -0.0035814191, 0.52751863, 0.8495324)
 bones/21/scale = Vector3(1, 1.0000001, 1.0000001)
 bones/22/name = "Bone_L.007_end_063"
 bones/22/parent = 21
@@ -3044,7 +3114,7 @@ bones/47/parent = 46
 bones/47/rest = Transform3D(0.9607722, -0.057814077, 0.27124545, 0.14552014, 0.9376725, -0.31558514, -0.23609416, 0.34267715, 0.90930283, -5.551115e-17, 0.15562524, 5.355105e-09)
 bones/47/enabled = true
 bones/47/position = Vector3(-5.551115e-17, 0.15562524, 5.355105e-09)
-bones/47/rotation = Quaternion(0.16866891, 0.12999739, 0.052101027, 0.9756726)
+bones/47/rotation = Quaternion(0.1686689, 0.12999739, 0.052101027, 0.97567254)
 bones/47/scale = Vector3(0.9999999, 0.9999999, 0.9999998)
 bones/48/name = "Bone_R.006_040"
 bones/48/parent = 47
@@ -3219,7 +3289,7 @@ bones/72/parent = 1
 bones/72/rest = Transform3D(0.99469626, 0.078781724, -0.06612705, -0.1008298, 0.6198914, -0.77818245, -0.020314965, 0.7807228, 0.6245472, -0.07535185, 0.06543879, -0.013736818)
 bones/72/enabled = true
 bones/72/position = Vector3(-0.075282805, 0.06538502, -0.013738096)
-bones/72/rotation = Quaternion(0.43307438, -0.012773341, -0.049878307, 0.8998865)
+bones/72/rotation = Quaternion(0.43307436, -0.01277334, -0.049878303, 0.8998864)
 bones/72/scale = Vector3(1, 1, 0.99999994)
 bones/73/name = "Trigger_058"
 bones/73/parent = 72
