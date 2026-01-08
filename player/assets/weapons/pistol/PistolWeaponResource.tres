@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="WeaponResource" load_steps=6 format=3 uid="uid://d1v22inodm0de"]
 
 [ext_resource type="PackedScene" uid="uid://dyfemdavibhvo" path="res://player/assets/weapons/pistol/rigged_pistol.tscn" id="1_an6xq"]
-[ext_resource type="Script" uid="uid://bcp38umewjpfl" path="res://player/scripts/etc/AnimationProfile.cs" id="1_mx3sh"]
-[ext_resource type="Script" uid="uid://dach8xpwpjqnj" path="res://player/scripts/weapon/WeaponResource.cs" id="2_2o6jh"]
+[ext_resource type="Script" uid="uid://c8of8infi526n" path="res://player/scripts/etc/AnimationProfile.cs" id="1_mx3sh"]
+[ext_resource type="Script" uid="uid://cmymrn4gpv3y3" path="res://player/scripts/weapon/WeaponResource.cs" id="2_2o6jh"]
 
 [sub_resource type="Resource" id="Resource_044t3"]
 script = ExtResource("1_mx3sh")
@@ -38,4 +38,3 @@ AmmoCount = 300
 AmmoCapacity = 250
 Fire = SubResource("Resource_044t3")
 Reload = SubResource("Resource_r3p8g")
-metadata/_custom_type_script = "uid://dach8xpwpjqnj"
