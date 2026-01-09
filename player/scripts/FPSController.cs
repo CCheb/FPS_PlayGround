@@ -21,6 +21,7 @@ public partial class FPSController : CharacterBody3D
 	[ExportGroup("Camera Settings")]
 	// Camera controller that we will manipulate in script
 	[Export] public Camera3D WORLDCAMERA { get; set; }
+	[Export] private InputLayer InputCameraLayer;
 	[Export] public float DefaultFov = 120.0f;
 	// Help detect if mouse is moving
 	private bool mouseInput = false;
@@ -118,12 +119,16 @@ public partial class FPSController : CharacterBody3D
 		// If we look horizontally we want the player to rotate which will rotate the camera with it since its a child
 		playerRotation = new Vector3(0.0f, mouseRotation.Y, 0.0f);
 		// We only want the camera to pitch up and down
-		cameraRotation = new Vector3(mouseRotation.X, 0.0f, 0.0f);
+		//cameraRotation = new Vector3(mouseRotation.X, 0.0f, 0.0f);
 
 		// Camera rotation, want up and down rotation
-		WORLDCAMERA.Rotation = cameraRotation;
+		//WORLDCAMERA.Rotation = cameraRotation;
 		// Player rotation, want horizontal rotation
 		Basis = Basis.FromEuler(playerRotation);
+
+		// Send the pitch values over to the InputCameraLayer. In this case the player owns side ways rotation while
+		// the camera controller handles pitch which is the only rotation applied to the camera
+		InputCameraLayer.AddPitch(tiltInput * (float)delta);
 
 		// Dont want previous frame rotation inputs to affect the current frame accidentally so we set them to 0.0f
 		rotationInput = 0.0f;

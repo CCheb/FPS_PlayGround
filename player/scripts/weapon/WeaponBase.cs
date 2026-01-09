@@ -8,7 +8,8 @@ public abstract partial class WeaponBase : Node3D
     // e.g fire rate, weapon scene, all of its important nodes, etc
     protected WeaponResource WeaponData;
     // Need Controller since we might have to signal information to it
-    // e.g notify that ammo changed
+    // e.g notify that ammo changed, initiate camera recoil etc.
+    // If we the weapon needs to talk to any outside nodes it has to go through the controller first
     protected WeaponController Controller;
     
     // Root of every Weapon Scene must be a Node3D (i.e. WeaponPivot)

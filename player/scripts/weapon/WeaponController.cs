@@ -37,7 +37,7 @@ public partial class WeaponController : Node3D
     // Noise Texture is what give the idle sway the randomness
 	[Export] private NoiseTexture2D SwayNoise;
     // Need reference to the world camera so that we can give it a recoil effect
-	[Export] public CameraRecoil CameraRecoilRef;
+	[Export] public CameraRecoilLayer CameraRecoilRef;
     // Need reference to the WeaponRecoil Node thats under this node so that we can signal it to recoil the weapon back
     [Export] public WeaponRecoil WeaponRecoilRef;
 	// How fast should the random sway be
