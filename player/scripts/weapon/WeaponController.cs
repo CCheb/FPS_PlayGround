@@ -20,6 +20,7 @@ public partial class WeaponController : Node3D
 
     // Array that keeps data files for each available weapon. We make sure to preload them
     // so that they will be ready to go when they get used by the current weapon.
+    // Everything about the weapon starts here
     private WeaponResource[] Arsenal =
     {
         GD.Load<WeaponResource>("res://player/assets/weapons/rifle/Rigged_WeaponResource.tres"),
@@ -37,6 +38,7 @@ public partial class WeaponController : Node3D
     // Noise Texture is what give the idle sway the randomness
 	[Export] private NoiseTexture2D SwayNoise;
     // Need reference to the world camera so that we can give it a recoil effect
+    [Export] public CameraController CameraControllerRef;
 	[Export] public CameraRecoilLayer CameraRecoilRef;
     // Need reference to the WeaponRecoil Node thats under this node so that we can signal it to recoil the weapon back
     [Export] public WeaponRecoil WeaponRecoilRef;
@@ -135,6 +137,7 @@ public partial class WeaponController : Node3D
     private void LoadWeapon()
     {
         // Ask WeaponFactory to Create the appropriate weapon object based on what the WeaponResource specified
+        // Not everything gets setup in the Controller thus we pass its WeaponData and Controller forward 
         CurrentWeapon = WeaponFactory.Create(Arsenal[CurrentWeaponIndex], this);
         if(CurrentWeapon == null)
         {
@@ -184,8 +187,11 @@ public partial class WeaponController : Node3D
         WeaponRecoilRef.snapAmount = Arsenal[CurrentWeaponIndex].WeaponSnapAmount;
         WeaponRecoilRef.speed = Arsenal[CurrentWeaponIndex].WeaponRecoverySpeed;
 
+        // Might want to redesign this in the case you want melee weapons since they dont have reloads
+
         // Finally insert the Current Weapon scene as a child of the recoil node (for now)
         WeaponRecoilRef.AddChild(CurrentWeapon);
+        CameraControllerRef.SetCameraReloadLayer(CurrentWeapon.CameraReloadProxy);
     }
 
     public void WeaponBob(double delta, float BobSpeed, float BobH, float BobV)

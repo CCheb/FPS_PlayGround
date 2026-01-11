@@ -10,6 +10,7 @@ public partial class Hitscan : WeaponBase
     [Export] private PackedScene WeaponDecal;
     [Export] private PackedScene ShellCasingScene;
     [Export] private Marker3D ShellEjectionMarker;
+
     // Want the weapon's fire animation to play fast enough to finish before the next shot
     // All of this is dependant on the specified fire rate on the weapon data.
     private float FireAnimationSpeed = 1.0f;
@@ -31,11 +32,10 @@ public partial class Hitscan : WeaponBase
         // We do however need to initialize more weapon specific things like nodes
 
         // Make sure to instantiate the Weapon Scene because without it Rifle is just pure logic
-        WeaponScene = WeaponData.WeaponScene.Instantiate<Node3D>();
+        //WeaponScene = WeaponData.WeaponScene.Instantiate<Node3D>();
 
+        CameraReloadProxy = GetNode<Node3D>("./CameraReloadProxy");
         MuzzleFlashRef = GetNode<MuzzleFlash>("./MuzzleFlash");
-        if(MuzzleFlashRef == null)
-            GD.Print("Empty!");
 
         /*
         GunSoundEmpty = GetNode<AudioStreamPlayer3D>("GunSoundEmpty");
@@ -45,10 +45,11 @@ public partial class Hitscan : WeaponBase
 
         // Want the weapon's fire animation to play fast enough to finish before the next shot
         // Since the FireRate is specified in RPM then we need to convert it to RPS and calculate
-        // the correct animation speed for the fire animation
+        // the correct animation speed for the fire animation since animations are usually done in seconds
         float FireAnimLength = WeaponAnimPlayer.GetAnimation(WeaponData.Fire.AnimationName).Length;
         float RoundsPerSecond = WeaponData.FireRate / 60.0f;
         float desiredInterval = 1f / RoundsPerSecond;
+        // This now gives us the time needed for the animation to play based on the fire rate. Should be quite fast
         FireAnimationSpeed = FireAnimLength / desiredInterval;
         
         

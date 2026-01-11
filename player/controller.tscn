@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://b1derc5wqq21i"]
+[gd_scene load_steps=32 format=3 uid="uid://b1derc5wqq21i"]
 
 [ext_resource type="Script" uid="uid://bo86bnx0tb20n" path="res://player/scripts/FPSController.cs" id="1_c8ah5"]
 [ext_resource type="Script" uid="uid://bsgnp7hqer3q6" path="res://player/scripts/camera/CameraController.cs" id="2_r1uwb"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bbp2rpmrmee1f" path="res://player/WeaponController.tscn" id="6_4xmcj"]
 [ext_resource type="Script" uid="uid://dyjtguodvwuw8" path="res://player/scripts/movement/IdlePlayerState.cs" id="6_8l0fx"]
 [ext_resource type="Script" uid="uid://c68pmm45js1g6" path="res://player/InputLayer.cs" id="6_8qmmn"]
+[ext_resource type="Script" uid="uid://34oh23ekhv67" path="res://player/CameraReloadLayer.cs" id="6_b58ve"]
 [ext_resource type="Script" uid="uid://c8tc2xhawhiso" path="res://player/CameraRecoilLayer.cs" id="6_yqj3k"]
 [ext_resource type="Script" uid="uid://bamabgxhyu7eq" path="res://player/scripts/movement/WalkingPlayerState.cs" id="7_r1uwb"]
 [ext_resource type="Script" uid="uid://bjq25q7ryxiw7" path="res://player/scripts/movement/SprintingPlayerState.cs" id="8_wqtdf"]
@@ -691,12 +692,13 @@ shape = SubResource("CapsuleShape3D_xbwus")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
 mesh = SubResource("CapsuleMesh_blutv")
 
-[node name="WorldCameraController" type="Node3D" parent="." node_paths=PackedStringArray("MovementLayer", "CameraRecoilLayer", "InputCameraLayer")]
+[node name="WorldCameraController" type="Node3D" parent="." node_paths=PackedStringArray("InputCameraLayer", "MovementLayer", "CameraRecoilLayer", "CameraReload")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.428, 0)
 script = ExtResource("2_r1uwb")
+InputCameraLayer = NodePath("InputLayer")
 MovementLayer = NodePath("MovementLayer")
 CameraRecoilLayer = NodePath("CameraRecoilLayer")
-InputCameraLayer = NodePath("InputLayer")
+CameraReload = NodePath("CameraReloadLayer")
 
 [node name="InputLayer" type="Node" parent="WorldCameraController"]
 script = ExtResource("6_8qmmn")
@@ -711,6 +713,9 @@ OffsetProxy = NodePath("OffsetProxy")
 
 [node name="CameraRecoilLayer" type="Node" parent="WorldCameraController"]
 script = ExtResource("6_yqj3k")
+
+[node name="CameraReloadLayer" type="Node" parent="WorldCameraController"]
+script = ExtResource("6_b58ve")
 
 [node name="Camera3D" type="Camera3D" parent="WorldCameraController"]
 cull_mask = 1048573
@@ -831,6 +836,7 @@ WorldCamera = NodePath("../../../WorldCameraController/Camera3D")
 
 [node name="WeaponHolder" type="Node3D" parent="SubViewportContainer/SubViewport/Camera3D"]
 
-[node name="WeaponController" parent="SubViewportContainer/SubViewport/Camera3D/WeaponHolder" node_paths=PackedStringArray("CameraRecoilRef") instance=ExtResource("6_4xmcj")]
+[node name="WeaponController" parent="SubViewportContainer/SubViewport/Camera3D/WeaponHolder" node_paths=PackedStringArray("CameraControllerRef", "CameraRecoilRef") instance=ExtResource("6_4xmcj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02, -0.23, 0.16)
+CameraControllerRef = NodePath("../../../../../WorldCameraController")
 CameraRecoilRef = NodePath("../../../../../WorldCameraController/CameraRecoilLayer")

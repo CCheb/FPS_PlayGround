@@ -1,6 +1,5 @@
 using Godot;
 using System;
-using System.ComponentModel;
 
 public abstract partial class WeaponBase : Node3D
 {
@@ -20,6 +19,7 @@ public abstract partial class WeaponBase : Node3D
     protected AudioStreamPlayer3D GunSound;
     protected AudioStreamPlayer3D GunSoundEmpty;
     protected MuzzleFlash MuzzleFlashRef;
+    public  Node3D CameraReloadProxy;
     protected float fireRate;
     public bool IsReloading = false;
     public bool IsFiring = false;
