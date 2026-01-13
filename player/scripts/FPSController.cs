@@ -86,7 +86,7 @@ public partial class FPSController : CharacterBody3D
 			// In this case we are grabbing the total ammount the mouse moved since the last frame
 			// This is cornverting to radians per pixel (MouseSensitivity). From here we decide to use radians or degrees
 
-			// How much has the mouse moved in the last frame. Convert that into rad * pixel
+			// How much has the mouse moved in the last frame. Convert that into rad / pixel
 
 			// Its important that we negate these values because turning right in screen space is + but in world space will
 			// be negative. Thats why we take the screen space rotation and negate it over to world space rotation 
@@ -105,24 +105,16 @@ public partial class FPSController : CharacterBody3D
 		// to determine the tilt ammount
 		_currentRotation = rotationInput;
 
-		// Technically its the x axis thats going up and down. mouseRotation is a vector3 and we are essentially
-		// just storing the total rotation that will be applied to the player and camera
-		// grab increment to current tilt rotation and clamp it 
-		mouseRotation.X += tiltInput * (float)delta;
-		// Make sure to clamp vertical rotation
-		// Do DegToRad twice in the case that the default values are changed
-		mouseRotation.X = Mathf.Clamp(mouseRotation.X, Mathf.DegToRad(TiltLowerLimit), Mathf.DegToRad(TiltUpperLimit));
-		// Horizontal rotation
+		// Horizontal rotation. The Vertical rotation is strictly for the camera and we send those values over to it
 		mouseRotation.Y += rotationInput * (float)delta;
 
 		// Form vectors to be applied to the player and camera rotations respectively
 		// If we look horizontally we want the player to rotate which will rotate the camera with it since its a child
 		playerRotation = new Vector3(0.0f, mouseRotation.Y, 0.0f);
+
 		// We only want the camera to pitch up and down
 		//cameraRotation = new Vector3(mouseRotation.X, 0.0f, 0.0f);
 
-		// Camera rotation, want up and down rotation
-		//WORLDCAMERA.Rotation = cameraRotation;
 		// Player rotation, want horizontal rotation
 		Basis = Basis.FromEuler(playerRotation);
 
@@ -130,7 +122,7 @@ public partial class FPSController : CharacterBody3D
 		// the camera controller handles pitch which is the only rotation applied to the camera
 		InputCameraLayer.AddPitch(tiltInput * (float)delta);
 
-		// Dont want previous frame rotation inputs to affect the current frame accidentally so we set them to 0.0f
+		// Dont want previous frame rotation inputs to affect the current frame accidentally so we set them to 0.0f since the specifically serve as deltas
 		rotationInput = 0.0f;
 		tiltInput = 0.0f;
 
