@@ -57,8 +57,8 @@ public partial class SlidingPlayerState : PlayerMovementState
             tilt.Z = 0.05f;
         // Set the camera's z tilt on key frames 1 and 2 under the rotation track. The fourth keyframe is
         // what resets the tilt back to normal via interpolation
-        ANIMATION.GetAnimation("Slide").TrackSetKeyValue(3, 1, tilt);
-        ANIMATION.GetAnimation("Slide").TrackSetKeyValue(3, 2, tilt);
+        ANIMATION.GetAnimation("Slide").TrackSetKeyValue(9, 1, tilt);
+        ANIMATION.GetAnimation("Slide").TrackSetKeyValue(9, 2, tilt);
     }
 
     private void SetCameraFov()

@@ -90,7 +90,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(0, 1.428, 0), Vector3(0, 1, 0)]
+"values": [Vector3(0, 0, 0), Vector3(0, -0.3, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_l5san"]
@@ -140,7 +140,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.085, 0.4),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector3(0, 1.428, 0), Vector3(0, 1.37, 0), Vector3(0, 1.428, 0)]
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_0qxhu"]
@@ -190,7 +190,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.2, 0.55),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector3(0, 1.428, 0), Vector3(0, 1.37, 0), Vector3(0, 1.428, 0)]
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_nptun"]
@@ -503,7 +503,7 @@ tracks/8/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(0, 1.428, 0), Vector3(0, 0.998, 0)]
+"values": [Vector3(0, 0, 0), Vector3(0, -0.3, 0)]
 }
 tracks/9/type = "value"
 tracks/9/imported = false
@@ -813,6 +813,7 @@ script = ExtResource("10_yqj3k")
 
 [node name="JumpingPlayerState" type="Node" parent="PlayerStateMachine"]
 script = ExtResource("11_b58ve")
+inputMultiplier = 1.0
 
 [node name="FallingPlayerState" type="Node" parent="PlayerStateMachine"]
 script = ExtResource("12_js2ha")

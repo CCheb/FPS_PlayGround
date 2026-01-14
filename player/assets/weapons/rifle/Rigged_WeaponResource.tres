@@ -20,7 +20,7 @@ metadata/_custom_type_script = "uid://bcp38umewjpfl"
 [resource]
 script = ExtResource("2_d07vf")
 Name = "RIGGED"
-Position = Vector3(0, -0.5, 0)
+Position = Vector3(0, -0.5, 0.05)
 Scale = Vector3(1, 1, 1)
 SwayMin = Vector2(-16, -16)
 SwayMax = Vector2(16, 16)

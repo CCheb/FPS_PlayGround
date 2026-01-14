@@ -9,7 +9,7 @@ public partial class CameraController : Node3D
     */
 
     // BaseOffset helps in giving us an origin/base to apply all of the camera translations
-    [Export] private Vector3 BaseOffset = new Vector3(0.0f, 1.456f, 0.0f);
+    [Export] private Vector3 BaseOffset = new Vector3(0.0f, 1.428f, 0.0f);
     // InputCameraLayer handles basic player input such as mouse movement
     [Export] private CameraLayer InputCameraLayer;
     // MovementLayer handles camera movement based on the movement state machine/system. e.g. sprint state specifies a camera animation
