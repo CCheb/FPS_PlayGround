@@ -70,6 +70,7 @@ public partial class WeaponResource : Resource
     [ExportGroup("Animations")]
     [Export] public AnimationProfile Fire;
     [Export] public AnimationProfile Reload;
+    [Export] public AnimationProfile Draw = null;
     [Export] public AnimationProfile Pump = null;
 
 }

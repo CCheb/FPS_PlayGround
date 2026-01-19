@@ -1,8 +1,13 @@
-[gd_resource type="Resource" script_class="WeaponResource" load_steps=6 format=3 uid="uid://crp28eo8i70od"]
+[gd_resource type="Resource" script_class="WeaponResource" load_steps=7 format=3 uid="uid://crp28eo8i70od"]
 
 [ext_resource type="PackedScene" uid="uid://d4jl6d21m0ope" path="res://player/assets/weapons/rifle/rigged_rifle.tscn" id="1_5qr2q"]
 [ext_resource type="Script" uid="uid://c8of8infi526n" path="res://player/scripts/etc/AnimationProfile.cs" id="1_hvacs"]
 [ext_resource type="Script" uid="uid://cmymrn4gpv3y3" path="res://player/scripts/weapon/WeaponResource.cs" id="2_d07vf"]
+
+[sub_resource type="Resource" id="Resource_hvacs"]
+script = ExtResource("1_hvacs")
+AnimationName = "Rig|AK_Draw"
+metadata/_custom_type_script = "uid://c8of8infi526n"
 
 [sub_resource type="Resource" id="Resource_f7ngb"]
 script = ExtResource("1_hvacs")
@@ -37,3 +42,4 @@ AmmoCount = 250
 AmmoCapacity = 250
 Fire = SubResource("Resource_f7ngb")
 Reload = SubResource("Resource_1su4r")
+Draw = SubResource("Resource_hvacs")

@@ -2,8 +2,6 @@ using Godot;
 using System;
 using System.Runtime.CompilerServices;
 
-
-
 public partial class Hitscan : WeaponBase
 {
     [Export] private PackedScene ImpactEffect;
@@ -24,7 +22,7 @@ public partial class Hitscan : WeaponBase
         this.Controller = Controller;
     }
 
-    public override void _Ready()
+    public override  void _Ready()
     {
         base._Ready();
         
@@ -51,6 +49,12 @@ public partial class Hitscan : WeaponBase
         float desiredInterval = 1f / RoundsPerSecond;
         // This now gives us the time needed for the animation to play based on the fire rate. Should be quite fast
         FireAnimationSpeed = FireAnimLength / desiredInterval;
+
+        if(WeaponData.Draw != null)
+        {
+            WeaponAnimPlayer.Play(WeaponData.Draw.AnimationName, WeaponData.Draw.BlendAmount, WeaponData.Draw.AnimationSpeed);
+            
+        }
         
         
     }
