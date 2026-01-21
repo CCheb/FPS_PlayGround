@@ -42,6 +42,7 @@ public partial class WeaponController : Node3D
 	[Export] public CameraRecoilLayer CameraRecoilRef;
     // Need reference to the WeaponRecoil Node thats under this node so that we can signal it to recoil the weapon back
     [Export] public WeaponRecoil WeaponRecoilRef;
+    [Export] public JumpRecoil JumpRecoilRef;
 	// How fast should the random sway be
 	[Export] private float SwaySpeed = 1.2f;
     // Need to capture the mouse movement for our weapon sway
@@ -190,7 +191,7 @@ public partial class WeaponController : Node3D
         // Might want to redesign this in the case you want melee weapons since they dont have reloads
 
         // Finally insert the Current Weapon scene as a child of the recoil node (for now)
-        WeaponRecoilRef.AddChild(CurrentWeapon);
+        JumpRecoilRef.AddChild(CurrentWeapon);
         CameraControllerRef.SetCameraReloadLayer(CurrentWeapon.CameraReloadProxy);
     }
 

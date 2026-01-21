@@ -82,13 +82,13 @@ public partial class CrouchingPlayerState : PlayerMovementState
            // WEAPON.SwayWeapon(delta, false);
            // WEAPON.WeaponBob(delta, bobSpeedWeapon, bobWeaponH, bobWeaponV);
            MovementProfle = CrouchMovementProfile;
-           WEAPON.EmitSignal(WeaponController.SignalName.MovementChanged, this);
+           WEAPON_CONTROLLER.EmitSignal(WeaponController.SignalName.MovementChanged, this);
            IsFirstTimeIdle = true;
         }
         else if (PLAYER.Velocity == Vector3.Zero && IsFirstTimeIdle)
         {
             MovementProfle = CrouchIdleMovementProfile;
-            WEAPON.EmitSignal(WeaponController.SignalName.MovementChanged, this);
+            WEAPON_CONTROLLER.EmitSignal(WeaponController.SignalName.MovementChanged, this);
             IsFirstTimeIdle = false;
         }
 

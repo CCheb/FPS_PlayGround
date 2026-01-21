@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.ComponentModel;
 
 public partial class CameraController : Node3D
 {   
@@ -8,8 +9,8 @@ public partial class CameraController : Node3D
     final camera position and rotation. Think of the layers as pipes connected to a central processing center where the water is filtered and cleaned
     */
 
-    // BaseOffset helps in giving us an origin/base to apply all of the camera translations
-    [Export] private Vector3 BaseOffset = new Vector3(0.0f, 1.428f, 0.0f);
+    public Camera3D Camera {get => _camera;}
+    [Export] private Camera3D _camera;
     // InputCameraLayer handles basic player input such as mouse movement
     [Export] private CameraLayer InputCameraLayer;
     // MovementLayer handles camera movement based on the movement state machine/system. e.g. sprint state specifies a camera animation
@@ -18,6 +19,11 @@ public partial class CameraController : Node3D
     [Export] private CameraLayer CameraRecoilLayer;
     // CameraReload handles weapon specific reload animations which are exported from the weapon itself to the WeaponController
     [Export] private CameraLayer CameraReload;
+    // CameraJumpingLayer that dynamic adds a slight roll to the finalRotation depending on how hard the the player hit the ground
+    [Export] public  CameraLayer CameraJumpingLayer;
+    // BaseOffset helps in giving us an origin/base to apply all of the camera translations
+    [Export] private Vector3 BaseOffset = new Vector3(0.0f, 1.428f, 0.0f);
+    
     
     public override void _Process(double delta)
     {
@@ -55,6 +61,12 @@ public partial class CameraController : Node3D
         {   
             // We apply the CameraReload rotation to the finalRotation
             finalRotation += CameraReload.RotationOffset;
+        }
+
+        if(CameraJumpingLayer != null)
+        {   
+            // We apply the CameraJumping roation to the finalRotation. This should add a slight roll
+            finalRotation += CameraJumpingLayer.RotationOffset;
         }
         
 

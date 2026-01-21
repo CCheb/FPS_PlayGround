@@ -64,9 +64,9 @@ public partial class SlidingPlayerState : PlayerMovementState
     private void SetCameraFov()
     {
         // Setting the camera fov to be in accordance with the current camera fov which is subject to change
-        ANIMATION.GetAnimation("Slide").TrackSetKeyValue(7, 0, CAMERA.Fov);
-        ANIMATION.GetAnimation("Slide").TrackSetKeyValue(7, 1, CAMERA.Fov+10.0f);
-        ANIMATION.GetAnimation("Slide").TrackSetKeyValue(7, 2, CAMERA.Fov);
+        ANIMATION.GetAnimation("Slide").TrackSetKeyValue(7, 0, CAMERA_CONTROLLER.Camera.Fov);
+        ANIMATION.GetAnimation("Slide").TrackSetKeyValue(7, 1, CAMERA_CONTROLLER.Camera.Fov+10.0f);
+        ANIMATION.GetAnimation("Slide").TrackSetKeyValue(7, 2, CAMERA_CONTROLLER.Camera.Fov);
     }
     
     // Called when the animation finishes. its a special function called in the animation itself

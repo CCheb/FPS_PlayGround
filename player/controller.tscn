@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://b1derc5wqq21i"]
+[gd_scene load_steps=33 format=3 uid="uid://b1derc5wqq21i"]
 
 [ext_resource type="Script" uid="uid://bo86bnx0tb20n" path="res://player/scripts/FPSController.cs" id="1_c8ah5"]
 [ext_resource type="Script" uid="uid://bsgnp7hqer3q6" path="res://player/scripts/camera/CameraController.cs" id="2_r1uwb"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://c68pmm45js1g6" path="res://player/InputLayer.cs" id="6_8qmmn"]
 [ext_resource type="Script" uid="uid://34oh23ekhv67" path="res://player/CameraReloadLayer.cs" id="6_b58ve"]
 [ext_resource type="Script" uid="uid://c8tc2xhawhiso" path="res://player/CameraRecoilLayer.cs" id="6_yqj3k"]
+[ext_resource type="Script" uid="uid://bai0m8yr8kuj1" path="res://player/scripts/camera/CameraJumpingLayer.cs" id="7_b58ve"]
 [ext_resource type="Script" uid="uid://bamabgxhyu7eq" path="res://player/scripts/movement/WalkingPlayerState.cs" id="7_r1uwb"]
 [ext_resource type="Script" uid="uid://bjq25q7ryxiw7" path="res://player/scripts/movement/SprintingPlayerState.cs" id="8_wqtdf"]
 [ext_resource type="Script" uid="uid://0v73n67a3xmi" path="res://player/scripts/movement/CrouchingPlayerState.cs" id="9_8qmmn"]
@@ -673,12 +674,12 @@ _data = {
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_tsrlm"]
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("WORLDCAMERA", "InputCameraLayer", "ANIMATION", "crouchShapeCast", "WEAPON")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("WorldCameraController", "InputCameraLayer", "ANIMATION", "crouchShapeCast", "WEAPON")]
 collision_layer = 4
 script = ExtResource("1_c8ah5")
 TiltLowerLimit = -90.0
 TiltUpperLimit = 90.0
-WORLDCAMERA = NodePath("WorldCameraController/Camera3D")
+WorldCameraController = NodePath("WorldCameraController")
 InputCameraLayer = NodePath("WorldCameraController/InputLayer")
 DefaultFov = 90.0
 ANIMATION = NodePath("PlayerMovement")
@@ -692,13 +693,15 @@ shape = SubResource("CapsuleShape3D_xbwus")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
 mesh = SubResource("CapsuleMesh_blutv")
 
-[node name="WorldCameraController" type="Node3D" parent="." node_paths=PackedStringArray("InputCameraLayer", "MovementLayer", "CameraRecoilLayer", "CameraReload")]
+[node name="WorldCameraController" type="Node3D" parent="." node_paths=PackedStringArray("_camera", "InputCameraLayer", "MovementLayer", "CameraRecoilLayer", "CameraReload", "CameraJumpingLayer")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.428, 0)
 script = ExtResource("2_r1uwb")
+_camera = NodePath("Camera3D")
 InputCameraLayer = NodePath("InputLayer")
 MovementLayer = NodePath("MovementLayer")
 CameraRecoilLayer = NodePath("CameraRecoilLayer")
 CameraReload = NodePath("CameraReloadLayer")
+CameraJumpingLayer = NodePath("CameraJumpingLayer")
 
 [node name="InputLayer" type="Node" parent="WorldCameraController"]
 script = ExtResource("6_8qmmn")
@@ -716,6 +719,9 @@ script = ExtResource("6_yqj3k")
 
 [node name="CameraReloadLayer" type="Node" parent="WorldCameraController"]
 script = ExtResource("6_b58ve")
+
+[node name="CameraJumpingLayer" type="Node" parent="WorldCameraController"]
+script = ExtResource("7_b58ve")
 
 [node name="Camera3D" type="Camera3D" parent="WorldCameraController"]
 cull_mask = 1048573

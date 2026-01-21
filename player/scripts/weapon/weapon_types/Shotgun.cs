@@ -67,7 +67,7 @@ public partial class Shotgun : WeaponBase
         for(int i = 0; i < 12; i++)
         {
             // Grab a reference to the players world camera. (Camera Controller is the world camera)
-		    Camera3D camera = Globals.player.WORLDCAMERA;
+		    Camera3D camera = Globals.player.WorldCameraController.Camera;
 		    // Grab the worlds 3D physics state/sandbox. This state is where all of the physics occurs and its handled by the physics server
 		    var spaceState = camera.GetWorld3D().DirectSpaceState;
 		    // Need to find the center of the screen to create origin point. GetViewport here is the weapon camera viewport but since its always

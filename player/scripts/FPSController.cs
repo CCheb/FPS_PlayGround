@@ -20,7 +20,7 @@ public partial class FPSController : CharacterBody3D
 	//-------------------------------------------
 	[ExportGroup("Camera Settings")]
 	// Camera controller that we will manipulate in script
-	[Export] public Camera3D WORLDCAMERA { get; set; }
+	[Export] public CameraController WorldCameraController { get; set; }
 	[Export] private InputLayer InputCameraLayer;
 	[Export] public float DefaultFov = 120.0f;
 	// Help detect if mouse is moving
@@ -62,7 +62,7 @@ public partial class FPSController : CharacterBody3D
 		// to be at the center of the screen. We then want the player and camera to rotate with it
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 		// Set the camera fov accordingly
-		WORLDCAMERA.Fov = DefaultFov;
+		WorldCameraController.Camera.Fov = DefaultFov;
 		// Added shapecast exception. We want the shapecast to ignore ourselfs. Couls have done this with layers
 		crouchShapeCast.AddException(this);
 	}

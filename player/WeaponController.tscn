@@ -1,17 +1,22 @@
-[gd_scene load_steps=5 format=3 uid="uid://bbp2rpmrmee1f"]
+[gd_scene load_steps=6 format=3 uid="uid://bbp2rpmrmee1f"]
 
 [ext_resource type="Script" uid="uid://t052fvtqpfq8" path="res://player/scripts/weapon/WeaponController.cs" id="1_tvt2m"]
 [ext_resource type="Script" uid="uid://dva67hh5hgkbm" path="res://player/scripts/weapon/WeaponRecoil.cs" id="2_nxsbh"]
+[ext_resource type="Script" uid="uid://dj0tr8lynagdj" path="res://player/scripts/weapon/JumpRecoil.cs" id="3_nxsbh"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_nxsbh"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qohyr"]
 noise = SubResource("FastNoiseLite_nxsbh")
 
-[node name="WeaponController" type="Node3D" node_paths=PackedStringArray("WeaponRecoilRef")]
+[node name="WeaponController" type="Node3D" node_paths=PackedStringArray("WeaponRecoilRef", "JumpRecoilRef")]
 script = ExtResource("1_tvt2m")
 SwayNoise = SubResource("NoiseTexture2D_qohyr")
 WeaponRecoilRef = NodePath("WeaponRecoil")
+JumpRecoilRef = NodePath("WeaponRecoil/JumpRecoil")
 
 [node name="WeaponRecoil" type="Node3D" parent="."]
 script = ExtResource("2_nxsbh")
+
+[node name="JumpRecoil" type="Node3D" parent="WeaponRecoil"]
+script = ExtResource("3_nxsbh")

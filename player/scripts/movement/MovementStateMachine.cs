@@ -70,8 +70,7 @@ public partial class MovementStateMachine : PlayerMovementState
                 // So as to execute its update funcition in process
                 CURRENT_STATE = newState;
                 // Notify the Weapon Controller that the Current Movement State has changed
-                WEAPON.EmitSignal(WeaponController.SignalName.MovementChanged, CURRENT_STATE);
-                GD.Print(CURRENT_STATE.GetStateName());
+                WEAPON_CONTROLLER.EmitSignal(WeaponController.SignalName.MovementChanged, CURRENT_STATE);
             }
         }
         else

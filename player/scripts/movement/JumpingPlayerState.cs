@@ -40,6 +40,10 @@ public partial class JumpingPlayerState : PlayerMovementState
 		// first time we have not entered the jump state
 		base.Exit();
 		doubleJump = false;
+
+		WEAPON_CONTROLLER.JumpRecoilRef.EmitSignal("AddJumpRecoil");
+		CAMERA_CONTROLLER.CameraJumpingLayer.EmitSignal("AddJumpRecoil");
+		
 	}
 
 	public override void Update(double delta)
