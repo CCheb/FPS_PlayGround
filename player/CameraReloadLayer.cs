@@ -45,10 +45,7 @@ public partial class CameraReloadLayer : CameraLayer
         get
         {
             if (ReloadProxy == null)
-            {
-                GD.Print("Enpty");
                 return Vector3.Zero;
-            }
             
             // Problem to solve: How much has the proxy rotated relative to its neutral pose (a very isolated rotation)
             // delta rotation relative to neutral

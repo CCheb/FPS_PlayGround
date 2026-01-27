@@ -20,7 +20,6 @@ public partial class Globals : Node
     {
         FullAuto,
         SemiAuto,
-        Shotgun,
         BurstFire,
     }
 

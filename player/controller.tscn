@@ -705,8 +705,6 @@ CameraJumpingLayer = NodePath("CameraJumpingLayer")
 
 [node name="InputLayer" type="Node" parent="WorldCameraController"]
 script = ExtResource("6_8qmmn")
-TiltLowerLimit = -90.0
-TiltUpperLimit = 90.0
 
 [node name="MovementLayer" type="Node" parent="WorldCameraController" node_paths=PackedStringArray("OffsetProxy")]
 script = ExtResource("5_8qmmn")
