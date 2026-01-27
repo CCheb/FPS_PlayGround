@@ -6,7 +6,7 @@ public partial class ShotgunFireMode : IFireMode
     // Shotgun FireMode is almost identical to the Semi-Auto FireMode with some differences in the 
     // OnTriggerPressed function. 
     private WeaponBase CurrentWeapon;
-    // Assume that the weapon trigger has been released
+    // Assume that the weapon trigger has been released 
     private bool CanFire = true;
 
     public ShotgunFireMode(WeaponBase weapon)

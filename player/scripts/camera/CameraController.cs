@@ -73,7 +73,7 @@ public partial class CameraController : Node3D
         // If applied to itself the camera will follow. It must stay dumb
         // Final camera rotation = base look + effects (recoil, reload, movement, etc)
         Position = finalPosition;
-        Rotation = finalRotation;
+        Basis = Basis.FromEuler(finalRotation);
     }
 
     // Each weapon has its own ReloadProxy and thus when the player switches to another weapon the WeaponController will notify the CameraController
