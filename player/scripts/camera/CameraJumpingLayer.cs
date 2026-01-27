@@ -36,7 +36,7 @@ public partial class CameraJumpingLayer : CameraLayer
 		
 		// Gererate a slight tilt downward when the player impacts the floor
 		Quaternion recoil = Quaternion.FromEuler(
-    		new Vector3(0.0f, Mathf.DegToRad(-25.0f), 0.0f)
+    		new Vector3(0.0f, 0.0f, Mathf.DegToRad(-25.0f))
 		);
 		targetRotation = (recoil * targetRotation).Normalized();
 

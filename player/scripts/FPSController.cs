@@ -152,7 +152,7 @@ public partial class FPSController : CharacterBody3D
 		{	
 			// Its essential to only update the players Velocity and keep vel local 
 			Vector3 velocity = Velocity;
-			velocity += GetGravity() * (float)delta;
+			velocity += GetGravity() * (float)delta * 2.0f;
 			Velocity = velocity;
 		}
 	}

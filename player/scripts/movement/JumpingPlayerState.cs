@@ -8,7 +8,7 @@ public partial class JumpingPlayerState : PlayerMovementState
 	[Export] public float acceleration = 0.1f;
 	[Export] public float decelaration = 0.25f;
 	// How high the player can jump
-	[Export] public float jumpVelocity = 4.5f;
+	[Export] public float jumpVelocity = 8.5f;
 	[Export] public float doubleJumpVelocity = 5.5f;
 	// How strong the players input should be mid-air
 	[Export(PropertyHint.Range, "0.5, 1.0, 0.01")] public float inputMultiplier = 0.85f;
@@ -18,7 +18,7 @@ public partial class JumpingPlayerState : PlayerMovementState
 	private float height = 0.0f;
 	private float startY;
 	private float maxY;
-	private float MAX_HEIGHT => Mathf.Pow(jumpVelocity, 2) / (Mathf.Abs(PLAYER.GetGravity().Y) * 2);
+	private float MAX_HEIGHT => Mathf.Pow(jumpVelocity, 2.0f) / (Mathf.Abs(PLAYER.GetGravity().Y * 2.0f) * 2.0f);
 
     public override void Init()
     {
@@ -90,6 +90,8 @@ public partial class JumpingPlayerState : PlayerMovementState
 			doubleJump = true;
 		}
 
+		/*
+
 		if(Input.IsActionJustReleased("jump"))
 		{
 			if(PLAYER.Velocity.Y > 0)
@@ -102,6 +104,8 @@ public partial class JumpingPlayerState : PlayerMovementState
 				
 			}
 		}
+
+		*/
 	
 		// Once we land on the floor then transition back to Idle state and from there
 		// transition into other states
