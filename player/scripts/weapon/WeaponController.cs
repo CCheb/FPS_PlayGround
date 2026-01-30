@@ -33,8 +33,9 @@ public partial class WeaponController : Node3D
     private const int MAX_WEAPON_AMMOUNT = 4;
     // CurrentWeapon holds the Weapon Scene of any of the arsenal weapon resources
     private WeaponBase CurrentWeapon;
-    // CurrentFireMode will hold the current fire mode (full, semi, burst, shotgun) specified by the WeaponResource
-    private IFireMode CurrentFireMode;
+    // PrimaryFireMode will hold the current fire mode (full, semi, burst, shotgun) specified by the WeaponResource
+    private IFireMode PrimaryFireMode;
+    private IFireMode SecondaryFireMode;
     // Noise Texture is what give the idle sway the randomness
 	[Export] private NoiseTexture2D SwayNoise;
     // Need reference to the world camera so that we can give it a recoil effect
@@ -93,13 +94,20 @@ public partial class WeaponController : Node3D
 
         // The ? Signifies that CurrentFire should only execure this function if its not null
         // if it is null then a null exception is thrown automatically. In _Input, the event actions
-        // are not polled and are only triggered once everytime the key is pressed
-        if(@event.IsActionPressed("shoot"))
-            CurrentFireMode?.OnTriggerPressed();
+        // are not polled and are only triggered once everytime the key is pressed 
+        if(@event.IsActionPressed("primary_action"))
+            PrimaryFireMode?.OnTriggerPressed();
 
-        // CurrentFireMode will receive this and handle it accordingly 
-        if(@event.IsActionReleased("shoot"))
-            CurrentFireMode?.OnTriggerReleased();
+        // PrimaryFireMode will receive this and handle it accordingly 
+        if(@event.IsActionReleased("primary_action"))
+            PrimaryFireMode?.OnTriggerReleased();
+    
+        if(@event.IsActionPressed("secondary_action"))
+            SecondaryFireMode?.OnTriggerPressed();
+        
+        if(@event.IsActionReleased("secondary_action"))
+            SecondaryFireMode?.OnTriggerReleased();
+        
 
         // FireMode only cares on when the current weapon should shoot. Thus Reload should be kept within the Weapon
         if(@event.IsActionPressed("reload"))
@@ -147,10 +155,17 @@ public partial class WeaponController : Node3D
         }
 
         // Ask FireModeFactory to Create the appropriate firemode object based on what the WeaponResource specified
-        CurrentFireMode = FireModeFactory.Create(Arsenal[CurrentWeaponIndex], CurrentWeapon, Arsenal[CurrentWeaponIndex].FireMode);
-        if(CurrentFireMode == null)
+        PrimaryFireMode = FireModeFactory.Create(Arsenal[CurrentWeaponIndex], CurrentWeapon, Arsenal[CurrentWeaponIndex].PrimaryFireMode);
+        if(PrimaryFireMode == null)
         {
-            GD.PrintErr("CurrentFireMode is null (Invalid Fire Mode Type)");
+            GD.PrintErr("PrimaryFireMode is null (Invalid Fire Mode Type)");
+            return;
+        }
+
+        SecondaryFireMode = FireModeFactory.Create(Arsenal[CurrentWeaponIndex], CurrentWeapon, Arsenal[CurrentWeaponIndex].SecondaryFireMode);
+        if(PrimaryFireMode == null)
+        {
+            GD.PrintErr("SecondaryFireMode is null (Invalid Fire Mode Type)");
             return;
         }
         
@@ -309,7 +324,9 @@ public partial class WeaponController : Node3D
     {
         base._Process(delta);
         // Apply FireMode update which will update the FireCooldown. Once it reaches <= 0 then the CurrentWeapon can now fire
-        CurrentFireMode?.Update(delta);
+        PrimaryFireMode?.Update(delta);
+        
+        SecondaryFireMode?.Update(delta);
 
     }
 

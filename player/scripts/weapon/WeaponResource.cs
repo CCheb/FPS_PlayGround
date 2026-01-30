@@ -12,8 +12,8 @@ public partial class WeaponResource : Resource
     
     [Export] public string Name;
     [Export] public Globals.WeaponTypes WeaponType;
-    [Export] public Globals.FireModes FireMode;
-
+    [Export] public Globals.FireModes PrimaryFireMode;
+    [Export] public Globals.FireModes SecondaryFireMode;
      /* Weapon Transform*/
     //------------------------
     [ExportGroup("Weapon Transform")]

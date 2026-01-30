@@ -5,7 +5,6 @@ using System;
 public partial class CameraRecoilProxy : Node3D
 {
     
-
     public override void _Ready()
     {
         base._Ready();

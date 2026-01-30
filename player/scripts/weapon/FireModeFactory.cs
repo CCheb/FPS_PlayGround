@@ -13,6 +13,8 @@ public static partial class FireModeFactory
                 return new FullAutoFireMode(CurrentWeapon, WeaponData.FireRate);
             case Globals.FireModes.SemiAuto :
                 return new SemiAutoFireMode(CurrentWeapon);
+            case Globals.FireModes.NoAction :
+                return null;
             default :
                 throw null;
         }
