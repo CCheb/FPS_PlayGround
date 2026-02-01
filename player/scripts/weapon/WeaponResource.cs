@@ -44,7 +44,9 @@ public partial class WeaponResource : Resource
     // Adjust strength of rotation
     [Export] public float IdleSwayRotationStength = 300.0f;
     // Adjust the strength of the sine wave
-    [Export] public float RandomSwayAmmount = 5.0f;
+    [Export] public float IdleSwayAmmount = 5.0f;
+    // How fast the idle sway show be
+    [Export] public float IdleSwaySpeed = 1.2f;
 
     /* Visual Settings */
     //------------------------

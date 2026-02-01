@@ -1,5 +1,7 @@
 using Godot;
 using System;
+using System.Reflection.Metadata;
+using System.Threading.Tasks.Dataflow;
 
 
 public partial class WeaponController : Node3D
@@ -46,7 +48,7 @@ public partial class WeaponController : Node3D
     // Noise Texture is what give the idle sway the randomness
 	[Export] private NoiseTexture2D RandSwayNoise;
 	// How fast should the random sway be
-	[Export] private float RandSwaySpeed = 1.2f;
+	private float IdleSwaySpeed = 1.2f;
     // Need to capture the mouse movement for our weapon sway
 	private Vector2 MouseMovement = Vector2.Zero;
     // Vector for holding the bob values
@@ -58,10 +60,10 @@ public partial class WeaponController : Node3D
 	// How strong the Idle Sway Rotation should be
 	private float IdleSwayRotationStength;
     // Random Idle sway for x
-	private float RandIdleSwayX;
+	private float IdleSwayX;
     // Random Idle sway for y
-	private float RandIdleSwayY;
-	private float RandSwayStrength;
+	private float IdleSwayY;
+	private float IdleSwayStrength;
     private float PositionSwaySpeed;
     private float RotationSwaySpeed;
     private float MouseInputPositionAmount;
@@ -141,6 +143,44 @@ public partial class WeaponController : Node3D
         LoadWeapon();
     }
 
+    private void ParseWeaponResource(in WeaponResource weaponResource)
+    {
+        // Some data off of the WeaponResource stays with the WeaponController while others go to the Current Weapon (e.g. FireRate)
+        Position = weaponResource.ViewportPosition;
+        RotationDegrees = weaponResource.ViewportRotation;
+        Scale = weaponResource.ViewportScale;
+
+        // CurrentWeapon is not the WeaponResource itself like the other code. In this case its now the root of the weapon tree
+        // and because of this we cannot rely on it giving correct information. So we pull straight from the Arsenal array
+        WeaponViewportPos = Position;
+        WeaponViewportRot = RotationDegrees;
+
+        // Need to grab some common swaying data from the weapon data. Since all weapons will bob in a similar way
+        // and this procedural sway involves manipulating some nodes then we leave it in the controller
+        IdleSwayAdjustment = weaponResource.IdleSwayAdjustment;
+        IdleSwayRotationStength = weaponResource.IdleSwayRotationStength;
+		IdleSwayStrength = weaponResource.IdleSwayAmmount;
+        IdleSwaySpeed = weaponResource.IdleSwaySpeed;
+
+        MouseInputPositionAmount = weaponResource.MouseInputPositionOffset;
+        MouseInputRotationAmount = weaponResource.MouseInputRotationAmount;
+
+        PositionSwaySpeed = weaponResource.PositionSwaySpeed;
+        RotationSwaySpeed = weaponResource.RotationSwaySpeed;
+
+        MouseSwayMin = weaponResource.MouseSwayMin;
+        MouseSwayMax = weaponResource.MouseSwayMax;
+
+        // Send over Camera and Weapon recoil values to the respective nodes
+        CameraRecoilRef.recoilAmount = weaponResource.CameraRecoilAmount;
+        CameraRecoilRef.snapAmount = weaponResource.CameraSnapAmount;
+        CameraRecoilRef.speed = weaponResource.CameraRecoverySpeed;
+
+        WeaponRecoilRef.recoilAmount = weaponResource.WeaponRecoilAmount;
+        WeaponRecoilRef.snapAmount = weaponResource.WeaponSnapAmount;
+        WeaponRecoilRef.speed = weaponResource.WeaponRecoverySpeed;
+    }
+
     private void LoadWeapon()
     {
         // Ask WeaponFactory to Create the appropriate weapon object based on what the WeaponResource specified
@@ -167,48 +207,16 @@ public partial class WeaponController : Node3D
             return;
         }
         
-        // Some data off of the WeaponResource stays with the WeaponController while others go to the Current Weapon (e.g. FireRate)
-        Position = Arsenal[CurrentWeaponIndex].ViewportPosition;
-        RotationDegrees = Arsenal[CurrentWeaponIndex].ViewportRotation;
-        Scale = Arsenal[CurrentWeaponIndex].ViewportScale;
+        // Once the Current Weapon has been set, we can then parse its associated WeaponResource
+        ParseWeaponResource(in Arsenal[CurrentWeaponIndex]);
 
-        // CurrentWeapon is not the WeaponResource itself like the other code. In this case its now the root of the weapon tree
-        // and because of this we cannot rely on it giving correct information. So we pull straight from the Arsenal array
-        WeaponViewportPos = Position;
-        WeaponViewportRot = RotationDegrees;
-
-        // Need to grab some common swaying data from the weapon data. Since all weapons will bob in a similar way
-        // and this procedural sway involves manipulating some nodes then we leave it in the controller
-        IdleSwayAdjustment = Arsenal[CurrentWeaponIndex].IdleSwayAdjustment;
-        IdleSwayRotationStength = Arsenal[CurrentWeaponIndex].IdleSwayRotationStength;
-		RandSwayStrength = Arsenal[CurrentWeaponIndex].RandomSwayAmmount;
-
-        MouseInputPositionAmount = Arsenal[CurrentWeaponIndex].MouseInputPositionOffset;
-        MouseInputRotationAmount = Arsenal[CurrentWeaponIndex].MouseInputRotationAmount;
-
-        PositionSwaySpeed = Arsenal[CurrentWeaponIndex].PositionSwaySpeed;
-        RotationSwaySpeed = Arsenal[CurrentWeaponIndex].RotationSwaySpeed;
-
-        MouseSwayMin = Arsenal[CurrentWeaponIndex].MouseSwayMin;
-        MouseSwayMax = Arsenal[CurrentWeaponIndex].MouseSwayMax;
-
-        // Send over Camera and Weapon recoil values to the respective nodes
-        CameraRecoilRef.recoilAmount = Arsenal[CurrentWeaponIndex].CameraRecoilAmount;
-        CameraRecoilRef.snapAmount = Arsenal[CurrentWeaponIndex].CameraSnapAmount;
-        CameraRecoilRef.speed = Arsenal[CurrentWeaponIndex].CameraRecoverySpeed;
-
-        WeaponRecoilRef.recoilAmount = Arsenal[CurrentWeaponIndex].WeaponRecoilAmount;
-        WeaponRecoilRef.snapAmount = Arsenal[CurrentWeaponIndex].WeaponSnapAmount;
-        WeaponRecoilRef.speed = Arsenal[CurrentWeaponIndex].WeaponRecoverySpeed;
-
-        // Might want to redesign this in the case you want melee weapons since they dont have reloads
-
-        // Finally insert the Current Weapon scene as a child of the recoil node (for now)
+        // Finally insert the Current Weapon scene as a child of the Jump Recoil Node so that it inherits the transforms
         JumpRecoilRef.AddChild(CurrentWeapon);
+        // Send over the CameraRecoilProxy of the current weapon so that the CameraController has reference to it
         CameraControllerRef.SetCameraReloadLayer(CurrentWeapon.CameraReloadProxy);
     }
 
-    public void WeaponBob(double delta, float BobSpeed, float BobH, float BobV)
+    public void CalculateWeaponBob(double delta, float BobSpeed, float BobH, float BobV)
 	{
 		// Time gives us a new value always
 		Time += (float)delta;
@@ -235,57 +243,60 @@ public partial class WeaponController : Node3D
 		return RandSwayNoise.Noise.GetNoise2D(PlayerPosition.X, PlayerPosition.Y);
 	}
 
-    private  void SwayHelper(ref Vector3 WeaponPos, ref Vector3 WeaponRotDeg, double delta, bool isPlayerMoving, float RandIdleSwayX = 0.0f, float RandIdleSwayY = 0.0f, float RandIdleSwayRotationStength = 0.0f)
-	{
-		// Lerp weapon Pos based on mouse movement.
-		// If MouseMovement is 0 then the only thing left would be the currentWeapon.Position.X/Y - RandomSwayX/Y
-		WeaponPos.X = (float)Mathf.Lerp(WeaponPos.X, WeaponViewportPos.X - (MouseMovement.X *
-			MouseInputPositionAmount + RandIdleSwayX + (isPlayerMoving ? BobAmount.X : 0.0f)) * delta, PositionSwaySpeed);
-		WeaponPos.Y = (float)Mathf.Lerp(WeaponPos.Y, WeaponViewportPos.Y - (MouseMovement.Y *
-			MouseInputPositionAmount + RandIdleSwayY + (isPlayerMoving ? BobAmount.Y : 0.0f)) * delta, PositionSwaySpeed);
-		// Lerp weapon rotation based on mouse movement
-		// Similar concept to position. If MouseMovement.X/Y is 0 then the only thing left would be the
-		// CurrentWeapon.Rotation.Y/X +/- RandomSwayY/X * IdleSwayRotationStrength. This is what causes the idle sway
-		WeaponRotDeg.Y = (float)Mathf.Lerp(WeaponRotDeg.Y, WeaponViewportRot.Y - (MouseMovement.X *
-			MouseInputRotationAmount + (RandIdleSwayY * RandIdleSwayRotationStength)) * delta, RotationSwaySpeed);
-		WeaponRotDeg.X = (float)Mathf.Lerp(WeaponRotDeg.X, WeaponViewportRot.X - (MouseMovement.Y *
-			MouseInputRotationAmount + (RandIdleSwayX * IdleSwayRotationStength)) * delta, RotationSwaySpeed);   
+    private void InterpolateMouseMovement(double delta)
+    {
+        // Return to base position if the mouse is not moving
+		MouseMovement = MouseMovement.Lerp(Vector2.Zero, (float)(delta * 6.0));
+		// Make sure to clamp the sway ammounts 
+		MouseMovement = MouseMovement.Clamp(MouseSwayMin, MouseSwayMax); 
     }
 
-    public void SwayWeapon(double delta, bool isPlayerIdle)
-	{
-		// Return to base position if the mouse is not moving
-		MouseMovement = MouseMovement.Lerp(Vector2.Zero, (float)(delta * 6.0));
-
-		// Make sure to clamp the sway ammounts 
-		MouseMovement = MouseMovement.Clamp(MouseSwayMin, MouseSwayMax);
-		Vector3 WeaponPos = Position;
-		Vector3 WeaponRotDeg = RotationDegrees;
-
-		// Only play random sway when in idle not when moving
+    private void CalculateWeaponSway(ref Vector3 WeaponPos, ref Vector3 WeaponRotDeg, bool isPlayerIdle, double delta)
+    {
+        // Only play random sway when in idle not when moving
 		if (isPlayerIdle)
 		{
 			// Noise gives us random values based on position
 			float RandNoiseValue = GetRandNoiseValue();
 
 			// create time with delta and set two sine values for x and y
-			Time += (float)delta * (RandSwaySpeed + RandNoiseValue); // Notice how we add Randomization
+			Time += (float)delta * (IdleSwaySpeed + RandNoiseValue); // Notice how we add Randomization
 															 // Create a bit of random sin wave with AdjustedRandNoiseValue
 			// The + and - provide a wave shift for more added randomness
 			// The stronger the RandomSwayAmount the less suttle the total sway
             // RandNoiseValue is toned down with IdleSwayAdjustment
-			RandIdleSwayX = (float)Mathf.Sin(Time * 1.5 + RandNoiseValue * IdleSwayAdjustment) / RandSwayStrength;
-			RandIdleSwayY = (float)Mathf.Sin(Time - RandNoiseValue * IdleSwayAdjustment) / RandSwayStrength;
-
-			// ref key word allows to pass arguments by reference
-			SwayHelper(ref WeaponPos, ref WeaponRotDeg, delta, false, RandIdleSwayX, RandIdleSwayY, IdleSwayRotationStength);
-		}
-		else
-		{
-			SwayHelper(ref WeaponPos, ref WeaponRotDeg, delta, true);
+			IdleSwayX = (float)Mathf.Sin(Time * 1.5 + RandNoiseValue * IdleSwayAdjustment) / IdleSwayStrength;
+			IdleSwayY = (float)Mathf.Sin(Time - RandNoiseValue * IdleSwayAdjustment) / IdleSwayStrength;
 		}
 
-		// Set the Weapon position and rotation in degrees
+        // Lerp weapon Pos based on mouse movement.
+		// If MouseMovement is 0 then the only thing left would be the currentWeapon.Position.X/Y - RandomSwayX/Y
+		WeaponPos.X = (float)Mathf.Lerp(WeaponPos.X, WeaponViewportPos.X - (MouseMovement.X *
+			MouseInputPositionAmount + IdleSwayX + (!isPlayerIdle ? BobAmount.X : 0.0f)) * delta, PositionSwaySpeed);
+		WeaponPos.Y = (float)Mathf.Lerp(WeaponPos.Y, WeaponViewportPos.Y - (MouseMovement.Y *
+			MouseInputPositionAmount + IdleSwayY + (!isPlayerIdle ? BobAmount.Y : 0.0f)) * delta, PositionSwaySpeed);
+		// Lerp weapon rotation based on mouse movement
+		// Similar concept to position. If MouseMovement.X/Y is 0 then the only thing left would be the
+		// CurrentWeapon.Rotation.Y/X +/- RandomSwayY/X * IdleSwayRotationStrength. This is what causes the idle sway
+		WeaponRotDeg.Y = (float)Mathf.Lerp(WeaponRotDeg.Y, WeaponViewportRot.Y - (MouseMovement.X *
+			MouseInputRotationAmount + (IdleSwayY * IdleSwayRotationStength)) * delta, RotationSwaySpeed);
+		WeaponRotDeg.X = (float)Mathf.Lerp(WeaponRotDeg.X, WeaponViewportRot.X - (MouseMovement.Y *
+			MouseInputRotationAmount + (IdleSwayX * IdleSwayRotationStength)) * delta, RotationSwaySpeed); 
+
+    }
+    public void ApplyWeaponSway(double delta, bool isPlayerIdle)
+	{
+        // Must constantly set the captured mouse movement back to base origin
+		InterpolateMouseMovement(delta);
+
+        // Grab copies of the current Position and Rotation in degrees. Dont want to set them directly
+		Vector3 WeaponPos = Position;
+		Vector3 WeaponRotDeg = RotationDegrees;
+
+        // Hand off actual sway calculation to function
+		CalculateWeaponSway(ref WeaponPos, ref WeaponRotDeg, isPlayerIdle, delta);
+
+		// Set the WeaponControllers Position and Rotation in degrees
 		Position = WeaponPos;
 		RotationDegrees = WeaponRotDeg;
 	}
@@ -295,11 +306,11 @@ public partial class WeaponController : Node3D
         // Take the current movement weapon profile and apply it specified values
         // over to the procedural weapon system. We call SwayWeapon only if the profile specified
         // IsIdle and call WeaponBob by passing the Bob values.
-        SwayWeapon(delta, CurrentWeaponMovementProfie.IsIdle);
+        ApplyWeaponSway(delta, CurrentWeaponMovementProfie.IsIdle);
 
         // If bob speed is < 0 then it means that not weapon bob should take place
         if(CurrentWeaponMovementProfie.BobSpeed > 0.0f)
-            WeaponBob(
+            CalculateWeaponBob(
                 delta,
                 CurrentWeaponMovementProfie.BobSpeed,
                 CurrentWeaponMovementProfie.HorizontalBobAmount,
@@ -310,7 +321,6 @@ public partial class WeaponController : Node3D
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
-
         // Apply procedural weapon sway and bobbing based on the currently loaded movement profile
         // which is specified by each of the movement states. This approach is better since we prevent
         // a potentially large condition tree that specifies each movement state. 
@@ -322,9 +332,7 @@ public partial class WeaponController : Node3D
         base._Process(delta);
         // Apply FireMode update which will update the FireCooldown. Once it reaches <= 0 then the CurrentWeapon can now fire
         PrimaryFireMode?.Update(delta);
-        
         SecondaryFireMode?.Update(delta);
-
     }
 
     private void OnMovementStateChange(State NextMovementState)
