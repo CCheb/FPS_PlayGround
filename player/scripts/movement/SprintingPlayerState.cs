@@ -14,7 +14,7 @@ public partial class SprintingPlayerState : PlayerMovementState
     [ExportGroup("Weapon Movement Profile")]
     [Export] public bool IsIdle = false;
     [Export] public float BobSpeed = 5.0f;
-    [Export] public float BobH = 2.0f;
+    [Export] public float BobH = 4.0f;
     [Export] public float BobV = 8.0f;
 
     public override void Init()
@@ -24,8 +24,8 @@ public partial class SprintingPlayerState : PlayerMovementState
         {
             IsIdle = this.IsIdle,
             BobSpeed = this.BobSpeed,
-            BobH = this.BobH,
-            BobV = this.BobV
+            HorizontalBobAmount = this.BobH,
+            VerticalBobAmount = this.BobV
         };
     }
     // On enter we play the sprinting animation
@@ -77,7 +77,6 @@ public partial class SprintingPlayerState : PlayerMovementState
         // Transition over to Fallling Player State
         if (PLAYER.Velocity.Y < -3.0f && !PLAYER.IsOnFloor())
             EmitSignal(SignalName.Transition, "FallingPlayerState");
-        
         
     }
 

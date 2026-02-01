@@ -1,6 +1,7 @@
 using Godot;
 using System;
 
+
 // GlobalClass means that the class will be visible in the editor
 [GlobalClass]
 public partial class WeaponResource : Resource
@@ -10,37 +11,37 @@ public partial class WeaponResource : Resource
     // This is the cartrige that gets inserted into the Weapon 'console'
     // we can always swap cartriges in and out
     
-    [Export] public string Name;
+    [Export] public string WeaponName;
     [Export] public Globals.WeaponTypes WeaponType;
     [Export] public Globals.FireModes PrimaryFireMode;
     [Export] public Globals.FireModes SecondaryFireMode;
      /* Weapon Transform*/
     //------------------------
     [ExportGroup("Weapon Transform")]
-    [Export] public Vector3 Position;
-    [Export] public Vector3 Rotation;
-    [Export] public Vector3 Scale;
+    [Export] public Vector3 ViewportPosition;
+    [Export] public Vector3 ViewportRotation;
+    [Export] public Vector3 ViewportScale = new Vector3(1.0f, 1.0f, 1.0f);
 
      /* Weapon Sway */
     //------------------------
     [ExportGroup("Weapon Sway")]
     // Clamp the amount of mouse movement that will be used to sway the weapon
     // Total sway ranges. How much you can sway left and right
-    [Export] public Vector2 SwayMin = new Vector2(-20.0f, -20.0f);
-    [Export] public Vector2 SwayMax = new Vector2(20.0f, 20.0f);
+    [Export] public Vector2 MouseSwayMin = new Vector2(-20.0f, -20.0f);
+    [Export] public Vector2 MouseSwayMax = new Vector2(20.0f, 20.0f);
     // Speed will set the alphas of the lerp. How fast is the sway
-    [Export(PropertyHint.Range, "0, 0.2, 0.01")] public float SwaySpeedPosition = 0.07f;
-    [Export(PropertyHint.Range, "0, 0.2, 0.01")] public float SwaySpeedRotation = 0.1f;
+    [Export(PropertyHint.Range, "0, 0.2, 0.01")] public float PositionSwaySpeed = 0.07f;
+    [Export(PropertyHint.Range, "0, 0.2, 0.01")] public float RotationSwaySpeed = 0.1f;
     // Manipulate mouse movement value
-    [Export(PropertyHint.Range, "0, 0.50, 0.01")] public float SwayAmountPosition = 0.1f;
-    [Export(PropertyHint.Range, "0, 0.50, 0.1")] public float SwayAmountRotation = 30.0f;
+    [Export(PropertyHint.Range, "0, 0.50, 0.01")] public float MouseInputPositionOffset = 0.1f;
+    [Export(PropertyHint.Range, "0, 0.50, 0.1")] public float MouseInputRotationAmount = 30.0f;
 
     /* Random Idle Sway */
     //------------------------
     [ExportGroup("Random Idle Sway")]
     // Adjust idle sway amount
     [Export] public float IdleSwayAdjustment = 10.0f;
-    // Adjust strength or rotation
+    // Adjust strength of rotation
     [Export] public float IdleSwayRotationStength = 300.0f;
     // Adjust the strength of the sine wave
     [Export] public float RandomSwayAmmount = 5.0f;

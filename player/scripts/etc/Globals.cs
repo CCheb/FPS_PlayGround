@@ -40,8 +40,8 @@ public partial class Globals : Node
         public bool IsIdle;
 
         public float BobSpeed;
-        public float BobH;
-        public float BobV;
+        public float HorizontalBobAmount;
+        public float VerticalBobAmount;
     }
 
 

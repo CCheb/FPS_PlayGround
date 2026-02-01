@@ -15,8 +15,8 @@ public partial class IdlePlayerState : PlayerMovementState
         {
             IsIdle = true,
             BobSpeed = 0.0f,
-            BobH = 0.0f,
-            BobV = 0.0f
+            HorizontalBobAmount = 0.0f,
+            VerticalBobAmount = 0.0f
         };
     }
 

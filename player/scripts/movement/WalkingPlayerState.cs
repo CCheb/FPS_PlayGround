@@ -24,8 +24,8 @@ public partial class WalkingPlayerState : PlayerMovementState
         {
             IsIdle = false,
             BobSpeed = this.BobSpeed,
-            BobH = this.BobH,
-            BobV = this.BobV
+            HorizontalBobAmount= this.BobH,
+            VerticalBobAmount = this.BobV
         };
     }
 

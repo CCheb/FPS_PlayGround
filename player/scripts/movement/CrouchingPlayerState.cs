@@ -27,16 +27,16 @@ public partial class CrouchingPlayerState : PlayerMovementState
         {
             IsIdle = false,
             BobSpeed = this.BobSpeed,
-            BobH = this.BobH,
-            BobV = this.BobV
+            HorizontalBobAmount = BobH,
+            VerticalBobAmount = BobV
         };
 
         CrouchIdleMovementProfile = new Globals.WeaponMovementProfle
         {
             IsIdle = true,
             BobSpeed = 0.0f,
-            BobH = 0.0f,
-            BobV = 0.0f
+            HorizontalBobAmount = 0.0f,
+            VerticalBobAmount = 0.0f
 
         };
 

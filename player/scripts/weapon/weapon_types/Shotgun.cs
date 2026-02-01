@@ -96,7 +96,8 @@ public partial class Shotgun : WeaponBase
 		    // We send the position of contact and the normal vector of the surface
 
             // Bullet decal 
-            SpawnDecal((Vector3)result["position"]);
+            if(result.Count != 0)
+                SpawnDecal((Vector3)result["position"]);
             
         }
 
