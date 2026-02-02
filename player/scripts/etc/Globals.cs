@@ -16,7 +16,7 @@ public partial class Globals : Node
         Beam
     }
 
-    public enum FireModes
+    public enum WeaponActions
     {
         FullAuto,
         SemiAuto,

@@ -19,10 +19,10 @@ metadata/_custom_type_script = "uid://bcp38umewjpfl"
 
 [resource]
 script = ExtResource("3_pl0lx")
-Name = "PUMPSHOT"
+WeaponName = "SHOTGUN"
 WeaponType = 2
-PrimaryFireMode = 1
-SecondaryFireMode = 3
+PrimaryWeaponAction = 1
+SecondaryWeaponAction = 3
 ViewportPosition = Vector3(0, -0.3, 0.05)
 WeaponScene = ExtResource("2_wtfdq")
 CameraRecoilAmount = Vector3(0.15, 0.05, 0)

@@ -1,8 +1,5 @@
 using Godot;
 using System;
-using System.Reflection.Metadata;
-using System.Threading.Tasks.Dataflow;
-
 
 public partial class WeaponController : Node3D
 {
@@ -12,7 +9,7 @@ public partial class WeaponController : Node3D
     // Default to the Idle movement state. Only receives the movement state enum
     private Globals.MovementStates CurrentMovementState = Globals.MovementStates.Idle;
     // We initiallize CurrentWeaponMovementProfile to the Idle profile by default since the signal wont be called automatically
-    private Globals.WeaponMovementProfle CurrentWeaponMovementProfie = new Globals.WeaponMovementProfle
+    private Globals.WeaponMovementProfle CurrentWeaponMovementProfile = new Globals.WeaponMovementProfle
     {
         IsIdle = true,
         BobSpeed = 0.0f,
@@ -36,8 +33,8 @@ public partial class WeaponController : Node3D
     // CurrentWeapon holds the Weapon Scene of any of the arsenal weapon resources
     private WeaponBase CurrentWeapon;
     // PrimaryFireMode will hold the current fire mode (full, semi, burst, shotgun) specified by the WeaponResource
-    private IFireMode PrimaryFireMode;
-    private IFireMode SecondaryFireMode;
+    private IWeaponAction CurrentPrimaryWeaponAction;
+    private IWeaponAction CurrentSecondaryWeaponAction;
     // Need reference to the Camera Controller so that we can pass it over to the Current Weapon Object
     [Export] public CameraController CameraControllerRef;
     // Need reference to the Camera Recoil node so that we can give it a recoil effect
@@ -72,6 +69,7 @@ public partial class WeaponController : Node3D
     private Vector2 MouseSwayMax;
     private Vector3 WeaponViewportPos;
     private Vector3 WeaponViewportRot;
+
     public override void _Ready()
     {
         base._Ready();
@@ -97,17 +95,17 @@ public partial class WeaponController : Node3D
         // if it is null then a null exception is thrown automatically. In _Input, the event actions
         // are not polled and are only triggered once everytime the key is pressed 
         if(@event.IsActionPressed("primary_action"))
-            PrimaryFireMode?.OnTriggerPressed();
+            CurrentPrimaryWeaponAction?.OnActionPressed();
 
-        // PrimaryFireMode will receive this and handle it accordingly 
+        // PrimaryAction will receive this and handle it accordingly 
         if(@event.IsActionReleased("primary_action"))
-            PrimaryFireMode?.OnTriggerReleased();
+            CurrentPrimaryWeaponAction?.OnActionReleased();
     
         if(@event.IsActionPressed("secondary_action"))
-            SecondaryFireMode?.OnTriggerPressed();
+            CurrentSecondaryWeaponAction?.OnActionPressed();
         
         if(@event.IsActionReleased("secondary_action"))
-            SecondaryFireMode?.OnTriggerReleased();
+            CurrentSecondaryWeaponAction?.OnActionReleased();
         
 
         // FireMode only cares on when the current weapon should shoot. Thus Reload should be kept within the Weapon
@@ -181,7 +179,7 @@ public partial class WeaponController : Node3D
         WeaponRecoilRef.speed = weaponResource.WeaponRecoverySpeed;
     }
 
-    private void LoadWeapon()
+    private void UpdateCurrentWeapon()
     {
         // Ask WeaponFactory to Create the appropriate weapon object based on what the WeaponResource specified
         // Not everything gets setup in the Controller thus we pass its WeaponData and Controller forward 
@@ -191,39 +189,53 @@ public partial class WeaponController : Node3D
             GD.PrintErr("CurrentWeapon is null (Invalid Weapon Type)");
             return;
         }
+    }
 
+    private void UpdateCurrentWeaponActions()
+    {
         // Ask FireModeFactory to Create the appropriate firemode object based on what the WeaponResource specified
-        PrimaryFireMode = FireModeFactory.Create(Arsenal[CurrentWeaponIndex], CurrentWeapon, Arsenal[CurrentWeaponIndex].PrimaryFireMode);
-        if(PrimaryFireMode == null)
+        if(Arsenal[CurrentWeaponIndex].PrimaryWeaponAction == Globals.WeaponActions.NoAction)
+            return;
+    
+        CurrentPrimaryWeaponAction = FireModeFactory.CreateNewWeaponAction(Arsenal[CurrentWeaponIndex], CurrentWeapon, Arsenal[CurrentWeaponIndex].PrimaryWeaponAction);
+        if(CurrentPrimaryWeaponAction == null)
         {
             GD.PrintErr("PrimaryFireMode is null (Invalid Fire Mode Type)");
-            return;
         }
 
-        SecondaryFireMode = FireModeFactory.Create(Arsenal[CurrentWeaponIndex], CurrentWeapon, Arsenal[CurrentWeaponIndex].SecondaryFireMode);
-        if(PrimaryFireMode == null)
+        if(Arsenal[CurrentWeaponIndex].SecondaryWeaponAction == Globals.WeaponActions.NoAction)
+            return;
+
+        CurrentSecondaryWeaponAction = FireModeFactory.CreateNewWeaponAction(Arsenal[CurrentWeaponIndex], CurrentWeapon, Arsenal[CurrentWeaponIndex].SecondaryWeaponAction);
+        if(CurrentSecondaryWeaponAction == null )
         {
             GD.PrintErr("SecondaryFireMode is null (Invalid Fire Mode Type)");
-            return;
-        }
-        
-        // Once the Current Weapon has been set, we can then parse its associated WeaponResource
-        ParseWeaponResource(in Arsenal[CurrentWeaponIndex]);
+            
+        } 
+    }
 
+    private void LoadWeapon()
+    {
+        // To load new weapon we must update the CurrentWeapon Variable
+        UpdateCurrentWeapon();
+        // To load new weapon we must update the Current Primary and Secondary Action variables
+        UpdateCurrentWeaponActions();
+        // Once the Current Weapon and Actions have been set, we can then parse its associated WeaponResource
+        ParseWeaponResource(in Arsenal[CurrentWeaponIndex]);
         // Finally insert the Current Weapon scene as a child of the Jump Recoil Node so that it inherits the transforms
         JumpRecoilRef.AddChild(CurrentWeapon);
         // Send over the CameraRecoilProxy of the current weapon so that the CameraController has reference to it
         CameraControllerRef.SetCameraReloadLayer(CurrentWeapon.CameraReloadProxy);
     }
 
-    public void CalculateWeaponBob(double delta, float BobSpeed, float BobH, float BobV)
+    public void CalculateWeaponBob(double delta)
 	{
 		// Time gives us a new value always
 		Time += (float)delta;
 
 		// Sin(X/Y * frequency) * amplitude
-		BobAmount.X = Mathf.Sin(Time * BobSpeed) * BobH;
-		BobAmount.Y = Mathf.Abs(Mathf.Cos(Time * BobSpeed) * BobV);
+		BobAmount.X = Mathf.Sin(Time * CurrentWeaponMovementProfile.BobSpeed) * CurrentWeaponMovementProfile.HorizontalBobAmount;
+		BobAmount.Y = Mathf.Abs(Mathf.Cos(Time * CurrentWeaponMovementProfile.BobSpeed) * CurrentWeaponMovementProfile.VerticalBobAmount);
 	}
 
     private float GetRandNoiseValue()
@@ -306,16 +318,11 @@ public partial class WeaponController : Node3D
         // Take the current movement weapon profile and apply it specified values
         // over to the procedural weapon system. We call SwayWeapon only if the profile specified
         // IsIdle and call WeaponBob by passing the Bob values.
-        ApplyWeaponSway(delta, CurrentWeaponMovementProfie.IsIdle);
+        ApplyWeaponSway(delta, CurrentWeaponMovementProfile.IsIdle);
 
         // If bob speed is < 0 then it means that not weapon bob should take place
-        if(CurrentWeaponMovementProfie.BobSpeed > 0.0f)
-            CalculateWeaponBob(
-                delta,
-                CurrentWeaponMovementProfie.BobSpeed,
-                CurrentWeaponMovementProfie.HorizontalBobAmount,
-                CurrentWeaponMovementProfie.VerticalBobAmount
-            );
+        if(CurrentWeaponMovementProfile.BobSpeed > 0.0f)
+            CalculateWeaponBob(delta);
     }
 
     public override void _PhysicsProcess(double delta)
@@ -331,8 +338,8 @@ public partial class WeaponController : Node3D
     {
         base._Process(delta);
         // Apply FireMode update which will update the FireCooldown. Once it reaches <= 0 then the CurrentWeapon can now fire
-        PrimaryFireMode?.Update(delta);
-        SecondaryFireMode?.Update(delta);
+        CurrentPrimaryWeaponAction?.Update(delta);
+        CurrentSecondaryWeaponAction?.Update(delta);
     }
 
     private void OnMovementStateChange(State NextMovementState)
@@ -340,6 +347,6 @@ public partial class WeaponController : Node3D
         // Triggered every time a new movement state is loaded. In this case we
         // grab the new state's name and specified weapon profile
         CurrentMovementState = NextMovementState.GetStateName();
-        CurrentWeaponMovementProfie = NextMovementState.GetWeaponProfile();
+        CurrentWeaponMovementProfile = NextMovementState.GetWeaponProfile();
     }
 }

@@ -20,8 +20,8 @@ metadata/_custom_type_script = "uid://bcp38umewjpfl"
 
 [resource]
 script = ExtResource("2_2o6jh")
-Name = "PISTOL"
-PrimaryFireMode = 1
+WeaponName = "PISTOL"
+PrimaryWeaponAction = 1
 ViewportPosition = Vector3(-0.02, -0.2, 0.08)
 WeaponScene = ExtResource("1_an6xq")
 CameraRecoilAmount = Vector3(0.15, 0.05, 0)

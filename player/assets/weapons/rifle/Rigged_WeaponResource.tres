@@ -24,7 +24,7 @@ metadata/_custom_type_script = "uid://bcp38umewjpfl"
 
 [resource]
 script = ExtResource("2_d07vf")
-SecondaryFireMode = 3
+WeaponName = "RIFLE"
 ViewportPosition = Vector3(0.09, -0.41, 0.12)
 ViewportRotation = Vector3(0, -10, 0)
 ViewportScale = Vector3(0.8, 0.8, 0.8)

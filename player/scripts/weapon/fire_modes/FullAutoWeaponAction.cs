@@ -1,19 +1,19 @@
 using Godot;
 using System;
 
-public partial class FullAutoFireMode : IFireMode
+public partial class FullAutoWeaponAction : IWeaponAction
 {
     private WeaponBase CurrentWeapon;
     private bool IsHeld = false;
     private float Timer = 0.0f;
     private float Interval = 0.0f;
-    public FullAutoFireMode(WeaponBase CurrentWeapon, float FireRate)
+    public FullAutoWeaponAction(WeaponBase CurrentWeapon, float FireRate)
     {
         this.CurrentWeapon = CurrentWeapon;
         // Fire rate is in terms of RPM (Rounds Per Minute)
         Interval = 60.0f/FireRate;
     }
-    public void OnTriggerPressed()
+    public void OnActionPressed()
     {
         IsHeld = true;
 
@@ -27,7 +27,7 @@ public partial class FullAutoFireMode : IFireMode
         }
     } 
 
-    public void OnTriggerReleased() => IsHeld = false;
+    public void OnActionReleased() => IsHeld = false;
 
     public void Update(double delta)
     {

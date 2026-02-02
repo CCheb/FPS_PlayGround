@@ -1,17 +1,17 @@
 using Godot;
 using System;
 
-public partial class SemiAutoFireMode : IFireMode
+public partial class SemiAutoWeaponAction : IWeaponAction
 {
     private WeaponBase CurrentWeapon;
     private bool CanFire = true;
 
-    public SemiAutoFireMode(WeaponBase weapon)
+    public SemiAutoWeaponAction(WeaponBase weapon)
     {
         CurrentWeapon = weapon;
     }
 
-    public void OnTriggerPressed()
+    public void OnActionPressed()
     {
         if (!CanFire || CurrentWeapon.IsReloading || CurrentWeapon.IsFiring)
             return;
@@ -21,7 +21,7 @@ public partial class SemiAutoFireMode : IFireMode
         CanFire = false;
     }
 
-    public void OnTriggerReleased()
+    public void OnActionReleased()
     {   
         // Need to let go of the trigger before the weapon can shoot again. This is the core
         // of a semi-auto fire mode
