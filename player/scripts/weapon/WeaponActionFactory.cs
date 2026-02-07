@@ -3,7 +3,7 @@ using System;
 
 public static partial class FireModeFactory
 {
-    public static IWeaponAction CreateNewWeaponAction(WeaponResource WeaponData, WeaponBase CurrentWeapon, Globals.WeaponActions CurrentWeaponAction)
+    public static IWeaponAction CreateNewWeaponAction(WeaponController weaponController, WeaponResource WeaponData, WeaponBase CurrentWeapon, Globals.WeaponActions CurrentWeaponAction)
     {
         switch(CurrentWeaponAction)
         {
@@ -13,6 +13,8 @@ public static partial class FireModeFactory
                 return new FullAutoWeaponAction(CurrentWeapon, WeaponData.FireRate);
             case Globals.WeaponActions.SemiAuto :
                 return new SemiAutoWeaponAction(CurrentWeapon);
+            case Globals.WeaponActions.Zoom :
+                return new ZoomWeaponAction(weaponController);
             case Globals.WeaponActions.NoAction :
                 return null;
             default :

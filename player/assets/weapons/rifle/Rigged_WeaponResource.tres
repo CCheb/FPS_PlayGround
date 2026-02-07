@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="WeaponResource" load_steps=7 format=3 uid="uid://crp28eo8i70od"]
+[gd_resource type="Resource" script_class="WeaponResource" format=3 uid="uid://crp28eo8i70od"]
 
 [ext_resource type="PackedScene" uid="uid://d4jl6d21m0ope" path="res://player/assets/weapons/rifle/rigged_rifle.tscn" id="1_5qr2q"]
 [ext_resource type="Script" uid="uid://c8of8infi526n" path="res://player/scripts/etc/AnimationProfile.cs" id="1_hvacs"]
@@ -14,13 +14,11 @@ script = ExtResource("1_hvacs")
 AnimationName = "Rig|AK_Shot"
 BlendAmount = 0.03
 AnimationSpeed = 5.0
-metadata/_custom_type_script = "uid://bcp38umewjpfl"
 
 [sub_resource type="Resource" id="Resource_1su4r"]
 script = ExtResource("1_hvacs")
 AnimationName = "Rig|AK_Reload"
 BlendAmount = 0.03
-metadata/_custom_type_script = "uid://bcp38umewjpfl"
 
 [resource]
 script = ExtResource("2_d07vf")
