@@ -23,14 +23,14 @@ BlendAmount = 0.03
 [resource]
 script = ExtResource("2_d07vf")
 WeaponName = "RIFLE"
-ViewportPosition = Vector3(0.09, -0.41, 0.12)
+ViewportPosition = Vector3(0.09, -0.4, -0.01)
 ViewportRotation = Vector3(0, -10, 0)
 ViewportScale = Vector3(0.8, 0.8, 0.8)
 WeaponScene = ExtResource("1_5qr2q")
 CameraRecoilAmount = Vector3(0.15, 0.05, 0)
 CameraSnapAmount = 8.0
 CameraRecoverySpeed = 4.0
-WeaponRecoilAmount = Vector3(0.01, 0.01, 0.4)
+WeaponRecoilAmount = Vector3(0.01, 0.01, 0.3)
 WeaponSnapAmount = 10.0
 WeaponRecoverySpeed = 20.0
 FireRate = 550.0

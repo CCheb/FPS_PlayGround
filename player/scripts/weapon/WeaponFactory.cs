@@ -1,8 +1,6 @@
 using Godot;
 using System;
 
-
-// A Static Class is essentially a namespaced function
 public static class WeaponFactory 
 {
 	public static WeaponBase Create(WeaponResource WeaponData, WeaponController Controller)
@@ -23,7 +21,5 @@ public static class WeaponFactory
 				return NewWeapon;
 			default : return null;
 		}
-		
 	}
-
 }

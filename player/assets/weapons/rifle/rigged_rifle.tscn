@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=4 uid="uid://d4jl6d21m0ope"]
+[gd_scene format=4 uid="uid://d4jl6d21m0ope"]
 
 [ext_resource type="Script" uid="uid://bgd35mmig5al6" path="res://player/scripts/weapon/weapon_types/Hitscan.cs" id="1_1r754"]
 [ext_resource type="Texture2D" uid="uid://6op4nhg4yiqq" path="res://player/assets/weapons/rifle/fps_ak-74m_animations_0.png" id="1_6ays8"]
@@ -3720,38 +3720,38 @@ particles_anim_loop = false
 material = SubResource("StandardMaterial3D_ye2rt")
 size = Vector2(0.5, 0.5)
 
-[node name="Node3D" type="Node3D" node_paths=PackedStringArray("ShellEjectionMarker")]
+[node name="Node3D" type="Node3D" unique_id=1807944635 node_paths=PackedStringArray("ShellEjectionMarker")]
 script = ExtResource("1_1r754")
 ShellCasingScene = ExtResource("2_pk0yu")
 ShellEjectionMarker = NodePath("ShellEjection")
 
-[node name="Meshes" type="Node3D" parent="."]
+[node name="Meshes" type="Node3D" parent="." unique_id=991107781]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, 0, 0)
 
-[node name="Sketchfab_model" type="Node3D" parent="Meshes"]
+[node name="Sketchfab_model" type="Node3D" parent="Meshes" unique_id=1707401329]
 transform = Transform3D(1.9919506, 0, 0, 0, 4.423019e-16, 1.9919506, 0, -1.9919506, 4.423019e-16, 0, 0, 0)
 
-[node name="810f0276179d4425a118b331d5f38189_fbx" type="Node3D" parent="Meshes/Sketchfab_model"]
+[node name="810f0276179d4425a118b331d5f38189_fbx" type="Node3D" parent="Meshes/Sketchfab_model" unique_id=932969205]
 transform = Transform3D(0.01, 0, 0, 0, 0, -0.01, 0, 0.01, 0, 0, 0, 0)
 
-[node name="Object_2" type="Node3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx"]
+[node name="Object_2" type="Node3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx" unique_id=1726401988]
 
-[node name="RootNode" type="Node3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2"]
+[node name="RootNode" type="Node3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2" unique_id=1107594948]
 
-[node name="arms" type="Node3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode"]
+[node name="arms" type="Node3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode" unique_id=251099494]
 transform = Transform3D(100, 0, 0, 0, -1.1920931e-05, 100, 0, -100, -1.1920931e-05, 0, 0, 0)
 
-[node name="Camera" type="Node3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode"]
+[node name="Camera" type="Node3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode" unique_id=770565428]
 transform = Transform3D(1.7881395e-05, 3.2584147e-05, -100, 0, 100, 3.2584147e-05, 100, -5.8265e-12, 1.7881395e-05, 0, 23.671951, -7.918202)
 
-[node name="Object_6" type="Node3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode/Camera"]
+[node name="Object_6" type="Node3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode/Camera" unique_id=2130976116]
 
-[node name="Rig" type="Node3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode"]
+[node name="Rig" type="Node3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode" unique_id=973927309]
 transform = Transform3D(100, 0, 0, 0, -1.1920931e-05, 100, 0, -100, -1.1920931e-05, 0, 0, 0)
 
-[node name="Object_8" type="Node3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode/Rig"]
+[node name="Object_8" type="Node3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode/Rig" unique_id=1436668353]
 
-[node name="Skeleton3D" type="Skeleton3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode/Rig/Object_8"]
+[node name="Skeleton3D" type="Skeleton3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode/Rig/Object_8" unique_id=1562423460]
 bones/0/name = "_rootJoint"
 bones/0/parent = -1
 bones/0/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
@@ -4348,52 +4348,50 @@ bones/84/position = Vector3(-3.469447e-18, 0.2017866, 5.551115e-17)
 bones/84/rotation = Quaternion(-5.421011e-20, 5.293956e-23, 2.5849394e-26, 1)
 bones/84/scale = Vector3(1, 1, 1)
 
-[node name="Object_11" type="MeshInstance3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode/Rig/Object_8/Skeleton3D"]
+[node name="Object_11" type="MeshInstance3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode/Rig/Object_8/Skeleton3D" unique_id=1226387331]
 layers = 2
 mesh = SubResource("ArrayMesh_p30j0")
 skin = SubResource("Skin_l3ny0")
 
-[node name="Object_97" type="MeshInstance3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode/Rig/Object_8/Skeleton3D"]
+[node name="Object_97" type="MeshInstance3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode/Rig/Object_8/Skeleton3D" unique_id=2065412070]
 layers = 2
 mesh = SubResource("ArrayMesh_k10dh")
 skin = SubResource("Skin_l3ny0")
 
-[node name="Object_99" type="MeshInstance3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode/Rig/Object_8/Skeleton3D"]
+[node name="Object_99" type="MeshInstance3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode/Rig/Object_8/Skeleton3D" unique_id=1703278489]
 layers = 2
 mesh = SubResource("ArrayMesh_jm2un")
 skin = SubResource("Skin_l3ny0")
 
-[node name="Object_10" type="Node3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode/Rig/Object_8"]
+[node name="Object_10" type="Node3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode/Rig/Object_8" unique_id=1702886383]
 transform = Transform3D(100, 0, 0, 0, 6.1232338e-15, 100, 0, -100, 6.1232338e-15, 0, 0, 0)
 
-[node name="Object_96" type="Node3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode/Rig/Object_8"]
+[node name="Object_96" type="Node3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode/Rig/Object_8" unique_id=1272421435]
 transform = Transform3D(100, 0, 0, 0, 6.1232338e-15, 100, 0, -100, 6.1232338e-15, 0, 0, 0)
 
-[node name="Object_98" type="Node3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode/Rig/Object_8"]
+[node name="Object_98" type="Node3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode/Rig/Object_8" unique_id=1216024493]
 transform = Transform3D(100, 0, 0, 0, 6.1232338e-15, 100, 0, -100, 6.1232338e-15, 3.511518e-05, -2.6376188, 25.10151)
 
-[node name="Ak" type="Node3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode"]
+[node name="Ak" type="Node3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode" unique_id=1339938215]
 transform = Transform3D(100, 0, 0, 0, -1.1920931e-05, 100, 0, -100, -1.1920931e-05, 0, 0, 0)
 
-[node name="Mag_2" type="Node3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode"]
+[node name="Mag_2" type="Node3D" parent="Meshes/Sketchfab_model/810f0276179d4425a118b331d5f38189_fbx/Object_2/RootNode" unique_id=776695156]
 transform = Transform3D(100, 0, 0, 0, -1.1920931e-05, 100, 0, -100, -1.1920931e-05, 3.511518e-05, -2.6376188, 25.10151)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Meshes"]
-libraries = {
-&"": SubResource("AnimationLibrary_evs2u")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Meshes" unique_id=1454882355]
+libraries/ = SubResource("AnimationLibrary_evs2u")
 
-[node name="MuzzleFlash" type="Node3D" parent="."]
+[node name="MuzzleFlash" type="Node3D" parent="." unique_id=1226307414]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.050229795, 0.23555088, -2.0206797)
 script = ExtResource("7_fjmvn")
 
-[node name="OmniLight3D" type="OmniLight3D" parent="MuzzleFlash"]
+[node name="OmniLight3D" type="OmniLight3D" parent="MuzzleFlash" unique_id=779418486]
 visible = false
 layers = 3
 light_color = Color(0.94709367, 0.54721016, 0.10771819, 1)
 light_energy = 2.5
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="MuzzleFlash"]
+[node name="GPUParticles3D" type="GPUParticles3D" parent="MuzzleFlash" unique_id=1784158497]
 layers = 2
 emitting = false
 lifetime = 0.05
@@ -4402,13 +4400,13 @@ explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_pk0yu")
 draw_pass_1 = SubResource("QuadMesh_r6is0")
 
-[node name="ShellEjection" type="Marker3D" parent="."]
+[node name="ShellEjection" type="Marker3D" parent="." unique_id=856488564]
 transform = Transform3D(0.9785953, -0.20579427, 0, 0.20579427, 0.9785953, 0, 0, 0, 1, 0.12221612, 0.29348117, -0.5793804)
 
-[node name="GunSound" type="AudioStreamPlayer3D" parent="."]
+[node name="GunSound" type="AudioStreamPlayer3D" parent="." unique_id=1132927416]
 stream = ExtResource("10_l2tfn")
 
-[node name="CameraReloadProxy" type="Node3D" parent="."]
+[node name="CameraReloadProxy" type="Node3D" parent="." unique_id=184982015]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.09, 0.41, -0.12)
 
-[node name="Camera3D" type="Camera3D" parent="CameraReloadProxy"]
+[node name="Camera3D" type="Camera3D" parent="CameraReloadProxy" unique_id=421395975]

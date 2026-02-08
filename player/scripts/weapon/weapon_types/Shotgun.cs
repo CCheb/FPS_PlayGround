@@ -13,10 +13,10 @@ public partial class Shotgun : WeaponBase
 
     // Its vital that we initialize the corresponding WeaponData and Controller variables
     // before we start passing out information from WeaponData
-    public override void Initiallize(WeaponResource WeaponData, WeaponController Controller)
+    public override void Initiallize(WeaponResource WeaponData, WeaponController weaponController)
     {
         this.WeaponData = WeaponData;
-        this.Controller = Controller;
+        this.weaponController = weaponController;
     }
 
     public override void _Ready()
@@ -25,10 +25,12 @@ public partial class Shotgun : WeaponBase
         
         // No need to initialize Position, Rotation, and Scale here since the WeaponController is already doing that for us
         // We do however need to initialize more weapon specific things like nodes
+        SetWeaponNodes();
+        FireAnimationSpeed = CalculateFireAnimationSpeed();
+    }
 
-        // Make sure to instantiate the Weapon Scene because without it Rifle is just pure logic
-        WeaponScene = WeaponData.WeaponScene.Instantiate<Node3D>();
-
+    private void SetWeaponNodes()
+    {
         MuzzleFlashRef = GetNode<MuzzleFlash>("./MuzzleFlash");
         if(MuzzleFlashRef == null)
             GD.Print("Empty!");
@@ -38,17 +40,9 @@ public partial class Shotgun : WeaponBase
         */
         GunSound = GetNode<AudioStreamPlayer3D>("GunSound");
         WeaponAnimPlayer = GetNode<AnimationPlayer>("./Meshes/AnimationPlayer");
-
-        float FireAnimLength = WeaponAnimPlayer.GetAnimation(WeaponData.Fire.AnimationName).Length;
-        float RoundsPerSecond = WeaponData.FireRate / 60.0f;
-        float desiredInterval = 1f / RoundsPerSecond;
-        FireAnimationSpeed = FireAnimLength / desiredInterval;
-        
-        
     }
 
     // Function gets called at very specific moments during the firing animation
-    // Some guns like revolvers might not even call this function and thats fine.
     public void EjectShell()
     {
         ShellEjection Shell = ShellCasingScene.Instantiate<ShellEjection>();
@@ -101,8 +95,8 @@ public partial class Shotgun : WeaponBase
             
         }
 
-        Controller.CameraRecoilRef.EmitSignal("AddCameraRecoilSignal");
-        Controller.WeaponRecoilRef.EmitSignal("WeaponFiredSignal");
+        weaponController.CameraRecoilRef.EmitSignal("AddCameraRecoilSignal");
+        weaponController.WeaponRecoilRef.EmitSignal("WeaponFiredSignal");
         MuzzleFlashRef.EmitSignal("MuzzleFlashSignal", WeaponData.FireRate);
         // Update Ammo here
         // Gun Sound here
@@ -112,7 +106,8 @@ public partial class Shotgun : WeaponBase
         // Also animation name should be abstracted out to keep it dynamic
 
         // Fire animation
-        WeaponAnimPlayer.Play(WeaponData.Fire.AnimationName, WeaponData.Fire.BlendAmount,FireAnimationSpeed);
+        if(!WeaponAnimPlayer.IsPlaying())
+            WeaponAnimPlayer.Play(WeaponData.Fire.AnimationName, WeaponData.Fire.BlendAmount,FireAnimationSpeed);
         await ToSignal(WeaponAnimPlayer, "animation_finished");
         
         // Pump/rack animation 

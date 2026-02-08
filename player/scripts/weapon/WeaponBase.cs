@@ -4,16 +4,9 @@ using System;
 public abstract partial class WeaponBase : Node3D
 {
     // Need WeaponData to supply vital information to the weapon
-    // e.g fire rate, weapon scene, all of its important nodes, etc
     protected WeaponResource WeaponData;
     // Need Controller since we might have to signal information to it
-    // e.g notify that ammo changed, initiate camera recoil etc.
-    // If we the weapon needs to talk to any outside nodes it has to go through the controller first
-    protected WeaponController Controller;
-    
-    // Root of every Weapon Scene must be a Node3D (i.e. WeaponPivot)
-    // Note that some of these variables could be moved over to the specific WeaponTypes
-    // Since not all weapon will fill these variables out (e.g. think of a melee weapon)
+    protected WeaponController weaponController;
     protected Node3D WeaponScene;
     protected AnimationPlayer WeaponAnimPlayer;
     protected AudioStreamPlayer3D GunSound;
@@ -24,10 +17,22 @@ public abstract partial class WeaponBase : Node3D
     public bool IsReloading = false;
     public bool IsFiring = false;
 
-    // Abstract functions that each children (a particular weapon type) must implement
+
+    public void TryPlayingDrawAnimation()
+    {
+        if(WeaponData != null && WeaponData.Draw != null)
+            WeaponAnimPlayer.Play(WeaponData.Draw.AnimationName, WeaponData.Draw.BlendAmount, WeaponData.Draw.AnimationSpeed);
+    }
+    public float CalculateFireAnimationSpeed()
+    {
+        // Want the weapon's fire animation to play fast enough to finish before the next shot
+        float FireAnimLength = WeaponAnimPlayer.GetAnimation(WeaponData.Fire.AnimationName).Length;
+        float RoundsPerSecond = WeaponData.FireRate / 60.0f;
+        float desiredInterval = 1f / RoundsPerSecond;
+        return Mathf.Min(FireAnimLength / desiredInterval, 2.0f);
+    }
     public abstract void Initiallize(WeaponResource WeaponData, WeaponController Controller);
     public abstract void Fire();
-    // Reload Function here
     public abstract void Reload();
 
 }
