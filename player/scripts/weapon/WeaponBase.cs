@@ -7,23 +7,22 @@ public abstract partial class WeaponBase : Node3D
     protected WeaponResource WeaponData;
     // Need Controller since we might have to signal information to it
     protected WeaponController weaponController;
-    //protected Node3D WeaponScene;
     protected AnimationPlayer WeaponAnimPlayer;
     protected AudioStreamPlayer3D GunSound;
     protected AudioStreamPlayer3D GunSoundEmpty;
     protected MuzzleFlash MuzzleFlashRef;
     public  Node3D CameraReloadProxy;
     protected float fireRate;
+    protected float FireAnimationSpeed = 1.0f;
     public bool IsReloading = false;
     public bool IsFiring = false;
 
-
-    public void TryPlayingDrawAnimation()
+    protected void TryPlayingDrawAnimation()
     {
         if(WeaponData != null && WeaponData.Draw != null)
             WeaponAnimPlayer.Play(WeaponData.Draw.AnimationName, WeaponData.Draw.BlendAmount, WeaponData.Draw.AnimationSpeed);
     }
-    public float CalculateFireAnimationSpeed()
+    protected float CalculateFireAnimationSpeed()
     {
         // Want the weapon's fire animation to play fast enough to finish before the next shot
         float FireAnimLength = WeaponAnimPlayer.GetAnimation(WeaponData.Fire.AnimationName).Length;

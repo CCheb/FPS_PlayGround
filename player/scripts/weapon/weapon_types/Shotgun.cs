@@ -8,9 +8,6 @@ public partial class Shotgun : WeaponBase
     [Export] private PackedScene ShellCasingScene;
     [Export] private PackedScene TestDecal;
     [Export] private Marker3D ShellEjectionMarker;
-    private float FireAnimationSpeed = 1.0f;
-    
-
     // Its vital that we initialize the corresponding WeaponData and Controller variables
     // before we start passing out information from WeaponData
     public override void Initiallize(WeaponResource WeaponData, WeaponController weaponController)
@@ -78,8 +75,8 @@ public partial class Shotgun : WeaponBase
         // Also animation name should be abstracted out to keep it dynamic
 
         // Fire animation
-        if(!WeaponAnimPlayer.IsPlaying())
-            WeaponAnimPlayer.Play(WeaponData.Fire.AnimationName, WeaponData.Fire.BlendAmount,FireAnimationSpeed);
+        WeaponAnimPlayer.Play(WeaponData.Fire.AnimationName, WeaponData.Fire.BlendAmount,FireAnimationSpeed);
+        WeaponAnimPlayer.Seek(0.02f, true); // Nudge animation forward to the "kick" pose
         await ToSignal(WeaponAnimPlayer, "animation_finished");
         
         // Pump/rack animation 
