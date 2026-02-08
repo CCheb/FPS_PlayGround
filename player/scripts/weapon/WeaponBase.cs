@@ -7,7 +7,7 @@ public abstract partial class WeaponBase : Node3D
     protected WeaponResource WeaponData;
     // Need Controller since we might have to signal information to it
     protected WeaponController weaponController;
-    protected Node3D WeaponScene;
+    //protected Node3D WeaponScene;
     protected AnimationPlayer WeaponAnimPlayer;
     protected AudioStreamPlayer3D GunSound;
     protected AudioStreamPlayer3D GunSoundEmpty;

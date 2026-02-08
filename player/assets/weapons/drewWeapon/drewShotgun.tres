@@ -13,7 +13,6 @@ metadata/_custom_type_script = "uid://c8of8infi526n"
 [sub_resource type="Resource" id="Resource_uwcat"]
 script = ExtResource("1_oilj8")
 AnimationName = "Shotgun_Fire"
-AnimationSpeed = 40.0
 metadata/_custom_type_script = "uid://c8of8infi526n"
 
 [sub_resource type="Resource" id="Resource_oilj8"]
@@ -23,6 +22,7 @@ metadata/_custom_type_script = "uid://c8of8infi526n"
 [resource]
 script = ExtResource("1_w3e31")
 WeaponName = "DREWSHOTGUN"
+WeaponType = 2
 ViewportPosition = Vector3(0.25, -0.2, -0.15)
 ViewportRotation = Vector3(0, -5, 0)
 WeaponScene = ExtResource("2_6qhqy")

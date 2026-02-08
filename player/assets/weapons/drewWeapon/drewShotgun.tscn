@@ -1,9 +1,12 @@
 [gd_scene format=4 uid="uid://bjwp342mp32y5"]
 
-[ext_resource type="Script" uid="uid://bgd35mmig5al6" path="res://player/scripts/weapon/weapon_types/Hitscan.cs" id="1_5whlm"]
+[ext_resource type="Script" uid="uid://ew6iea0fiv1" path="res://player/scripts/weapon/weapon_types/Shotgun.cs" id="1_61gow"]
 [ext_resource type="Script" uid="uid://bg6y0vnkr447a" path="res://player/scripts/weapon/MuzzleFlash.cs" id="1_ih7l5"]
 [ext_resource type="PackedScene" uid="uid://sidfanrnkdli" path="res://player/assets/weapons/shotgun/shell/ShotgunShell.tscn" id="2_04d7l"]
 [ext_resource type="AudioStream" uid="uid://xfrgvf74k2or" path="res://player/assets/audio/shotgun-firing-4-6746.mp3" id="2_n23to"]
+[ext_resource type="PackedScene" uid="uid://brccsvaksllp" path="res://player/test_decal.tscn" id="3_8x867"]
+[ext_resource type="Shader" uid="uid://0pqp51v60h3t" path="res://player/assets/weapons/drewWeapon/drewShotgun.gdshader" id="3_qsu78"]
+[ext_resource type="Texture2D" uid="uid://y6jbdhvkue4u" path="res://player/assets/textures/camo2.png" id="4_61gow"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s7yr0"]
 
@@ -38,6 +41,15 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_4xh73")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8x867"]
+render_priority = 0
+shader = ExtResource("3_qsu78")
+shader_parameter/camo_tex = ExtResource("4_61gow")
+shader_parameter/speed = -0.07
+shader_parameter/scale = 0.31
+shader_parameter/tint = Color(1, 1, 1, 1)
+shader_parameter/emission_strength = 1.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ybhti"]
 
@@ -106,6 +118,15 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_qglp2")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g5ptm"]
+render_priority = 0
+shader = ExtResource("3_qsu78")
+shader_parameter/camo_tex = ExtResource("4_61gow")
+shader_parameter/speed = 0.04
+shader_parameter/scale = 0.23
+shader_parameter/tint = Color(1, 1, 1, 1)
+shader_parameter/emission_strength = 1.2
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hgh11"]
 
@@ -242,6 +263,20 @@ tracks/1/path = NodePath("Cube_001")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, 0, 1, 0.033333335, 1, -0.00045608508, 0, 0, 0.9999999, 0.06666667, 1, -0.0057775117, 0, 0, 0.9999834, 0.1, 1, -0.035336312, -0.0007710411, 0.021801261, 0.99913734, 0.13333334, 1, -0.043455984, -0.0014050262, 0.03228474, 0.9985326, 0.16666667, 1, -0.039819945, 0, 0, 0.9992069, 0.2, 1, 0.00813139, 0, 0, 0.999967, 0.23333333, 1, 0.006243011, 0, 0, 0.99998057, 0.26666668, 1, 0, 0, 0, 1, 0.33333334, 1, 0, 0, 0, 1)
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("..")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.13333334),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"EjectShell"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_u4h6y"]
 resource_name = "Shotgun_Idle"
@@ -310,18 +345,20 @@ material = SubResource("StandardMaterial3D_q2o0k")
 size = Vector2(0.3, 0.3)
 
 [node name="Node3D" type="Node3D" unique_id=2105987848 node_paths=PackedStringArray("ShellEjectionMarker")]
-script = ExtResource("1_5whlm")
+script = ExtResource("1_61gow")
 ShellCasingScene = ExtResource("2_04d7l")
+TestDecal = ExtResource("3_8x867")
 ShellEjectionMarker = NodePath("ShellEjection")
 
 [node name="Meshes" type="Node3D" parent="." unique_id=966912058]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0, -0.855, -2.996)
 
 [node name="Cube_001" type="MeshInstance3D" parent="Meshes" unique_id=338407920]
-transform = Transform3D(0.17984669, 0, 0, 0, 0.17984669, 0, 0, 0, 0.17984669, 0, 0.84090257, -3.0082443)
+transform = Transform3D(0.17953594, -0.010527852, -0.0009145622, 0.010567502, 0.17886747, 0.015478497, 3.5035825e-06, -0.015505493, 0.17917705, 0, 0.8620674, -3.0561004)
 layers = 2
 mesh = SubResource("ArrayMesh_qndtm")
 skeleton = NodePath("")
+surface_material_override/0 = SubResource("ShaderMaterial_8x867")
 
 [node name="Cube" type="MeshInstance3D" parent="Meshes/Cube_001" unique_id=2079219126]
 transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.35030764, 0.7582433)
@@ -334,6 +371,7 @@ transform = Transform3D(11.086554, -1.2879549e-06, 4.5922008, 4.592201, 4.666942
 layers = 2
 mesh = SubResource("ArrayMesh_yi4rx")
 skeleton = NodePath("")
+surface_material_override/0 = SubResource("ShaderMaterial_g5ptm")
 
 [node name="Cylinder_002" type="MeshInstance3D" parent="Meshes/Cube_001/Cylinder" unique_id=1470817993]
 transform = Transform3D(-0.025322905, 0, -0.5799851, 0, 0.6966451, 0, 0.579985, 0, -0.025322907, 2.1429267e-05, 0.023794156, -5.1691663e-05)
@@ -381,3 +419,8 @@ stream = ExtResource("2_n23to")
 
 [node name="ShellEjection" type="Marker3D" parent="." unique_id=1406308767]
 transform = Transform3D(1.0000001, 0, 0, 0, 1.0000002, 0, 0, 0, 1, 0.048594855, 0.03398846, -0.16628009)
+
+[node name="CameraReloadProxy" type="Node3D" parent="." unique_id=2106988785]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0.2, 0.1)
+
+[node name="Camera3D" type="Camera3D" parent="CameraReloadProxy" unique_id=613963308]
