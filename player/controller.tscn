@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://b1derc5wqq21i"]
+[gd_scene format=3 uid="uid://b1derc5wqq21i"]
 
 [ext_resource type="Script" uid="uid://bo86bnx0tb20n" path="res://player/scripts/FPSController.cs" id="1_c8ah5"]
 [ext_resource type="Script" uid="uid://bsgnp7hqer3q6" path="res://player/scripts/camera/CameraController.cs" id="2_r1uwb"]
@@ -674,7 +674,7 @@ _data = {
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_tsrlm"]
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("WorldCameraController", "InputCameraLayer", "ANIMATION", "crouchShapeCast", "WEAPON")]
+[node name="Player" type="CharacterBody3D" unique_id=260508337 node_paths=PackedStringArray("WorldCameraController", "InputCameraLayer", "ANIMATION", "crouchShapeCast", "WEAPON")]
 collision_layer = 4
 script = ExtResource("1_c8ah5")
 TiltLowerLimit = -90.0
@@ -686,14 +686,14 @@ ANIMATION = NodePath("PlayerMovement")
 crouchShapeCast = NodePath("ShapeCast3D")
 WEAPON = NodePath("SubViewportContainer/SubViewport/Camera3D/WeaponHolder/WeaponController")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=743150347]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_xbwus")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D" unique_id=591769764]
 mesh = SubResource("CapsuleMesh_blutv")
 
-[node name="WorldCameraController" type="Node3D" parent="." node_paths=PackedStringArray("_camera", "InputCameraLayer", "MovementLayer", "CameraRecoilLayer", "CameraReload", "CameraJumpingLayer")]
+[node name="WorldCameraController" type="Node3D" parent="." unique_id=1021783261 node_paths=PackedStringArray("_camera", "InputCameraLayer", "MovementLayer", "CameraRecoilLayer", "CameraReload", "CameraJumpingLayer")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.428, 0)
 script = ExtResource("2_r1uwb")
 _camera = NodePath("Camera3D")
@@ -703,46 +703,44 @@ CameraRecoilLayer = NodePath("CameraRecoilLayer")
 CameraReload = NodePath("CameraReloadLayer")
 CameraJumpingLayer = NodePath("CameraJumpingLayer")
 
-[node name="InputLayer" type="Node" parent="WorldCameraController"]
+[node name="InputLayer" type="Node" parent="WorldCameraController" unique_id=1250523351]
 script = ExtResource("6_8qmmn")
 
-[node name="MovementLayer" type="Node" parent="WorldCameraController" node_paths=PackedStringArray("OffsetProxy")]
+[node name="MovementLayer" type="Node" parent="WorldCameraController" unique_id=1188070128 node_paths=PackedStringArray("OffsetProxy")]
 script = ExtResource("5_8qmmn")
 OffsetProxy = NodePath("OffsetProxy")
 
-[node name="OffsetProxy" type="Node3D" parent="WorldCameraController/MovementLayer"]
+[node name="OffsetProxy" type="Node3D" parent="WorldCameraController/MovementLayer" unique_id=668815468]
 
-[node name="CameraRecoilLayer" type="Node" parent="WorldCameraController"]
+[node name="CameraRecoilLayer" type="Node" parent="WorldCameraController" unique_id=877924563]
 script = ExtResource("6_yqj3k")
 
-[node name="CameraReloadLayer" type="Node" parent="WorldCameraController"]
+[node name="CameraReloadLayer" type="Node" parent="WorldCameraController" unique_id=904232906]
 script = ExtResource("6_b58ve")
 
-[node name="CameraJumpingLayer" type="Node" parent="WorldCameraController"]
+[node name="CameraJumpingLayer" type="Node" parent="WorldCameraController" unique_id=873963481]
 script = ExtResource("7_b58ve")
 
-[node name="Camera3D" type="Camera3D" parent="WorldCameraController"]
+[node name="Camera3D" type="Camera3D" parent="WorldCameraController" unique_id=724038303]
 cull_mask = 1048573
 current = true
 
-[node name="RayCast3D" type="RayCast3D" parent="WorldCameraController/Camera3D" node_paths=PackedStringArray("reticle")]
+[node name="RayCast3D" type="RayCast3D" parent="WorldCameraController/Camera3D" unique_id=71602110 node_paths=PackedStringArray("reticle")]
 target_position = Vector3(0, 0, -50)
 collision_mask = 8
 script = ExtResource("3_4xmcj")
 reticle = NodePath("../../../UserInterface/Reticle")
 
-[node name="PlayerMovement" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_4gogw")
-}
+[node name="PlayerMovement" type="AnimationPlayer" parent="." unique_id=2130178659]
+libraries/ = SubResource("AnimationLibrary_4gogw")
 
-[node name="ShapeCast3D" type="ShapeCast3D" parent="."]
+[node name="ShapeCast3D" type="ShapeCast3D" parent="." unique_id=73126850]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 shape = SubResource("SphereShape3D_tsrlm")
 target_position = Vector3(0, 0.5, 0)
 debug_shape_custom_color = Color(0.24780399, 0.8950904, 3.85046e-07, 1)
 
-[node name="UserInterface" type="Control" parent="."]
+[node name="UserInterface" type="Control" parent="." unique_id=1531957921]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -751,7 +749,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 
-[node name="Reticle" type="CenterContainer" parent="UserInterface" node_paths=PackedStringArray("reticleLines", "playerController")]
+[node name="Reticle" type="CenterContainer" parent="UserInterface" unique_id=320055250 node_paths=PackedStringArray("reticleLines", "playerController")]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -765,23 +763,23 @@ reticleLines = [NodePath("Top"), NodePath("Right"), NodePath("Bottom"), NodePath
 playerController = NodePath("../..")
 reticleDistance = 5.0
 
-[node name="Top" type="Line2D" parent="UserInterface/Reticle"]
+[node name="Top" type="Line2D" parent="UserInterface/Reticle" unique_id=2078052452]
 points = PackedVector2Array(0, -10, 0, -25)
 width = 3.0
 
-[node name="Right" type="Line2D" parent="UserInterface/Reticle"]
+[node name="Right" type="Line2D" parent="UserInterface/Reticle" unique_id=669844722]
 points = PackedVector2Array(10, 0, 25, 0)
 width = 3.0
 
-[node name="Bottom" type="Line2D" parent="UserInterface/Reticle"]
+[node name="Bottom" type="Line2D" parent="UserInterface/Reticle" unique_id=1047000512]
 points = PackedVector2Array(0, 10, 0, 25)
 width = 3.0
 
-[node name="Left" type="Line2D" parent="UserInterface/Reticle"]
+[node name="Left" type="Line2D" parent="UserInterface/Reticle" unique_id=991435925]
 points = PackedVector2Array(-10, 0, -25, 0)
 width = 3.0
 
-[node name="AmmoCounter" type="Label" parent="UserInterface"]
+[node name="AmmoCounter" type="Label" parent="UserInterface" unique_id=123169651]
 z_index = 1
 layout_mode = 1
 anchors_preset = -1
@@ -796,52 +794,52 @@ theme_override_font_sizes/font_size = 60
 text = "360"
 horizontal_alignment = 1
 
-[node name="PlayerStateMachine" type="Node" parent="." node_paths=PackedStringArray("CURRENT_STATE")]
+[node name="PlayerStateMachine" type="Node" parent="." unique_id=2094270110 node_paths=PackedStringArray("CURRENT_STATE")]
 script = ExtResource("5_n1syr")
 CURRENT_STATE = NodePath("IdlePlayerState")
 
-[node name="IdlePlayerState" type="Node" parent="PlayerStateMachine"]
+[node name="IdlePlayerState" type="Node" parent="PlayerStateMachine" unique_id=1527395725]
 script = ExtResource("6_8l0fx")
 
-[node name="WalkingPlayerState" type="Node" parent="PlayerStateMachine"]
+[node name="WalkingPlayerState" type="Node" parent="PlayerStateMachine" unique_id=1575414811]
 script = ExtResource("7_r1uwb")
 
-[node name="SprintingPlayerState" type="Node" parent="PlayerStateMachine"]
+[node name="SprintingPlayerState" type="Node" parent="PlayerStateMachine" unique_id=567069600]
 script = ExtResource("8_wqtdf")
 
-[node name="CrouchingPlayerState" type="Node" parent="PlayerStateMachine"]
+[node name="CrouchingPlayerState" type="Node" parent="PlayerStateMachine" unique_id=711568095]
 script = ExtResource("9_8qmmn")
 
-[node name="SlidingPlayerState" type="Node" parent="PlayerStateMachine"]
+[node name="SlidingPlayerState" type="Node" parent="PlayerStateMachine" unique_id=643969047]
 script = ExtResource("10_yqj3k")
 
-[node name="JumpingPlayerState" type="Node" parent="PlayerStateMachine"]
+[node name="JumpingPlayerState" type="Node" parent="PlayerStateMachine" unique_id=295757517]
 script = ExtResource("11_b58ve")
 inputMultiplier = 1.0
 
-[node name="FallingPlayerState" type="Node" parent="PlayerStateMachine"]
+[node name="FallingPlayerState" type="Node" parent="PlayerStateMachine" unique_id=579831544]
 script = ExtResource("12_js2ha")
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=513842463]
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=2073809168]
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(1920, 1090)
 render_target_update_mode = 4
 script = ExtResource("13_feqls")
 
-[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" node_paths=PackedStringArray("WorldCamera")]
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" unique_id=114416263 node_paths=PackedStringArray("WorldCamera")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
 cull_mask = 1048574
 script = ExtResource("14_tx066")
 WorldCamera = NodePath("../../../WorldCameraController/Camera3D")
 
-[node name="WeaponHolder" type="Node3D" parent="SubViewportContainer/SubViewport/Camera3D"]
+[node name="WeaponHolder" type="Node3D" parent="SubViewportContainer/SubViewport/Camera3D" unique_id=1926499543]
 
-[node name="WeaponController" parent="SubViewportContainer/SubViewport/Camera3D/WeaponHolder" node_paths=PackedStringArray("CameraControllerRef", "CameraRecoilRef") instance=ExtResource("6_4xmcj")]
+[node name="WeaponController" parent="SubViewportContainer/SubViewport/Camera3D/WeaponHolder" unique_id=231687715 node_paths=PackedStringArray("CameraControllerRef", "CameraRecoilRef") instance=ExtResource("6_4xmcj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02, -0.23, 0.16)
 CameraControllerRef = NodePath("../../../../../WorldCameraController")
 CameraRecoilRef = NodePath("../../../../../WorldCameraController/CameraRecoilLayer")

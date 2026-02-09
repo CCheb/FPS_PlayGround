@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://c8of8infi526n" path="res://player/scripts/etc/AnimationProfile.cs" id="1_oilj8"]
 [ext_resource type="Script" uid="uid://cmymrn4gpv3y3" path="res://player/scripts/weapon/WeaponResource.cs" id="1_w3e31"]
 [ext_resource type="PackedScene" uid="uid://bjwp342mp32y5" path="res://player/assets/weapons/drewWeapon/drewShotgun.tscn" id="2_6qhqy"]
+[ext_resource type="Script" uid="uid://dfe0snu41fopf" path="res://player/scripts/etc/WeaponBurstProfile.cs" id="3_6qhqy"]
 
 [sub_resource type="Resource" id="Resource_6qhqy"]
 script = ExtResource("1_oilj8")
@@ -19,10 +20,16 @@ metadata/_custom_type_script = "uid://c8of8infi526n"
 script = ExtResource("1_oilj8")
 metadata/_custom_type_script = "uid://c8of8infi526n"
 
+[sub_resource type="Resource" id="Resource_fxw6l"]
+script = ExtResource("3_6qhqy")
+ShotsPerBurst = 4
+BurstCadence = 0.15
+
 [resource]
 script = ExtResource("1_w3e31")
 WeaponName = "DREWSHOTGUN"
 WeaponType = 2
+PrimaryWeaponAction = 2
 ViewportPosition = Vector3(0.25, -0.2, -0.15)
 ViewportRotation = Vector3(0, -5, 0)
 WeaponScene = ExtResource("2_6qhqy")

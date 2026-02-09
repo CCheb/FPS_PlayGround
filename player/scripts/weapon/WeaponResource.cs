@@ -1,8 +1,6 @@
 using Godot;
 using System;
 
-
-// GlobalClass means that the class will be visible in the editor
 [GlobalClass]
 public partial class WeaponResource : Resource
 {
@@ -15,60 +13,47 @@ public partial class WeaponResource : Resource
     [Export] public Globals.WeaponTypes WeaponType;
     [Export] public Globals.WeaponActions PrimaryWeaponAction;
     [Export] public Globals.WeaponActions SecondaryWeaponAction;
-     /* Weapon Transform*/
-    //------------------------
+
     [ExportGroup("Weapon Transform")]
     [Export] public Vector3 ViewportPosition;
     [Export] public Vector3 ViewportRotation;
     [Export] public Vector3 ViewportScale = new Vector3(1.0f, 1.0f, 1.0f);
 
-     /* Weapon Sway */
-    //------------------------
     [ExportGroup("Weapon Sway")]
-    // Clamp the amount of mouse movement that will be used to sway the weapon
-    // Total sway ranges. How much you can sway left and right
+    // How much you can sway left and right
     [Export] public Vector2 MouseSwayMin = new Vector2(-20.0f, -20.0f);
     [Export] public Vector2 MouseSwayMax = new Vector2(20.0f, 20.0f);
-    // Speed will set the alphas of the lerp. How fast is the sway
     [Export(PropertyHint.Range, "0, 0.2, 0.01")] public float PositionSwaySpeed = 0.07f;
     [Export(PropertyHint.Range, "0, 0.2, 0.01")] public float RotationSwaySpeed = 0.1f;
-    // Manipulate mouse movement value
     [Export(PropertyHint.Range, "0, 0.50, 0.01")] public float MouseInputPositionOffset = 0.1f;
     [Export(PropertyHint.Range, "0, 0.50, 0.1")] public float MouseInputRotationAmount = 30.0f;
 
-    /* Random Idle Sway */
-    //------------------------
     [ExportGroup("Random Idle Sway")]
-    // Adjust idle sway amount
     [Export] public float IdleSwayAdjustment = 10.0f;
-    // Adjust strength of rotation
     [Export] public float IdleSwayRotationStength = 300.0f;
-    // Adjust the strength of the sine wave
     [Export] public float IdleSwayAmmount = 5.0f;
-    // How fast the idle sway show be
     [Export] public float IdleSwaySpeed = 1.2f;
 
-    /* Visual Settings */
-    //------------------------
     [ExportGroup("Visual Settings")]
     [Export] public PackedScene WeaponScene;
 
-    /* Camera Specific Recoil */
-    //------------------------
     [ExportGroup("Camera Recoil")]
     [Export] public Vector3 CameraRecoilAmount = Vector3.Zero;
     [Export] public float CameraSnapAmount = 0.0f;
     [Export] public float CameraRecoverySpeed = 0.0f;
     
-    /* Weapon Specific Recoil */
-    //------------------------
     [ExportGroup("Weapon Recoil")]
     [Export] public Vector3 WeaponRecoilAmount = Vector3.Zero;
     [Export] public float WeaponSnapAmount = 0.0f;
     [Export] public float WeaponRecoverySpeed = 0.0f;
+
+    [ExportGroup("Weapon Stats")]
     [Export] public float FireRate = 0.0f;
     [Export] public int AmmoCount = 0;
     [Export] public int AmmoCapacity = 0;
+
+    [ExportGroup("Special Weapon Stats")]
+    [Export] public WeaponBurstProfile burstProfile = new();
 
     [ExportGroup("Animations")]
     [Export] public AnimationProfile Fire;

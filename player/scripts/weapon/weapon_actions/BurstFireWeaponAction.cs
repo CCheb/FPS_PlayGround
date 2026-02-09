@@ -5,10 +5,14 @@ public partial class BurstFireWeaponAction : IWeaponAction
 {
     private WeaponBase CurrentWeapon;
     private bool CanFire = true;
+    private int shotsPerBurst = 3;
+    private float burstCadence = 0.08f;
 
-    public BurstFireWeaponAction(WeaponBase weapon)
+    public BurstFireWeaponAction(WeaponBase weapon, WeaponBurstProfile burstProfile)
     {
         CurrentWeapon = weapon;
+        shotsPerBurst = burstProfile.ShotsPerBurst;
+        burstCadence = burstProfile.BurstCadence;
     }
 
     public async void OnActionPressed()
@@ -17,12 +21,12 @@ public partial class BurstFireWeaponAction : IWeaponAction
             return;
 
         // The weapon only really cares on how the fire is implemented and needs to be told when to fire 
-        for(int i = 0; i < 3; i++)
+        CanFire = false;
+        for(int i = 0; i < shotsPerBurst; i++)
         {
             CurrentWeapon.Fire();
-            await CurrentWeapon.ToSignal(CurrentWeapon.GetTree().CreateTimer(0.08f), "timeout");
+            await CurrentWeapon.ToSignal(CurrentWeapon.GetTree().CreateTimer(burstCadence), "timeout");
         }
-        CanFire = false;
     }
 
     public void OnActionReleased()

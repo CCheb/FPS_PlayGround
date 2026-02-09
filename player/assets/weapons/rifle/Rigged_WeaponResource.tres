@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://d4jl6d21m0ope" path="res://player/assets/weapons/rifle/rigged_rifle.tscn" id="1_5qr2q"]
 [ext_resource type="Script" uid="uid://c8of8infi526n" path="res://player/scripts/etc/AnimationProfile.cs" id="1_hvacs"]
 [ext_resource type="Script" uid="uid://cmymrn4gpv3y3" path="res://player/scripts/weapon/WeaponResource.cs" id="2_d07vf"]
+[ext_resource type="Script" uid="uid://dfe0snu41fopf" path="res://player/scripts/etc/WeaponBurstProfile.cs" id="3_f7ngb"]
 
 [sub_resource type="Resource" id="Resource_hvacs"]
 script = ExtResource("1_hvacs")
@@ -19,6 +20,10 @@ AnimationSpeed = 5.0
 script = ExtResource("1_hvacs")
 AnimationName = "Rig|AK_Reload"
 BlendAmount = 0.03
+
+[sub_resource type="Resource" id="Resource_aswih"]
+script = ExtResource("3_f7ngb")
+metadata/_custom_type_script = "uid://dfe0snu41fopf"
 
 [resource]
 script = ExtResource("2_d07vf")
@@ -37,6 +42,7 @@ WeaponRecoverySpeed = 20.0
 FireRate = 550.0
 AmmoCount = 250
 AmmoCapacity = 250
+burstProfile = SubResource("Resource_aswih")
 Fire = SubResource("Resource_f7ngb")
 Reload = SubResource("Resource_1su4r")
 Draw = SubResource("Resource_hvacs")
