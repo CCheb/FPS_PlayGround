@@ -13,6 +13,8 @@ public static partial class FireModeFactory
                 return new FullAutoWeaponAction(CurrentWeapon, WeaponData.FireRate);
             case Globals.WeaponActions.SemiAuto :
                 return new SemiAutoWeaponAction(CurrentWeapon);
+            case Globals.WeaponActions.BurstFire:
+                return new BurstFireWeaponAction(CurrentWeapon);
             case Globals.WeaponActions.Zoom :
                 return new ZoomWeaponAction(weaponController);
             case Globals.WeaponActions.NoAction :
