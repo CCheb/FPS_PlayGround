@@ -3,23 +3,27 @@ using System;
 
 public partial class ZoomWeaponAction : IWeaponAction
 {
-    private WeaponController _weaponController;
+    private readonly WeaponController weaponController;
+
+    private bool isHeld = false;
     public ZoomWeaponAction(WeaponController weaponController)
     {
-        _weaponController = weaponController;
+        this.weaponController = weaponController;
     }
     public void OnActionPressed()
-    {
-        
+    {  
+        if(!isHeld)
+            weaponController.CameraZoomLayerRef.EmitSignal("AddCameraZoom");
+            
+        isHeld = true;
     }
-
     public void OnActionReleased()
-    {
-        
-    }
+    {   
+        if(isHeld)
+            weaponController.CameraZoomLayerRef.EmitSignal("RemoveCameraZoom");
 
-    public void Update(double delta)
-    {
-        
-    }
+        isHeld = false;
+    } 
+
+    public void Update(double delta) { }
 }

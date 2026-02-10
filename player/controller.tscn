@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://c8tc2xhawhiso" path="res://player/CameraRecoilLayer.cs" id="6_yqj3k"]
 [ext_resource type="Script" uid="uid://bai0m8yr8kuj1" path="res://player/scripts/camera/CameraJumpingLayer.cs" id="7_b58ve"]
 [ext_resource type="Script" uid="uid://bamabgxhyu7eq" path="res://player/scripts/movement/WalkingPlayerState.cs" id="7_r1uwb"]
+[ext_resource type="Script" uid="uid://c5x41q4pnxcvk" path="res://player/scripts/camera/CameraZoomLayer.cs" id="8_js2ha"]
 [ext_resource type="Script" uid="uid://bjq25q7ryxiw7" path="res://player/scripts/movement/SprintingPlayerState.cs" id="8_wqtdf"]
 [ext_resource type="Script" uid="uid://0v73n67a3xmi" path="res://player/scripts/movement/CrouchingPlayerState.cs" id="9_8qmmn"]
 [ext_resource type="Script" uid="uid://rr27xsw5ov3e" path="res://player/scripts/movement/SlidingPlayerState.cs" id="10_yqj3k"]
@@ -693,7 +694,7 @@ shape = SubResource("CapsuleShape3D_xbwus")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D" unique_id=591769764]
 mesh = SubResource("CapsuleMesh_blutv")
 
-[node name="WorldCameraController" type="Node3D" parent="." unique_id=1021783261 node_paths=PackedStringArray("_camera", "InputCameraLayer", "MovementLayer", "CameraRecoilLayer", "CameraReload", "CameraJumpingLayer")]
+[node name="WorldCameraController" type="Node3D" parent="." unique_id=1021783261 node_paths=PackedStringArray("_camera", "InputCameraLayer", "MovementLayer", "CameraRecoilLayer", "CameraReload", "CameraJumpingLayer", "cameraZoomLayer")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.428, 0)
 script = ExtResource("2_r1uwb")
 _camera = NodePath("Camera3D")
@@ -702,6 +703,7 @@ MovementLayer = NodePath("MovementLayer")
 CameraRecoilLayer = NodePath("CameraRecoilLayer")
 CameraReload = NodePath("CameraReloadLayer")
 CameraJumpingLayer = NodePath("CameraJumpingLayer")
+cameraZoomLayer = NodePath("CameraZoomLayer")
 
 [node name="InputLayer" type="Node" parent="WorldCameraController" unique_id=1250523351]
 script = ExtResource("6_8qmmn")
@@ -720,6 +722,9 @@ script = ExtResource("6_b58ve")
 
 [node name="CameraJumpingLayer" type="Node" parent="WorldCameraController" unique_id=873963481]
 script = ExtResource("7_b58ve")
+
+[node name="CameraZoomLayer" type="Node" parent="WorldCameraController" unique_id=437367071]
+script = ExtResource("8_js2ha")
 
 [node name="Camera3D" type="Camera3D" parent="WorldCameraController" unique_id=724038303]
 cull_mask = 1048573
@@ -839,7 +844,8 @@ WorldCamera = NodePath("../../../WorldCameraController/Camera3D")
 
 [node name="WeaponHolder" type="Node3D" parent="SubViewportContainer/SubViewport/Camera3D" unique_id=1926499543]
 
-[node name="WeaponController" parent="SubViewportContainer/SubViewport/Camera3D/WeaponHolder" unique_id=231687715 node_paths=PackedStringArray("CameraControllerRef", "CameraRecoilRef") instance=ExtResource("6_4xmcj")]
+[node name="WeaponController" parent="SubViewportContainer/SubViewport/Camera3D/WeaponHolder" unique_id=231687715 node_paths=PackedStringArray("CameraControllerRef", "CameraRecoilRef", "CameraZoomLayerRef") instance=ExtResource("6_4xmcj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02, -0.23, 0.16)
 CameraControllerRef = NodePath("../../../../../WorldCameraController")
 CameraRecoilRef = NodePath("../../../../../WorldCameraController/CameraRecoilLayer")
+CameraZoomLayerRef = NodePath("../../../../../WorldCameraController/CameraZoomLayer")

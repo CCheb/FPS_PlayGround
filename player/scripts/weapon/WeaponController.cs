@@ -21,7 +21,7 @@ public partial class WeaponController : Node3D
         GD.Load<WeaponResource>("res://player/assets/weapons/rifle/Rigged_WeaponResource.tres"),
         GD.Load<WeaponResource>("res://player/assets/weapons/pistol/PistolWeaponResource.tres"),
         GD.Load<WeaponResource>("res://player/assets/weapons/sniper/SniperWeaponResource.tres"),
-        GD.Load<WeaponResource>("res://player/assets/weapons/drewWeapon/drewShotgun.tres")
+        GD.Load<WeaponResource>("res://player/assets/weapons/burstRifle/burstRifle.tres")
     }; 
     private int CurrentWeaponIndex = 0;
     private const int MAX_WEAPON_AMMOUNT = 4;
@@ -30,6 +30,7 @@ public partial class WeaponController : Node3D
     private IWeaponAction CurrentSecondaryWeaponAction;
     [Export] public CameraController CameraControllerRef;
 	[Export] public CameraRecoilLayer CameraRecoilRef;
+    [Export] public CameraZoomLayer CameraZoomLayerRef;
     [Export] public WeaponRecoil WeaponRecoilRef;
     [Export] public JumpRecoil JumpRecoilRef;
 	[Export] private NoiseTexture2D RandSwayNoise;
