@@ -16,7 +16,7 @@ public static partial class FireModeFactory
             case Globals.WeaponActions.BurstFire:
                 return new BurstFireWeaponAction(CurrentWeapon, WeaponData.burstProfile);
             case Globals.WeaponActions.Zoom :
-                return new ZoomWeaponAction(weaponController);
+                return new ZoomWeaponAction(weaponController, WeaponData.desiredZoom);
             case Globals.WeaponActions.NoAction :
                 return null;
             default :

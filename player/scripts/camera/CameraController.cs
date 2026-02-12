@@ -95,9 +95,9 @@ public partial class CameraController : Node3D
         }
     }
 
-    public void RequestCameraZoom()
+    public void RequestCameraZoom(float desiredZoom)
     {
-        cameraZoomLayer.EmitSignal("AddCameraZoom");
+        cameraZoomLayer.EmitSignal("AddCameraZoom", desiredZoom);
     }
 
     public void RequestDeCameraZoom()

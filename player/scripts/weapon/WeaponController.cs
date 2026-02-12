@@ -29,7 +29,6 @@ public partial class WeaponController : Node3D
     private IWeaponAction CurrentPrimaryWeaponAction;
     private IWeaponAction CurrentSecondaryWeaponAction;
     [Export] public CameraController CameraControllerRef;
-	[Export] public CameraRecoilLayer CameraRecoilRef;
     [Export] public WeaponRecoil WeaponRecoilRef;
     [Export] public JumpRecoil JumpRecoilRef;
 	[Export] private NoiseTexture2D RandSwayNoise;

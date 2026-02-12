@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 public partial class CameraZoomLayer : Node
 {
-    [Signal] public delegate void AddCameraZoomEventHandler();
+    [Signal] public delegate void AddCameraZoomEventHandler(float desiredZoom);
     [Signal] public delegate void RemoveCameraZoomEventHandler();
     
     public float currentFov = 90.0f;
@@ -25,9 +25,9 @@ public partial class CameraZoomLayer : Node
         currentFov = Mathf.Lerp(currentFov, targetFov, 5.0f*(float)delta);
     }
 
-    private void AddZoom()
+    private void AddZoom(float desiredZoom)
     {
-        targetFov = 50.0f;
+        targetFov = desiredZoom;
     }
 
     private void RemoveZoom()

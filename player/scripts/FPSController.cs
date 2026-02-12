@@ -22,7 +22,7 @@ public partial class FPSController : CharacterBody3D
 	// Camera controller that we will manipulate in script
 	[Export] public CameraController WorldCameraController { get; set; }
 	[Export] private InputLayer InputCameraLayer;
-	[Export] public float DefaultFov = 120.0f;
+	static public float DefaultFov = 90;
 	// Help detect if mouse is moving
 	private bool mouseInput = false;
 	// unsanitized mouse rotaition

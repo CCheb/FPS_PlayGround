@@ -41,6 +41,7 @@ WeaponRecoilAmount = Vector3(0.01, 0.01, 0.3)
 WeaponSnapAmount = 10.0
 WeaponRecoverySpeed = 20.0
 FireRate = 550.0
+desiredZoom = 70.0
 AmmoCount = 250
 AmmoCapacity = 250
 burstProfile = SubResource("Resource_aswih")

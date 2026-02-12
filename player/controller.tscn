@@ -844,7 +844,6 @@ WorldCamera = NodePath("../../../WorldCameraController/Camera3D")
 
 [node name="WeaponHolder" type="Node3D" parent="SubViewportContainer/SubViewport/Camera3D" unique_id=1926499543]
 
-[node name="WeaponController" parent="SubViewportContainer/SubViewport/Camera3D/WeaponHolder" unique_id=231687715 node_paths=PackedStringArray("CameraControllerRef", "CameraRecoilRef") instance=ExtResource("6_4xmcj")]
+[node name="WeaponController" parent="SubViewportContainer/SubViewport/Camera3D/WeaponHolder" unique_id=231687715 node_paths=PackedStringArray("CameraControllerRef") instance=ExtResource("6_4xmcj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02, -0.23, 0.16)
 CameraControllerRef = NodePath("../../../../../WorldCameraController")
-CameraRecoilRef = NodePath("../../../../../WorldCameraController/CameraRecoilLayer")

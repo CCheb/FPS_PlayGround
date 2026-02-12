@@ -38,17 +38,18 @@ public partial class WeaponResource : Resource
     [Export] public PackedScene WeaponScene;
 
     [ExportGroup("Camera Recoil")]
-    [Export] public Vector3 CameraRecoilAmount = Vector3.Zero;
-    [Export] public float CameraSnapAmount = 0.0f;
-    [Export] public float CameraRecoverySpeed = 0.0f;
+    [Export] public Vector3 CameraRecoilAmount = new Vector3(0.15f, 0.05f, 0.0f);
+    [Export] public float CameraSnapAmount = 8.0f;
+    [Export] public float CameraRecoverySpeed = 4.0f;
     
     [ExportGroup("Weapon Recoil")]
-    [Export] public Vector3 WeaponRecoilAmount = Vector3.Zero;
-    [Export] public float WeaponSnapAmount = 0.0f;
-    [Export] public float WeaponRecoverySpeed = 0.0f;
+    [Export] public Vector3 WeaponRecoilAmount = new Vector3(0.01f, 0.01f, 0.3f);
+    [Export] public float WeaponSnapAmount = 10.0f;
+    [Export] public float WeaponRecoverySpeed = 20.0f;
 
     [ExportGroup("Weapon Stats")]
-    [Export] public float FireRate = 0.0f;
+    [Export] public float FireRate = 550.0f;
+    [Export] public float desiredZoom = 50.0f;
     [Export] public int AmmoCount = 0;
     [Export] public int AmmoCapacity = 0;
 
