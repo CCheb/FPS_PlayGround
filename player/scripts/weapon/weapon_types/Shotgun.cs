@@ -64,9 +64,9 @@ public partial class Shotgun : WeaponBase
                 SpawnDecal((Vector3)collisionResult["position"]);
         }
 
-        weaponController.CameraRecoilRef.EmitSignal("AddCameraRecoilSignal");
-        weaponController.WeaponRecoilRef.EmitSignal("WeaponFiredSignal");
-        MuzzleFlashRef.EmitSignal("MuzzleFlashSignal", WeaponData.FireRate);
+        weaponController.CameraControllerRef.RequestCameraRecoil();
+        weaponController.WeaponRecoilRef.RequestWeaponRecoil();
+        MuzzleFlashRef.RequestMuzzleFlash(WeaponData.FireRate);
         // Update Ammo here
         // Gun Sound here
         GunSound.Play();

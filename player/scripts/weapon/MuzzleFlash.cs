@@ -17,6 +17,11 @@ public partial class MuzzleFlash : Node3D
 		MuzzleFlashSignal += AddMuzzleFlash;
     }
 
+	public void RequestMuzzleFlash(float weaponFireRate)
+	{
+		EmitSignalMuzzleFlashSignal(weaponFireRate);
+	}
+
 	public async void AddMuzzleFlash(float flashTime)
     {
 		// Make sure light is off in the editor

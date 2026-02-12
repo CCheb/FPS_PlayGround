@@ -694,13 +694,13 @@ shape = SubResource("CapsuleShape3D_xbwus")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D" unique_id=591769764]
 mesh = SubResource("CapsuleMesh_blutv")
 
-[node name="WorldCameraController" type="Node3D" parent="." unique_id=1021783261 node_paths=PackedStringArray("_camera", "InputCameraLayer", "MovementLayer", "CameraRecoilLayer", "CameraReload", "CameraJumpingLayer", "cameraZoomLayer")]
+[node name="WorldCameraController" type="Node3D" parent="." unique_id=1021783261 node_paths=PackedStringArray("_camera", "InputCameraLayer", "MovementLayer", "cameraRecoilLayer", "CameraReload", "CameraJumpingLayer", "cameraZoomLayer")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.428, 0)
 script = ExtResource("2_r1uwb")
 _camera = NodePath("Camera3D")
 InputCameraLayer = NodePath("InputLayer")
 MovementLayer = NodePath("MovementLayer")
-CameraRecoilLayer = NodePath("CameraRecoilLayer")
+cameraRecoilLayer = NodePath("CameraRecoilLayer")
 CameraReload = NodePath("CameraReloadLayer")
 CameraJumpingLayer = NodePath("CameraJumpingLayer")
 cameraZoomLayer = NodePath("CameraZoomLayer")
@@ -844,8 +844,7 @@ WorldCamera = NodePath("../../../WorldCameraController/Camera3D")
 
 [node name="WeaponHolder" type="Node3D" parent="SubViewportContainer/SubViewport/Camera3D" unique_id=1926499543]
 
-[node name="WeaponController" parent="SubViewportContainer/SubViewport/Camera3D/WeaponHolder" unique_id=231687715 node_paths=PackedStringArray("CameraControllerRef", "CameraRecoilRef", "CameraZoomLayerRef") instance=ExtResource("6_4xmcj")]
+[node name="WeaponController" parent="SubViewportContainer/SubViewport/Camera3D/WeaponHolder" unique_id=231687715 node_paths=PackedStringArray("CameraControllerRef", "CameraRecoilRef") instance=ExtResource("6_4xmcj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02, -0.23, 0.16)
 CameraControllerRef = NodePath("../../../../../WorldCameraController")
 CameraRecoilRef = NodePath("../../../../../WorldCameraController/CameraRecoilLayer")
-CameraZoomLayerRef = NodePath("../../../../../WorldCameraController/CameraZoomLayer")

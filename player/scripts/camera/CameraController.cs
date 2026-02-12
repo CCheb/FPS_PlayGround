@@ -17,7 +17,7 @@ public partial class CameraController : Node3D
     // MovementLayer handles camera movement based on the movement state machine/system. e.g. sprint state specifies a camera animation
     [Export] private CameraLayer MovementLayer;
     // CameraRecoilLayer handles weapon specific recoil which for the camera is just rotations. This node gets signaled by the WeaponController
-    [Export] private CameraLayer CameraRecoilLayer;
+    [Export] private CameraLayer cameraRecoilLayer;
     // CameraReload handles weapon specific reload animations which are exported from the weapon itself to the WeaponController
     [Export] private CameraLayer CameraReload;
     // CameraJumpingLayer that dynamic adds a slight roll to the finalRotation depending on how hard the the player hit the ground
@@ -54,10 +54,10 @@ public partial class CameraController : Node3D
             finalRotation += MovementLayer.RotationOffset;
         }
 
-        if(CameraRecoilLayer != null)
+        if(cameraRecoilLayer != null)
         {
             // When the player fires the weapon the CameraRecoilLayer gets signaled and lerps a camera rotation over time which is perfect for this system
-            finalRotation += CameraRecoilLayer.RotationOffset;
+            finalRotation += cameraRecoilLayer.RotationOffset;
         }
 
         if(CameraReload != null)
@@ -78,7 +78,6 @@ public partial class CameraController : Node3D
         }
 
         
-
         // If applied to itself the camera will follow. It must stay dumb
         // Final camera rotation = base look + effects (recoil, reload, movement, etc)
         Position = finalPosition;
@@ -94,6 +93,27 @@ public partial class CameraController : Node3D
         {
            RL.SetProxy(Proxy);
         }
+    }
+
+    public void RequestCameraZoom()
+    {
+        cameraZoomLayer.EmitSignal("AddCameraZoom");
+    }
+
+    public void RequestDeCameraZoom()
+    {
+        cameraZoomLayer.EmitSignal("RemoveCameraZoom");
+    }
+
+    public void RequestCameraRecoil()
+    {
+        cameraRecoilLayer.EmitSignal("AddCameraRecoilSignal");
+    }
+
+    public void SetCameraRecoilProperties(Vector3 recoilAmmount, float snapAmmount, float speed)
+    {
+        ((CameraRecoilLayer)cameraRecoilLayer).SetCameraRecoilProperties(
+            recoilAmmount, snapAmmount, speed);
     }
 
     

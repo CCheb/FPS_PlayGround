@@ -35,6 +35,14 @@ public partial class CameraRecoilLayer : CameraLayer
 		AddCameraRecoilSignal += AddRecoil;
     }
 
+	// IDEA: Make an abstract Recoil class
+	public void SetCameraRecoilProperties(Vector3 recoilAmount, float snapAmount, float speed)
+	{
+		this.recoilAmount = recoilAmount;
+		this.snapAmount = snapAmount;
+		this.speed = speed;
+	}
+
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{

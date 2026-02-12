@@ -22,6 +22,18 @@ public partial class WeaponRecoil : Node3D
 		WeaponFiredSignal += AddRecoil;
     }
 
+	public void RequestWeaponRecoil()
+	{
+		EmitSignalWeaponFiredSignal();
+	}
+
+	// IDEA: Make an abstract Recoil class
+	public void SetWeaponRecoilProperties(Vector3 recoilAmount, float snapAmount, float speed)
+	{
+		this.recoilAmount = recoilAmount;
+		this.snapAmount = snapAmount;
+		this.speed = speed;
+	}
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{

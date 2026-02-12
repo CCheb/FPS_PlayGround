@@ -95,10 +95,9 @@ public partial class Hitscan : WeaponBase
 
     private void SignalNodes()
     {
-        // Request the camera and recoil nodes to activate appropriately
-        weaponController.CameraRecoilRef.EmitSignal("AddCameraRecoilSignal");
-        weaponController.WeaponRecoilRef.EmitSignal("WeaponFiredSignal");
-        MuzzleFlashRef.EmitSignal("MuzzleFlashSignal", WeaponData.FireRate);
+        weaponController.CameraControllerRef.RequestCameraRecoil();
+        weaponController.WeaponRecoilRef.RequestWeaponRecoil();
+        MuzzleFlashRef.RequestMuzzleFlash(WeaponData.FireRate);
     }
 
     private void UpdateAmmo()

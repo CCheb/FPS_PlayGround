@@ -30,7 +30,6 @@ public partial class WeaponController : Node3D
     private IWeaponAction CurrentSecondaryWeaponAction;
     [Export] public CameraController CameraControllerRef;
 	[Export] public CameraRecoilLayer CameraRecoilRef;
-    [Export] public CameraZoomLayer CameraZoomLayerRef;
     [Export] public WeaponRecoil WeaponRecoilRef;
     [Export] public JumpRecoil JumpRecoilRef;
 	[Export] private NoiseTexture2D RandSwayNoise;
@@ -136,13 +135,17 @@ public partial class WeaponController : Node3D
         MouseSwayMin = weaponResource.MouseSwayMin;
         MouseSwayMax = weaponResource.MouseSwayMax;
 
-        CameraRecoilRef.recoilAmount = weaponResource.CameraRecoilAmount;
-        CameraRecoilRef.snapAmount = weaponResource.CameraSnapAmount;
-        CameraRecoilRef.speed = weaponResource.CameraRecoverySpeed;
+        CameraControllerRef.SetCameraRecoilProperties(
+            weaponResource.CameraRecoilAmount,
+            weaponResource.CameraSnapAmount,
+            weaponResource.CameraRecoverySpeed
+        );
 
-        WeaponRecoilRef.recoilAmount = weaponResource.WeaponRecoilAmount;
-        WeaponRecoilRef.snapAmount = weaponResource.WeaponSnapAmount;
-        WeaponRecoilRef.speed = weaponResource.WeaponRecoverySpeed;
+        WeaponRecoilRef.SetWeaponRecoilProperties(
+            weaponResource.WeaponRecoilAmount,
+            weaponResource.WeaponSnapAmount,
+            weaponResource.WeaponRecoverySpeed
+        );
     }
 
     private void UpdateCurrentWeapon()
