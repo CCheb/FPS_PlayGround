@@ -111,6 +111,47 @@ public partial class WeaponController : Node3D
         LoadWeapon();
     }
 
+    private void LoadWeapon()
+    {
+        UpdateCurrentWeapon();
+        UpdateCurrentWeaponActions();
+        ParseWeaponResource(in Arsenal[CurrentWeaponIndex]);
+        JumpRecoilRef.AddChild(CurrentWeapon);
+        CameraControllerRef.SetCameraReloadLayer(CurrentWeapon.CameraReloadProxy);
+    }
+
+    private void UpdateCurrentWeapon()
+    {
+        CurrentWeapon = WeaponFactory.Create(Arsenal[CurrentWeaponIndex], this);
+        if(CurrentWeapon == null)
+        {
+            GD.PrintErr("CurrentWeapon is null (Invalid Weapon Type)");
+            return;
+        }
+    }
+
+    private void UpdateCurrentWeaponActions()
+    {
+        // Ask FireModeFactory to Create the appropriate firemode object based on what the WeaponResource specified
+        if(Arsenal[CurrentWeaponIndex].PrimaryWeaponAction == Globals.WeaponActions.NoAction)
+            return;
+    
+        CurrentPrimaryWeaponAction = FireModeFactory.CreateNewWeaponAction(this, Arsenal[CurrentWeaponIndex], CurrentWeapon, Arsenal[CurrentWeaponIndex].PrimaryWeaponAction);
+        if(CurrentPrimaryWeaponAction == null)
+        {
+            GD.PrintErr("PrimaryFireMode is null (Invalid Fire Mode Type)");
+        }
+
+        if(Arsenal[CurrentWeaponIndex].SecondaryWeaponAction == Globals.WeaponActions.NoAction)
+            return;
+
+        CurrentSecondaryWeaponAction = FireModeFactory.CreateNewWeaponAction(this, Arsenal[CurrentWeaponIndex], CurrentWeapon, Arsenal[CurrentWeaponIndex].SecondaryWeaponAction);
+        if(CurrentSecondaryWeaponAction == null )
+        {
+            GD.PrintErr("SecondaryFireMode is null (Invalid Fire Mode Type)");
+        } 
+    }
+
     private void ParseWeaponResource(in WeaponResource weaponResource)
     {
         Position = weaponResource.ViewportPosition;
@@ -147,46 +188,35 @@ public partial class WeaponController : Node3D
         );
     }
 
-    private void UpdateCurrentWeapon()
+    public override void _PhysicsProcess(double delta)
     {
-        CurrentWeapon = WeaponFactory.Create(Arsenal[CurrentWeaponIndex], this);
-        if(CurrentWeapon == null)
-        {
-            GD.PrintErr("CurrentWeapon is null (Invalid Weapon Type)");
-            return;
-        }
+        base._PhysicsProcess(delta);
+         
+        ApplyProceduralWeaponMovement(delta);
     }
 
-    private void UpdateCurrentWeaponActions()
+    private void ApplyProceduralWeaponMovement(double delta)
     {
-        // Ask FireModeFactory to Create the appropriate firemode object based on what the WeaponResource specified
-        if(Arsenal[CurrentWeaponIndex].PrimaryWeaponAction == Globals.WeaponActions.NoAction)
-            return;
-    
-        CurrentPrimaryWeaponAction = FireModeFactory.CreateNewWeaponAction(this, Arsenal[CurrentWeaponIndex], CurrentWeapon, Arsenal[CurrentWeaponIndex].PrimaryWeaponAction);
-        if(CurrentPrimaryWeaponAction == null)
-        {
-            GD.PrintErr("PrimaryFireMode is null (Invalid Fire Mode Type)");
-        }
+        ApplyWeaponSway(delta, CurrentWeaponMovementProfile.IsIdle);
 
-        if(Arsenal[CurrentWeaponIndex].SecondaryWeaponAction == Globals.WeaponActions.NoAction)
-            return;
-
-        CurrentSecondaryWeaponAction = FireModeFactory.CreateNewWeaponAction(this, Arsenal[CurrentWeaponIndex], CurrentWeapon, Arsenal[CurrentWeaponIndex].SecondaryWeaponAction);
-        if(CurrentSecondaryWeaponAction == null )
-        {
-            GD.PrintErr("SecondaryFireMode is null (Invalid Fire Mode Type)");
-        } 
+        // If bob speed is < 0 then it means that not weapon bob should take place
+        if(CurrentWeaponMovementProfile.BobSpeed > 0.0f)
+            CalculateWeaponBob(delta);
     }
 
-    private void LoadWeapon()
-    {
-        UpdateCurrentWeapon();
-        UpdateCurrentWeaponActions();
-        ParseWeaponResource(in Arsenal[CurrentWeaponIndex]);
-        JumpRecoilRef.AddChild(CurrentWeapon);
-        CameraControllerRef.SetCameraReloadLayer(CurrentWeapon.CameraReloadProxy);
-    }
+    public void ApplyWeaponSway(double delta, bool isPlayerIdle)
+	{
+        // Must constantly set the captured mouse movement back to base origin
+		InterpolateMouseMovement(delta);
+
+		Vector3 WeaponPos = Position;
+		Vector3 WeaponRotDeg = RotationDegrees;
+
+		CalculateWeaponSway(ref WeaponPos, ref WeaponRotDeg, isPlayerIdle, delta);
+
+		Position = WeaponPos;
+		RotationDegrees = WeaponRotDeg;
+	}
 
     public void CalculateWeaponBob(double delta)
 	{
@@ -196,20 +226,6 @@ public partial class WeaponController : Node3D
 		// Sin(X/Y * frequency) * amplitude
 		BobAmount.X = Mathf.Sin(Time * CurrentWeaponMovementProfile.BobSpeed) * CurrentWeaponMovementProfile.HorizontalBobAmount;
 		BobAmount.Y = Mathf.Abs(Mathf.Cos(Time * CurrentWeaponMovementProfile.BobSpeed) * CurrentWeaponMovementProfile.VerticalBobAmount);
-	}
-
-    private float GetRandNoiseValue()
-	{
-		if (RandSwayNoise == null || RandSwayNoise.Noise == null)
-			return 0.0f;
-
-		Vector3 PlayerPosition = Vector3.Zero;
-
-		// Only access Globals when in play mode. 
-		if (!Engine.IsEditorHint() && Globals.player != null)
-			PlayerPosition = Globals.player.GlobalPosition;
-
-		return RandSwayNoise.Noise.GetNoise2D(PlayerPosition.X, PlayerPosition.Y);
 	}
 
     private void InterpolateMouseMovement(double delta)
@@ -250,35 +266,22 @@ public partial class WeaponController : Node3D
 			MouseInputRotationAmount + (IdleSwayX * IdleSwayRotationStength)) * delta, RotationSwaySpeed); 
 
     }
-    public void ApplyWeaponSway(double delta, bool isPlayerIdle)
+
+    private float GetRandNoiseValue()
 	{
-        // Must constantly set the captured mouse movement back to base origin
-		InterpolateMouseMovement(delta);
+		if (RandSwayNoise == null || RandSwayNoise.Noise == null)
+			return 0.0f;
 
-		Vector3 WeaponPos = Position;
-		Vector3 WeaponRotDeg = RotationDegrees;
+		Vector3 PlayerPosition = Vector3.Zero;
 
-		CalculateWeaponSway(ref WeaponPos, ref WeaponRotDeg, isPlayerIdle, delta);
+		// Only access Globals when in play mode. 
+		if (!Engine.IsEditorHint() && Globals.player != null)
+			PlayerPosition = Globals.player.GlobalPosition;
 
-		Position = WeaponPos;
-		RotationDegrees = WeaponRotDeg;
+		return RandSwayNoise.Noise.GetNoise2D(PlayerPosition.X, PlayerPosition.Y);
 	}
 
-    private void ApplyProceduralWeaponMovement(double delta)
-    {
-        ApplyWeaponSway(delta, CurrentWeaponMovementProfile.IsIdle);
 
-        // If bob speed is < 0 then it means that not weapon bob should take place
-        if(CurrentWeaponMovementProfile.BobSpeed > 0.0f)
-            CalculateWeaponBob(delta);
-    }
-
-    public override void _PhysicsProcess(double delta)
-    {
-        base._PhysicsProcess(delta);
-         
-        ApplyProceduralWeaponMovement(delta);
-    }
 
     public override void _Process(double delta)
     {
