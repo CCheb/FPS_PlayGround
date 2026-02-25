@@ -13,6 +13,7 @@ export_presets.cfg
 **/obj/
 **/bin/
 **/.vs/
+**/.vscode/
 **/*.csproj
 **/*.sln
 **/*.user

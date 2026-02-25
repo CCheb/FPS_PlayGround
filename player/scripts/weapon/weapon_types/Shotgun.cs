@@ -122,6 +122,8 @@ public partial class Shotgun : WeaponBase
         MeshInstance3D decal = TestDecal.Instantiate<MeshInstance3D>();
         GetTree().Root.AddChild(decal);
         decal.Position = position;
+
+        // TODO: Decal should handle the timer and despawn not the shotgun
         await ToSignal(GetTree().CreateTimer(3.0f), "timeout");
         decal.QueueFree();
     }
