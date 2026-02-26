@@ -26,35 +26,22 @@ public partial class WeaponController : Node3D
     private int CurrentWeaponIndex = 0;
     private const int MAX_WEAPON_AMMOUNT = 4;
     private WeaponBase CurrentWeapon;
+    private Procedural procedural;
     private IWeaponAction CurrentPrimaryWeaponAction;
     private IWeaponAction CurrentSecondaryWeaponAction;
     [Export] public CameraController CameraControllerRef;
     [Export] public WeaponRecoil WeaponRecoilRef;
     [Export] public JumpRecoil JumpRecoilRef;
 	[Export] private NoiseTexture2D RandSwayNoise;
-	private float IdleSwaySpeed = 1.2f;
-	private Vector2 MouseMovement = Vector2.Zero;
-	private Vector2 BobAmount = Vector2.Zero;
-	private float Time = 0.0f;
-	private float IdleSwayAdjustment;
-	private float IdleSwayRotationStength;
-	private float IdleSwayX;
-	private float IdleSwayY;
-	private float IdleSwayStrength;
-    private float PositionSwaySpeed;
-    private float RotationSwaySpeed;
-    private float MouseInputPositionAmount;
-    private float MouseInputRotationAmount;
-    private Vector2 MouseSwayMin;
-    private Vector2 MouseSwayMax;
-    private Vector3 WeaponViewportPos;
-    private Vector3 WeaponViewportRot;
+
 
     public override void _Ready()
     {
         base._Ready();
         MovementChanged += OnMovementStateChange;
         LoadWeapon();
+        procedural.SetCurrentWeaponMovementProfile(CurrentWeaponMovementProfile);
+        procedural.SetRandSwayNoise(RandSwayNoise);
     }
 
     public override void _Input(InputEvent @event)
@@ -65,7 +52,8 @@ public partial class WeaponController : Node3D
 			// Need to cast event over to InputEventMouseMotion, copy that into a local variable and
 			// pass the Relative (mouse deltas between frames) over to MouseMovement 
 			InputEventMouseMotion MouseEvent = (InputEventMouseMotion)@event;
-			MouseMovement = MouseEvent.Relative;
+			//MouseMovement = MouseEvent.Relative;
+            procedural.SetMouseMovementDelta(MouseEvent);
 		}
 
         // In _Input, the event actions are not polled and are only triggered once everytime the key is pressed 
@@ -158,22 +146,16 @@ public partial class WeaponController : Node3D
         RotationDegrees = weaponResource.ViewportRotation;
         Scale = weaponResource.ViewportScale;
 
-        WeaponViewportPos = Position;
-        WeaponViewportRot = RotationDegrees;
+        procedural = new(
+            weaponResource.ViewportPosition, weaponResource.ViewportRotation,
+            weaponResource.IdleSwayAdjustment, weaponResource.IdleSwayRotationStength,
+            weaponResource.IdleSwayAmmount, weaponResource.IdleSwaySpeed, 
+            weaponResource.MouseInputPositionOffset, weaponResource.MouseInputRotationAmount,
+            weaponResource.PositionSwaySpeed, weaponResource.RotationSwaySpeed,
+            weaponResource.MouseSwayMin, weaponResource.MouseSwayMax
+            );
 
-        IdleSwayAdjustment = weaponResource.IdleSwayAdjustment;
-        IdleSwayRotationStength = weaponResource.IdleSwayRotationStength;
-		IdleSwayStrength = weaponResource.IdleSwayAmmount;
-        IdleSwaySpeed = weaponResource.IdleSwaySpeed;
-
-        MouseInputPositionAmount = weaponResource.MouseInputPositionOffset;
-        MouseInputRotationAmount = weaponResource.MouseInputRotationAmount;
-
-        PositionSwaySpeed = weaponResource.PositionSwaySpeed;
-        RotationSwaySpeed = weaponResource.RotationSwaySpeed;
-
-        MouseSwayMin = weaponResource.MouseSwayMin;
-        MouseSwayMax = weaponResource.MouseSwayMax;
+        procedural.SetRandSwayNoise(RandSwayNoise);
 
         CameraControllerRef.SetCameraRecoilProperties(
             weaponResource.CameraRecoilAmount,
@@ -191,96 +173,15 @@ public partial class WeaponController : Node3D
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
-         
-        ApplyProceduralWeaponMovement(delta);
-    }
 
-    private void ApplyProceduralWeaponMovement(double delta)
-    {
-        ApplyWeaponSway(delta, CurrentWeaponMovementProfile.IsIdle);
-
-        // If bob speed is < 0 then it means that not weapon bob should take place
-        if(CurrentWeaponMovementProfile.BobSpeed > 0.0f)
-            CalculateWeaponBob(delta);
-    }
-
-    public void ApplyWeaponSway(double delta, bool isPlayerIdle)
-	{
-        // Must constantly set the captured mouse movement back to base origin
-		InterpolateMouseMovement(delta);
-
-		Vector3 WeaponPos = Position;
+        Vector3 WeaponPos = Position;
 		Vector3 WeaponRotDeg = RotationDegrees;
 
-		CalculateWeaponSway(ref WeaponPos, ref WeaponRotDeg, isPlayerIdle, delta);
+        procedural.ApplyProceduralWeaponMovement(ref WeaponPos, ref WeaponRotDeg, delta);
 
-		Position = WeaponPos;
-		RotationDegrees = WeaponRotDeg;
-	}
-
-    public void CalculateWeaponBob(double delta)
-	{
-		// Time gives us a new value always
-		Time += (float)delta;
-
-		// Sin(X/Y * frequency) * amplitude
-		BobAmount.X = Mathf.Sin(Time * CurrentWeaponMovementProfile.BobSpeed) * CurrentWeaponMovementProfile.HorizontalBobAmount;
-		BobAmount.Y = Mathf.Abs(Mathf.Cos(Time * CurrentWeaponMovementProfile.BobSpeed) * CurrentWeaponMovementProfile.VerticalBobAmount);
-	}
-
-    private void InterpolateMouseMovement(double delta)
-    {
-		MouseMovement = MouseMovement.Lerp(Vector2.Zero, (float)(delta * 6.0));
-		MouseMovement = MouseMovement.Clamp(MouseSwayMin, MouseSwayMax); 
+        Position = WeaponPos;
+        RotationDegrees = WeaponRotDeg;
     }
-
-    private void CalculateWeaponSway(ref Vector3 WeaponPos, ref Vector3 WeaponRotDeg, bool PlayerIsIdle, double delta)
-    {
-        // Only play random sway when in idle not when moving
-		if (PlayerIsIdle)
-		{
-			float RandNoiseValue = GetRandNoiseValue();
-
-			// create time with delta and set two sine values for x and y
-			Time += (float)delta * (IdleSwaySpeed + RandNoiseValue); // Notice how we add Randomization
-															 // Create a bit of random sin wave with AdjustedRandNoiseValue
-			// The + and - provide a wave shift for more added randomness
-			// The stronger the RandomSwayAmount the less suttle the total sway
-            // RandNoiseValue is toned down with IdleSwayAdjustment
-			IdleSwayX = (float)Mathf.Sin(Time * 1.5 + RandNoiseValue * IdleSwayAdjustment) / IdleSwayStrength;
-			IdleSwayY = (float)Mathf.Sin(Time - RandNoiseValue * IdleSwayAdjustment) / IdleSwayStrength;
-		}
-
-        // Lerp weapon Pos based on mouse movement.
-		// If MouseMovement is 0 then the only thing left would be the currentWeapon.Position.X/Y - RandomSwayX/Y
-		WeaponPos.X = (float)Mathf.Lerp(WeaponPos.X, WeaponViewportPos.X - (MouseMovement.X *
-			MouseInputPositionAmount + IdleSwayX + (!PlayerIsIdle ? BobAmount.X : 0.0f)) * delta, PositionSwaySpeed);
-		WeaponPos.Y = (float)Mathf.Lerp(WeaponPos.Y, WeaponViewportPos.Y - (MouseMovement.Y *
-			MouseInputPositionAmount + IdleSwayY + (!PlayerIsIdle ? BobAmount.Y : 0.0f)) * delta, PositionSwaySpeed);
-		// Lerp weapon rotation based on mouse movement
-		// Similar concept to position. If MouseMovement.X/Y is 0 then the only thing left would be the
-		// CurrentWeapon.Rotation.Y/X +/- RandomSwayY/X * IdleSwayRotationStrength. This is what causes the idle sway
-		WeaponRotDeg.Y = (float)Mathf.Lerp(WeaponRotDeg.Y, WeaponViewportRot.Y - (MouseMovement.X *
-			MouseInputRotationAmount + (IdleSwayY * IdleSwayRotationStength)) * delta, RotationSwaySpeed);
-		WeaponRotDeg.X = (float)Mathf.Lerp(WeaponRotDeg.X, WeaponViewportRot.X - (MouseMovement.Y *
-			MouseInputRotationAmount + (IdleSwayX * IdleSwayRotationStength)) * delta, RotationSwaySpeed); 
-
-    }
-
-    private float GetRandNoiseValue()
-	{
-		if (RandSwayNoise == null || RandSwayNoise.Noise == null)
-			return 0.0f;
-
-		Vector3 PlayerPosition = Vector3.Zero;
-
-		// Only access Globals when in play mode. 
-		if (!Engine.IsEditorHint() && Globals.player != null)
-			PlayerPosition = Globals.player.GlobalPosition;
-
-		return RandSwayNoise.Noise.GetNoise2D(PlayerPosition.X, PlayerPosition.Y);
-	}
-
 
 
     public override void _Process(double delta)
@@ -295,5 +196,6 @@ public partial class WeaponController : Node3D
     {
         CurrentMovementState = NextMovementState.GetStateName();
         CurrentWeaponMovementProfile = NextMovementState.GetWeaponProfile();
+        procedural.SetCurrentWeaponMovementProfile(CurrentWeaponMovementProfile);
     }
 }

@@ -682,7 +682,6 @@ TiltLowerLimit = -90.0
 TiltUpperLimit = 90.0
 WorldCameraController = NodePath("WorldCameraController")
 InputCameraLayer = NodePath("WorldCameraController/InputLayer")
-DefaultFov = 90.0
 ANIMATION = NodePath("PlayerMovement")
 crouchShapeCast = NodePath("ShapeCast3D")
 WEAPON = NodePath("SubViewportContainer/SubViewport/Camera3D/WeaponHolder/WeaponController")
