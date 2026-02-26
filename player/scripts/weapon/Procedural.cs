@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Reflection.Metadata;
 
 public partial class Procedural : Node
 {
@@ -37,28 +38,21 @@ public partial class Procedural : Node
     {
         this.currentWeaponMovementProfile = currentWeaponMovementProfile;
     }
-
-    public Procedural(
-        Vector3 weaponViewportPos, Vector3 weaponViewportRot,
-        float idleSwayAdjustment, float idleSwayRotationStrength,
-        float idleSwayStrength, float idleSwaySpeed,
-        float mouseInputPositionAmount, float mouseInputRotationAmount,
-        float positionSwaySpeed, float rotationSwaySpeed,
-        Vector2 mouseSwayMin, Vector2 mouseSwayMax
-    )
+    
+    public void ParseWeaponResource(in WeaponResource weaponResource)
     {
-        this.weaponViewportPos = weaponViewportPos;
-        this.weaponViewportRot = weaponViewportRot;
-        this.idleSwayAdjustment = idleSwayAdjustment;
-        this.idleSwayRotationStrength = idleSwayRotationStrength;
-        this.idleSwayStrength = idleSwayStrength;
-        this.idleSwaySpeed = idleSwaySpeed;
-        this.mouseInputPositionAmount = mouseInputPositionAmount;
-        this.mouseInputRotationAmount = mouseInputRotationAmount;
-        this.positionSwaySpeed = positionSwaySpeed;
-        this.rotationSwaySpeed = rotationSwaySpeed;
-        this.mouseSwayMin = mouseSwayMin;
-        this.mouseSwayMax = mouseSwayMax;
+        weaponViewportPos = weaponResource.ViewportPosition;
+        weaponViewportRot = weaponResource.ViewportRotation;
+        idleSwayAdjustment = weaponResource.IdleSwayAdjustment;
+        idleSwayRotationStrength = weaponResource.IdleSwayRotationStength;
+        idleSwayStrength = weaponResource.IdleSwayAmmount;
+        idleSwaySpeed = weaponResource.IdleSwaySpeed;
+        mouseInputPositionAmount = weaponResource.MouseInputPositionOffset;
+        mouseInputRotationAmount = weaponResource.MouseInputRotationAmount;
+        positionSwaySpeed = weaponResource.PositionSwaySpeed;
+        rotationSwaySpeed = weaponResource.RotationSwaySpeed;
+        mouseSwayMin = weaponResource.MouseSwayMin;
+        mouseSwayMax = weaponResource.MouseSwayMax;
     }
 
     public void ApplyProceduralWeaponMovement(ref Vector3 weaponPos, ref Vector3 weaponRotDeg, double delta)

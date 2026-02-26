@@ -26,7 +26,7 @@ public partial class WeaponController : Node3D
     private int CurrentWeaponIndex = 0;
     private const int MAX_WEAPON_AMMOUNT = 4;
     private WeaponBase CurrentWeapon;
-    private Procedural procedural;
+    private Procedural procedural = new();
     private IWeaponAction CurrentPrimaryWeaponAction;
     private IWeaponAction CurrentSecondaryWeaponAction;
     [Export] public CameraController CameraControllerRef;
@@ -146,16 +146,7 @@ public partial class WeaponController : Node3D
         RotationDegrees = weaponResource.ViewportRotation;
         Scale = weaponResource.ViewportScale;
 
-        procedural = new(
-            weaponResource.ViewportPosition, weaponResource.ViewportRotation,
-            weaponResource.IdleSwayAdjustment, weaponResource.IdleSwayRotationStength,
-            weaponResource.IdleSwayAmmount, weaponResource.IdleSwaySpeed, 
-            weaponResource.MouseInputPositionOffset, weaponResource.MouseInputRotationAmount,
-            weaponResource.PositionSwaySpeed, weaponResource.RotationSwaySpeed,
-            weaponResource.MouseSwayMin, weaponResource.MouseSwayMax
-            );
-
-        procedural.SetRandSwayNoise(RandSwayNoise);
+        procedural.ParseWeaponResource(weaponResource);
 
         CameraControllerRef.SetCameraRecoilProperties(
             weaponResource.CameraRecoilAmount,
@@ -182,7 +173,6 @@ public partial class WeaponController : Node3D
         Position = WeaponPos;
         RotationDegrees = WeaponRotDeg;
     }
-
 
     public override void _Process(double delta)
     {
