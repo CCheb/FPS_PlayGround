@@ -17,10 +17,17 @@ public abstract partial class WeaponBase : Node3D
     public bool IsReloading = false;
     public bool IsFiring = false;
 
+    public virtual void Spin(float spinSpeed)
+    {
+        GD.Print("From Weapon Base!");
+    }
     protected void TryPlayingDrawAnimation()
     {
         if(WeaponData != null && WeaponData.Draw != null)
+        {
             WeaponAnimPlayer.Play(WeaponData.Draw.AnimationName, WeaponData.Draw.BlendAmount, WeaponData.Draw.AnimationSpeed);
+            GD.Print("Played");
+        }
     }
     protected float CalculateFireAnimationSpeed()
     {
@@ -33,5 +40,6 @@ public abstract partial class WeaponBase : Node3D
     public abstract void Initiallize(WeaponResource WeaponData, WeaponController Controller);
     public abstract void Fire();
     public abstract void Reload();
+    
 
 }

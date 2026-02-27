@@ -15,7 +15,6 @@ public partial class ZoomWeaponAction : IWeaponAction
     public void OnActionPressed()
     {  
         if(!isHeld)
-            //weaponController.CameraZoomLayerRef.EmitSignal("AddCameraZoom");
             weaponController.CameraControllerRef.RequestCameraZoom(desiredZoom);
             
         isHeld = true;
@@ -23,7 +22,6 @@ public partial class ZoomWeaponAction : IWeaponAction
     public void OnActionReleased()
     {   
         if(isHeld)
-            //weaponController.CameraZoomLayerRef.EmitSignal("RemoveCameraZoom");
             weaponController.CameraControllerRef.RequestDeCameraZoom();
 
         isHeld = false;

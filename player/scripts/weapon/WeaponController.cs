@@ -21,7 +21,7 @@ public partial class WeaponController : Node3D
         GD.Load<WeaponResource>("res://player/assets/weapons/rifle/Rigged_WeaponResource.tres"),
         GD.Load<WeaponResource>("res://player/assets/weapons/pistol/PistolWeaponResource.tres"),
         GD.Load<WeaponResource>("res://player/assets/weapons/sniper/SniperWeaponResource.tres"),
-        GD.Load<WeaponResource>("res://player/assets/weapons/burstRifle/burstRifle.tres")
+        GD.Load<WeaponResource>("res://player/assets/weapons/minigun/minigun.tres")
     }; 
     private int CurrentWeaponIndex = 0;
     private const int MAX_WEAPON_AMMOUNT = 4;

@@ -14,7 +14,8 @@ public partial class Globals : Node
         Hitscan,
         Projectile,
         Shotgun,
-        Beam
+        Beam,
+        Spin
     }
 
     public enum WeaponActions
@@ -23,6 +24,7 @@ public partial class Globals : Node
         SemiAuto,
         BurstFire,
         Zoom,
+        Spin,
         NoAction
     }
 

@@ -59,7 +59,6 @@ public partial class Procedural : Node
     {
         InterpolateMouseMovement(delta);
 
-        GD.Print(currentWeaponMovementProfile.IsIdle);
         if(currentWeaponMovementProfile.BobSpeed > 0.0f)
             CalculateWeaponBob(delta);
         

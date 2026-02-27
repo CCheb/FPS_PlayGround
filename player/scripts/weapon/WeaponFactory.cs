@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.ComponentModel;
 
 public static class WeaponFactory 
 {
@@ -17,6 +18,10 @@ public static class WeaponFactory
 				return NewWeapon;
 			case Globals.WeaponTypes.Shotgun :
 				NewWeapon = WeaponData.WeaponScene.Instantiate<Shotgun>();
+				NewWeapon.Initiallize(WeaponData, Controller);
+				return NewWeapon;
+			case Globals.WeaponTypes.Spin :
+				NewWeapon = WeaponData.WeaponScene.Instantiate<Spinup>();
 				NewWeapon.Initiallize(WeaponData, Controller);
 				return NewWeapon;
 			default : return null;
