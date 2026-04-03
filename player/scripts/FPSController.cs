@@ -4,7 +4,7 @@ using System;
 public partial class FPSController : CharacterBody3D
 {
 	[ExportGroup("Player Stats")]
-	[Export]public float speed = 6.0f;
+	[Export] public float speed = 6.0f;
 	
 	[ExportGroup("Mouse Parameters")]
 	[Export] public float MouseSensitivity = 0.1f;
@@ -27,7 +27,6 @@ public partial class FPSController : CharacterBody3D
 	
 	// Used by sliding state
 	public float _currentRotation;
-
 
 	/* PLAYER API */
 	//------------------------------------------

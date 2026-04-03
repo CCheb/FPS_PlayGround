@@ -49,6 +49,7 @@ public partial class WalkingPlayerState : PlayerMovementState
         ANIMATION.SpeedScale = 1.0f;
     }
 
+    // Called in state machine's _Process()
     public override void Update(double delta)
     {
         // While in this state we constantly check if the players velocity has reached 0.0
@@ -100,6 +101,4 @@ public partial class WalkingPlayerState : PlayerMovementState
         // Linearly interpolate from 0.0f to topAnimationSpeed with defined alpha weight
         ANIMATION.SpeedScale = (float)Mathf.Lerp(0.0, topAnimationSpeed, alpha);
     }
-
-    // TODO add variable camera fov
 }

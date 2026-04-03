@@ -13,7 +13,7 @@ public partial class WeaponController : Node3D
         BobSpeed = 0.0f,
         HorizontalBobAmount= 0.0f,
         VerticalBobAmount = 0.0f
-    };
+    }; 
 
     // Everything about the weapon starts here
     private WeaponResource[] Arsenal =

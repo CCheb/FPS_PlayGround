@@ -43,7 +43,7 @@ public partial class MovementStateMachine : PlayerMovementState
     {
         base._Process(delta);
         CURRENT_STATE.Update(delta);    // The Update also contains the player update
-        //Globals.debug.AddDebugProperty("Current State", CURRENT_STATE.Name, 1);
+        //Globals.debug.AddDebugProperty("Current State", CURRENT_STATE.Name, 1); 
     }
 
     // Call the states physics process function. This is whats constantly running along with _Process

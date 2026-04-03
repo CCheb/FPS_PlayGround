@@ -69,7 +69,6 @@ public partial class JumpingPlayerState : PlayerMovementState
 		PLAYER.UpdateInput(speed * inputMultiplier, acceleration, decelaration);
 		PLAYER.UpdateVelocity();
 
-		//WEAPON.SwayWeapon(delta, false);
 		if(PLAYER.Velocity.Y > 0.0f)
 		{
 			height++;
@@ -89,23 +88,6 @@ public partial class JumpingPlayerState : PlayerMovementState
 			
 			doubleJump = true;
 		}
-
-		/*
-
-		if(Input.IsActionJustReleased("jump"))
-		{
-			if(PLAYER.Velocity.Y > 0)
-			{
-				Vector3 velocity = PLAYER.Velocity;
-				// If i tap the jump button that current velocity will get cut by half. Thats why
-				// we can do very short hops
-				velocity.Y /= 2.0f;
-				PLAYER.Velocity = velocity;
-				
-			}
-		}
-
-		*/
 	
 		// Once we land on the floor then transition back to Idle state and from there
 		// transition into other states

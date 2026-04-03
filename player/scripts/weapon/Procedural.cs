@@ -52,7 +52,7 @@ public partial class Procedural : Node
         positionSwaySpeed = weaponResource.PositionSwaySpeed;
         rotationSwaySpeed = weaponResource.RotationSwaySpeed;
         mouseSwayMin = weaponResource.MouseSwayMin;
-        mouseSwayMax = weaponResource.MouseSwayMax;
+        mouseSwayMax = weaponResource.MouseSwayMax; 
     }
 
     public void ApplyProceduralWeaponMovement(ref Vector3 weaponPos, ref Vector3 weaponRotDeg, double delta)
